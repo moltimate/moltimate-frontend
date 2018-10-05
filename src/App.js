@@ -7,8 +7,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Menu></Menu>
-        <ProteinContainer></ProteinContainer
+        <Menu />
+        <ProteinContainer />
       </div>
     );
   }
