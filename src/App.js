@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
+import Menu from './components/navigation/Menu';
+import ProteinContainer from './components/protein/ProteinContainer.js';
+import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <Button variant="contained" color="primary">
-        Button
-      </Button>
+      <div>
+        <Menu></Menu>
+        <ProteinContainer></ProteinContainer
+      </div>
     );
   }
 }
