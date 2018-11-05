@@ -1,17 +1,22 @@
-import React, { Component } from 'react';
-import Menu from './components/navigation/Menu';
-import ProteinContainer from './components/protein/ProteinContainer.js';
+import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <Menu />
-        <ProteinContainer />
-      </div>
-    );
-  }
-}
+import Splash from './components/landing/Splash';
+import Search from './components/search/Search';
+import { theme } from './theme';
 
-export default App;
+const App = () => (
+  <MuiThemeProvider theme={theme}>
+    <BrowserRouter>
+      <div>
+        <Route exact path='/' component={Splash} />
+        <Route exact path='/search' component={Search} />
+      </div>
+    </BrowserRouter>
+  </MuiThemeProvider>
+);
+
+export default (App);

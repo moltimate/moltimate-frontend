@@ -3,18 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.1.2",
+    "@material-ui/core": "^3.2.2",
     "@material-ui/icons": "^3.0.1",
-    "litemol": "github:dsehnal/LiteMol",
+    "material-ui-chip-input": "1.0.0-beta.8",
+    "ngl": "^0.10.4",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts": "2.0.4"
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.0.5",
+    "react-select": "^2.1.1",
+    "react-text-mask": "^5.4.3",
+    "redux-logger": "^3.0.6"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "browserslist": [
     ">0.2%",
@@ -23,6 +31,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "babel-eslint": "^10.0.1"
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.1",
+    "redux-actions": "^2.6.1",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-form": "^7.4.2",
+    "redux-saga": "^0.16.2"
   }
 }
