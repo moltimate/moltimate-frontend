@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 
-import TEMP from './TEMP';
+import StepperContainer from './StepperContainer';
 
 const styles = {
   appBar: {
@@ -29,6 +29,11 @@ class SearchContainer extends React.Component {
   state = {
     open: true,
   };
+
+  handleFileUpload = (event) => {
+    const fileList = Array.from(event.currentTarget.files);
+    console.log(fileList.map(f => f.name).join(', '));
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -58,7 +63,7 @@ class SearchContainer extends React.Component {
               </Typography>
             </Toolbar>
           </AppBar>
-          <TEMP handleClose={this.handleClose}/>
+          <StepperContainer handleClose={this.handleClose}/>
         </Dialog>
       </div>
     );
