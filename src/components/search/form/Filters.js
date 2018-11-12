@@ -24,31 +24,29 @@ const filters = [
   }
 ];
 
-class Filters extends React.Component {
-
-  render() {
-    return (
-      <FormGroup>
-        {filters.map((filter) =>
-          <FormControlLabel
-            key={filter.id}
-            label={filter.label}
-            control={
-              <Checkbox
-                checked={filter.value}
-                id={filter.id}
-                onChange={(e) => this.props.handleChange('filters', e)}
-              />
-            }
-          />
-        )}
-      </FormGroup>
-    );
-  }
+function Filters(props) {
+  return (
+    <FormGroup>
+      {filters.map((filter) =>
+        <FormControlLabel
+          key={filter.id}
+          label={filter.label}
+          control={
+            <Checkbox
+              checked={filter.value}
+              id="filters"
+              onChange={props.handleChange}
+              value={filter.id}
+            />
+          }
+        />
+      )}
+    </FormGroup>
+  );
 }
 
 Filters.propTypes = {
-  handleChange: PropTypes.func.isRequired,
+  handleChange: PropTypes.func,
 };
 
 export default Filters;

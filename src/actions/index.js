@@ -1,16 +1,30 @@
 import searchTypes from './types';
 
-export function updateQuery(payload) {
+export function updateQuery(section, payload) {
   return {
     type: searchTypes.UPDATE_QUERY,
+    section,
+    payload
+  };
+}
+
+export function updatePDBS(payload) {
+  return {
+    type: searchTypes.UPDATE_PDBS,
+    payload
+  };
+}
+
+export function uploadFile(payload) {
+  return {
+    type: searchTypes.UPLOAD_FILE,
     payload
   };
 }
 
 export function submitQuery(payload) {
-  console.log('*************************');
   return {
-    type: searchTypes.SUBMIT_QUERY,
+    type: searchTypes.QUERY_SUBMIT_REQUEST,
     payload,
   };
 }

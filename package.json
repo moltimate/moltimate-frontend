@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.2.2",
     "@material-ui/icons": "^3.0.1",
+    "axios": "^0.18.0",
     "material-ui-chip-input": "1.0.0-beta.8",
     "ngl": "^0.10.4",
     "react": "^16.5.2",

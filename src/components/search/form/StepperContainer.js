@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { submitQuery } from '../../../actions/index';
+import { submitQuery, uploadFile, updateQuery, updatePDBS } from '../../../actions/index';
 
 import Switch from '@material-ui/core/Switch';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import Step1 from './Step1';
-import Step2 from './Step2';
+import Filters from './Filters';
 import Step3 from './Step3';
 
 const styles = theme => ({
@@ -55,13 +55,15 @@ const styles = theme => ({
 });
 
 const steps = ['Proteins', 'Filters', 'Calculations'];
+const messages = ['Your search is being processed', 'Your request was not processed.'];
+const buttonText = ['View Results', 'Try Again'];
 
-class SearchForm extends React.Component {
+class StepperContainer extends React.Component {
 
   state = {
     activeStep: 0,
-    pdbs: [],
-    filters: [],
+    fileUploaded: false,
+    files: [],
   };
 
   handleNext = () => {
@@ -76,34 +78,46 @@ class SearchForm extends React.Component {
     }));
   };
 
-  handleReset = () => {
-    this.setState({
-      activeStep: 0,
-    });
-  };
-
-  handleChange = (section, event) => {
-    this.setState({
-      [section]: [...this.state[section], {[event.target.id]: event.target.value}]
-    });
-  };
-
-  updatePDBs = (event) => {
-    this.setState({
-      pdbs: event
-    });
+  // TODO limit file type
+  handleFileUpload = (event) => {
+    const fileList = Array.from(event.currentTarget.files);
+    this.setState({fileUploaded: true, files: fileList});
+    this.props.dispatch(uploadFile(fileList));
   }
 
   handleSave = () => {
-    this.props.dispatch(submitQuery(this.state));
+    this.props.dispatch(submitQuery());
+    this.handleNext();
   };
+
+  deleteFile = (file, event) => {
+    this.setState({
+      files: this.state.files.filter(f => {
+        return f.name !== file;
+      })
+    });
+  };
+
+  handleChange = (event) => {
+    if (event.target && event.target.type === 'checkbox') {
+      this.props.dispatch(updateQuery(event.target.id, event.target.value));
+    }
+    else {
+      this.props.dispatch(updatePDBS(event));
+    }
+  }
 
   getStepContent(step) {
     switch (step) {
     case 0:
-      return <Step1 handleChange={this.updatePDBs}/>;
+      return <Step1
+        files={this.state.files}
+        handleUpload={this.handleFileUpload}
+        handleChange={this.handleChange}
+        deleteFile={this.deleteFile}
+      />;
     case 1:
-      return <Step2 handleChange={this.handleChange}/>;
+      return <Filters handleChange={this.handleChange}/>;
     case 2:
       return <Step3 handleChange={this.handleChange}/>;
     default:
@@ -131,13 +145,13 @@ class SearchForm extends React.Component {
               {activeStep === steps.length ? (
                 <React.Fragment>
                   <Typography variant="h5" gutterBottom>
-                    Your search is being processed
+                    {this.props.status === 'error' ? messages[0] : messages[1]}
                   </Typography>
                   <Button
                     variant="contained"
                     color="primary"
                     onClick={this.props.handleClose}>
-                    View Results
+                    {this.props.status === 'error' ? buttonText[0] : buttonText[1]}
                   </Button>
                 </React.Fragment>
               ) : (
@@ -152,7 +166,7 @@ class SearchForm extends React.Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={this.handleNext}
+                      onClick={activeStep === steps.length - 1 ? this.handleSave : this.handleNext}
                       className={classes.button}
                     >
                       {activeStep === steps.length - 1 ? 'Search' : 'Next'}
@@ -168,15 +182,18 @@ class SearchForm extends React.Component {
   }
 }
 
-SearchForm.propTypes = {
+StepperContainer.propTypes = {
   dispatch: PropTypes.func,
   classes: PropTypes.object,
-  handleClose: PropTypes.func
+  handleClose: PropTypes.func,
+  status: PropTypes.bool,
 };
 
 const mapToProps = state => {
-  return {};
+  return {
+    status: state.status
+  };
 };
 
-const withState = connect(mapToProps)(SearchForm);
+const withState = connect(mapToProps)(StepperContainer);
 export default withStyles(styles)(withState);
