@@ -26,44 +26,32 @@ function Transition(props) {
 }
 
 class SearchContainer extends React.Component {
-  state = {
-    open: true,
-  };
-
   handleFileUpload = (event) => {
     const fileList = Array.from(event.currentTarget.files);
     console.log(fileList.map(f => f.name).join(', '));
   }
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
   render() {
-    const { classes } = this.props;
+    const { classes, handleClose } = this.props;
     return (
       <div>
         <Dialog
           fullScreen
-          open={this.state.open}
-          onClose={this.handleClose}
+          open={this.props.isOpen}
+          onClose={handleClose}
           TransitionComponent={Transition}
         >
           <AppBar className={classes.appBar}>
             <Toolbar>
-              <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
+              <IconButton color="inherit" onClick={handleClose} aria-label="Close">
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" color="inherit" className={classes.flex}>
-                New Search
+                Search
               </Typography>
             </Toolbar>
           </AppBar>
-          <StepperContainer handleClose={this.handleClose}/>
+          <StepperContainer handleClose={handleClose}/>
         </Dialog>
       </div>
     );
@@ -72,6 +60,9 @@ class SearchContainer extends React.Component {
 
 SearchContainer.propTypes = {
   classes: PropTypes.object.isRequired,
+  isOpen: PropTypes.bool,
+  handleClose: PropTypes.func.isRequired,
+  handleClickOpen: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SearchContainer);

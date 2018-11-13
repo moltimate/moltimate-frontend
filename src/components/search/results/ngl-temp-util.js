@@ -7,7 +7,7 @@ export function init() {
   );
 
   // Create NGL Stage object
-  var stage = new NGL.Stage( 'viewport' );
+  var stage = new NGL.Stage( 'viewport', {backgroundColor: 'white'} );
 
   // Handle window resizing
   window.addEventListener( 'resize', function( event ){
@@ -19,7 +19,7 @@ export function init() {
       defaultAssembly: 'AU'
     }).then(function (o) {
       o.addRepresentation('cartoon', { color: 'lightgreen' });
-      o.addRepresentation('ball+stick', { sele: 'hetero', color: 'lightgreen' });
+      o.addRepresentation('ball+stick', { sele: 'hetero', color: 'lightgreen', colorScheme: 'bfactor' });
       o.autoView();
       return o;
     }),
