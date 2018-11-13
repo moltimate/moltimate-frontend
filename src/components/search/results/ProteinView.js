@@ -7,7 +7,7 @@ class ProteinView extends React.Component {
   }
   render() {
     return (
-      <div id="viewport" style={{width: '100%', height: '100vh'}} />
+      <div id="viewport" style={{width: '100%', height: '90vh'}} />
     );
   }
 }
