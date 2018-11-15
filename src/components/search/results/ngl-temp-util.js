@@ -15,18 +15,14 @@ export function init() {
   }, false );
 
   Promise.all([
-    stage.loadFile('data://3dqb.pdb', {
-      defaultAssembly: 'AU'
-    }).then(function (o) {
-      o.addRepresentation('cartoon', { color: 'lightgreen' });
-      o.addRepresentation('ball+stick', { sele: 'hetero', color: 'lightgreen' });
+    stage.loadFile('rcsb://BASE_ID').then(function (o) {
+      o.addRepresentation('ball+stick', { sele: '" or ".join(alignmentResidueIds)', color: 'lightgreen' });
       o.autoView();
       return o;
     }),
 
-    stage.loadFile('data://3sn6.pdb').then(function (o) {
-      o.addRepresentation('cartoon', { color: 'tomato' });
-      o.addRepresentation('ball+stick', { sele: 'hetero', color: 'tomato' });
+    stage.loadFile('rcsb://MOTIF_PDB_ID').then(function (o) {
+      o.addRepresentation('ball+stick', { sele: '" or ".join(activeSiteResidueIds)', color: 'tomato' });
       o.autoView();
       return o;
     })
