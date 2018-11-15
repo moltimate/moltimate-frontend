@@ -34,6 +34,12 @@ To run unit tests
 yarn run test
 ```
 
+### Running With Docker
+
+Build and run the image in a container with:
+
+		docker-compose up
+
 ### Unit Tests
 
 Actions and reducers will be tested through [this](https://redux.js.org/recipes/writingtests) 

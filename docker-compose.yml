@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+    command: npm start
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
