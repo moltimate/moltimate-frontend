@@ -6,15 +6,19 @@ class ProteinView extends React.Component {
 
   componentDidUpdate(prevProps) {
     const {base, compare} = this.props;
-    if (compare && prevProps.compare && compare.motifPdbId !== prevProps.compare.motifPdbId) {
-      console.log(compare.motifPdbId);
 
-      init(base, compare);
+    if (compare && prevProps.compare) {
+      if (compare.motifPdbId !== prevProps.compare.motifPdbId || base !== prevProps.base) {
+        init(base, compare);
+      }
     }
   }
+
   render() {
+    const key = `${this.props.base}${!!this.props.compare ? this.props.compare.motifPdbId : ''}`;
+
     return (
-      <div id="viewport" style={{width: '100%', height: '90vh'}} />
+      <div key={key} id="viewport" style={{width: '100%', height: '90vh'}} />
     );
   }
 }
