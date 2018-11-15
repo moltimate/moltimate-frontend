@@ -15,25 +15,25 @@ export function init(base, compare) {
   }, false );
 
   Promise.all([
-    stage.loadFile(`rcsb://${base}.pdb`, {
-      defaultAssembly: 'AU'
-    }).then(function (o) {
-      o.addRepresentation('cartoon', { color: 'lightgreen' });
-      o.addRepresentation('ball+stick', { sele: 'hetero', color: 'lightgreen', colorScheme: 'bfactor' });
+    stage.loadFile(`rcsb://${base}.pdb`).then(function (o) {
+      var query = compare.alignedResidues.map(i => i.residueId +":"+i.chainName).join(" or ");
+      o.addRepresentation('ball+stick', { sele: query, color: 'lightgreen', colorScheme: 'bfactor' });
       o.autoView();
       return o;
     }),
 
     stage.loadFile(`rcsb://${compare.motifPdbId}.pdb`).then(function (o) {
-      o.addRepresentation('cartoon', { color: 'tomato' });
-      o.addRepresentation('ball+stick', { sele: 'hetero', color: 'tomato' });
+      var query = compare.activeSiteResidues.map(i => i.residueId +":"+i.chainName).join(" or ");
+      o.addRepresentation('ball+stick', { sele: query, color: 'tomato' });
       o.autoView();
       return o;
     })
   ]).then(function (ol) {
     var s1 = ol[ 0 ].structure;
     var s2 = ol[ 1 ].structure;
-    NGL.superpose(s1, s2, true);
+    var q1 = compare.alignedResidues.map(i => i.residueId +":"+i.chainName).join(" or ");
+    var q2 = compare.activeSiteResidue.map(i => i.residueId +":"+i.chainName).join(" or ");
+    NGL.superpose(s1, s2, true, q2, q1);
     ol[ 0 ].updateRepresentations({ position: true });
     ol[ 0 ].autoView();
   });
