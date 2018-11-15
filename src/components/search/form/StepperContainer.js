@@ -145,13 +145,13 @@ class StepperContainer extends React.Component {
               {activeStep === steps.length ? (
                 <React.Fragment>
                   <Typography variant="h5" gutterBottom>
-                    {this.props.status === 'error' ? messages[0] : messages[1]}
+                    {this.props.status !== 'error' ? messages[0] : messages[1]}
                   </Typography>
                   <Button
                     variant="contained"
                     color="primary"
                     onClick={this.props.handleClose}>
-                    {this.props.status === 'error' ? buttonText[0] : buttonText[1]}
+                    {this.props.status !== 'error' ? buttonText[0] : buttonText[1]}
                   </Button>
                 </React.Fragment>
               ) : (
