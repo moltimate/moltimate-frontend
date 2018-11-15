@@ -10,7 +10,7 @@ class Step3 extends React.Component {
       <FormControlLabel
         control={
           <Switch
-            id="calculations"
+            id="options"
             value="rmsd"
             color="primary"
             onChange={this.props.handleChange}

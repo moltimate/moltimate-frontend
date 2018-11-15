@@ -1,90 +1,102 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
-import ListItemText from '@material-ui/core/ListItemText';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
 import { withStyles } from '@material-ui/core/styles';
-import ResultSection from './ResultSection';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
-  nested: {
-    paddingLeft: theme.spacing.unit * 4,
+  root: {
+    width: '100%',
+    height: '70%',
+
   },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+  },
+  ul: {
+    paddingLeft: '0',
+  },
+  button: {
+
+  },
+  selected: {
+    backgroundColor: '#EEEEEE'
+  }
 });
 
-const results = [
-  {
-    name: 'ab1c',
-    matches: [
-      {
-        name: '1234',
-        rmsd: '2.3'
-      },
-      {
-        name: 'as54',
-        rmsd: '1.3'
-      },
-      {
-        name: 'agh3',
-        rmsd: '0.7'
-      },
-      {
-        name: 'plw1',
-        rmsd: '0'
-      },
-      {
-        name: 'hte3',
-        rmsd: '0.1'
-      },
-      {
-        name: 'ertr',
-        rmsd: '0'
-      }
-    ]
-  },
-  {
-    name: 'djfr',
-    matches: [
-      {
-        name: 'sdlk',
-        rmsd: '1.0'
-      },
-      {
-        name: 'fgof',
-        rmsd: '3.0'
-      }
-    ]
-  },
-];
-
-
 class ResultList extends React.Component {
+
   state = {
-    open: true,
+    expanded: true,
+    selected: null,
   };
 
-  handleClick = () => {
-    this.setState(state => ({ open: !state.open }));
+  handleClick = (event, motif, base) => {
+    this.setState({
+      selected: motif.motifPdbId,
+      result: base,
+    });
+    this.props.handleResultClick(event, motif, base);
   };
-
 
   render() {
+    const { classes, results } = this.props;
+
     return (
-      <>
-        <ListItem button onClick={this.handleClick}>
-          <ListItemText primary="Results" />
-        </ListItem>
-        <ResultSection results={results}/>
-      </>
+      <List className={classes.root} subheader={<li />}>
+        {Object.keys(results).map(
+          result =>
+            <li key={result} className={classes.listSection}>
+              <ul className={classes.ul}>
+                <ListSubheader className={classes.secondaryHeading}>Matches for {result}</ListSubheader>
+                {results[result].map((pdb) =>
+                  <Button
+                    key={pdb.motifPdbId}
+                    onClick={(e) => this.handleClick(e, pdb, result)}
+                    fullWidth
+                    className={this.state.selected === pdb.motifPdbId && this.state.result === result ? classes.selected : classes.button}
+                  >
+                    <Typography className={classes.heading}>{pdb.motifPdbId}</Typography>
+                  </Button>
+                )}
+              </ul>
+            </li>
+        )}
+      </List>
     );
   }
 }
 
+/*
+<ListItemText
+  primary={pdb.motifPdbId}
+  secondary={'rmsd: ' + pdb.rmsd}
+/>
+
+
+*/
+
 ResultList.propTypes = {
   classes: PropTypes.object.isRequired,
+  results: PropTypes.object.isRequired,
+  handleResultClick: PropTypes.func.isRequired,
+};
+
+ResultList.defaultProps = {
+  results: {}
 };
 
 export default withStyles(styles)(ResultList);

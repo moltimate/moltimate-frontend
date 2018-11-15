@@ -2,21 +2,39 @@ import { put, takeLatest, call, all, spawn, select } from 'redux-saga/effects';
 import searchTypes from '../actions/types';
 import axios from 'axios';
 
-export const getQuery = (state) => state;
+export const getQuery = (state) => state.search;
+
+const searchURL = 'http://localhost:8080/align/activesite';
 
 function postRequest( url, payload) {
-  return axios({ method: 'post', url, payload });
+  return axios.post(url, payload)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+    });;
 }
+
+const tempBody = {
+  pdbIds: ['8gch', '1ezi', '1ma0'],
+  ecNumber: '3.4.21',
+  options: [],
+  filters: []
+};
 
 function* submitSearch() {
   let payload = yield select(getQuery);
+  let response;
+
   try {
-    const response = yield call(postRequest('http://localhost:3000/search', payload));
-    yield put({ type: searchTypes.QUERY_SUBMIT_SUCCESS });
+    response = yield call(postRequest, searchURL, tempBody);
+    response = response.data.alignments;
+    yield put({ type: searchTypes.QUERY_SUBMIT_SUCCESS});
     yield put({ type: searchTypes.UPDATE_RESULTS, response});
   } catch (error) {
     yield put({ type: searchTypes.QUERY_SUBMIT_ERROR });
   }
+
 }
 
 function* searchWatcher() {
