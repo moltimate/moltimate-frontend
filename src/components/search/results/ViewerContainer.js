@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -21,7 +22,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import TuneIcon from '@material-ui/icons/Tune';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
-import ProteinView from './ProteinView';
+import ProteinView from './protein/ProteinView';
 import ResultList from './ResultList';
 
 const drawerWidth = 240;
@@ -98,6 +99,13 @@ class ViewContainer extends React.Component {
     this.setState({ open: false });
   };
 
+  handleResultClick = (event, motif, base) => {
+    this.setState({
+      base: base,
+      compare: motif,
+    });
+  }
+
   render() {
     const { classes, theme, toggleSearch } = this.props;
     const { open } = this.state;
@@ -133,11 +141,12 @@ class ViewContainer extends React.Component {
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={this.handleDrawerClose}>
+              <Typography>Results</Typography>
               {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
           </div>
           <Divider />
-          <ResultList />
+          <ResultList results={this.props.results} handleResultClick={this.handleResultClick}/>
           <Divider />
           <List>
             <ListItem button onClick={toggleSearch}>
@@ -159,7 +168,7 @@ class ViewContainer extends React.Component {
             [classes.contentShift]: open,
           })}
         >
-          <ProteinView />
+          <ProteinView base={this.state.base} compare={this.state.compare} />
         </main>
       </div>
     );
@@ -170,6 +179,15 @@ ViewContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   toggleSearch: PropTypes.func.isRequired,
+  results: PropTypes.object.results
 };
 
-export default withStyles(styles, { withTheme: true })(ViewContainer);
+const mapToProps = state => {
+  return {
+    results: state.search.results
+  };
+};
+
+const withState = connect(mapToProps)(ViewContainer);
+
+export default withStyles(styles, { withTheme: true })(withState);

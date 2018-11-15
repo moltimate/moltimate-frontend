@@ -1,6 +1,6 @@
 import * as NGL from 'ngl';
 
-export function init() {
+export function init(base, compare) {
   // Setup to load data from rawgit
   NGL.DatasourceRegistry.add(
     'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
@@ -15,7 +15,7 @@ export function init() {
   }, false );
 
   Promise.all([
-    stage.loadFile('data://3dqb.pdb', {
+    stage.loadFile(`rcsb://${base}.pdb`, {
       defaultAssembly: 'AU'
     }).then(function (o) {
       o.addRepresentation('cartoon', { color: 'lightgreen' });
@@ -24,7 +24,7 @@ export function init() {
       return o;
     }),
 
-    stage.loadFile('data://3sn6.pdb').then(function (o) {
+    stage.loadFile(`rcsb://${compare.motifPdbId}.pdb`).then(function (o) {
       o.addRepresentation('cartoon', { color: 'tomato' });
       o.addRepresentation('ball+stick', { sele: 'hetero', color: 'tomato' });
       o.autoView();
