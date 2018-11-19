@@ -25,9 +25,9 @@ const tempBody = {
 function* submitSearch() {
   let payload = yield select(getQuery);
   let response;
-
+  console.log(payload)
   try {
-    response = yield call(postRequest, searchURL, tempBody);
+    response = yield call(postRequest, searchURL, payload);
     response = response.data.alignments;
     yield put({ type: searchTypes.QUERY_SUBMIT_SUCCESS});
     yield put({ type: searchTypes.UPDATE_RESULTS, response});
