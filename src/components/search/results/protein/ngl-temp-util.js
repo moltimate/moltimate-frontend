@@ -7,32 +7,41 @@ export function init(base, compare) {
   );
 
   // Create NGL Stage object
-  var stage = new NGL.Stage( 'viewport', {backgroundColor: 'white'} );
+  var stage = new NGL.Stage( 'viewport' , {backgroundColor: 'white'});
 
   // Handle window resizing
   window.addEventListener( 'resize', function( event ){
     stage.handleResize();
   }, false );
 
+  var a1 = [];
+  var a2 = []; // brute?
+  for( var i = 0; i < compare.alignedResidues.length; i++ ){
+     a1.push(compare.alignedResidues[i].residueId +":"+compare.alignedResidues[i].chainName);
+  }
+  for( var i = 0; i < compare.activeSiteResidues.length; i++ ){
+     a2.push(compare.activeSiteResidues[i].residueId +":"+compare.activeSiteResidues[i].chainName);
+  }
+  var q1 = a1.join(" or ");
+  var q2 = a2.join(" or ");
+
   Promise.all([
     stage.loadFile(`rcsb://${base}`).then(function (o) {
-      var query = compare.alignedResidues.map(i => i.residueId +":"+i.chainName).join(" or ");
-      o.addRepresentation('ball+stick', { sele: query, color: 'lightgreen'});
+      o.addRepresentation('ball+stick', { sele: q1, color: 'lightgreen'});
       o.autoView();
       return o;
     }),
 
     stage.loadFile(`rcsb://${compare.motifPdbId}`).then(function (o) {
-      var query = compare.activeSiteResidues.map(i => i.residueId +":"+i.chainName).join(" or ");
-      o.addRepresentation('ball+stick', { sele: query, color: 'tomato' });
+      o.addRepresentation('ball+stick', { sele: q2, color: 'tomato' });
       o.autoView();
       return o;
     })
   ]).then(function (ol) {
     var s1 = ol[ 0 ].structure;
     var s2 = ol[ 1 ].structure;
-    var q1 = compare.alignedResidues.map(i => i.residueId +":"+i.chainName).join(" or ");
-    var q2 = compare.activeSiteResidue.map(i => i.residueId +":"+i.chainName).join(" or ");
+    console.log(q1);
+    console.log(q2);
     NGL.superpose(s1, s2, true, q1, q2);
     ol[ 0 ].updateRepresentations({ position: true });
     ol[ 0 ].autoView();
