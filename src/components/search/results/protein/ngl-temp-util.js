@@ -42,7 +42,7 @@ export function init(base, compare) {
     var s2 = ol[ 1 ].structure;
     console.log(q1);
     console.log(q2);
-    NGL.superpose(s1, s2, true, q1, q2);
+    NGL.superpose(s1, s2, false, q1, q2);
     ol[ 0 ].updateRepresentations({ position: true });
     ol[ 0 ].autoView();
   });
