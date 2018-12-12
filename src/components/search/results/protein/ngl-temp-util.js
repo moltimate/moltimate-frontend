@@ -15,7 +15,8 @@ export function init(base, compare) {
   }, false );
 
   var a1 = [];
-  var a2 = []; // brute?
+  var a2 = [];
+
   for( var i = 0; i < compare.alignedResidues.length; i++ ){
      a1.push(compare.alignedResidues[i].residueId +":"+compare.alignedResidues[i].chainName);
   }
@@ -40,8 +41,6 @@ export function init(base, compare) {
   ]).then(function (ol) {
     var s1 = ol[ 0 ].structure;
     var s2 = ol[ 1 ].structure;
-    console.log(q1);
-    console.log(q2);
     NGL.superpose(s1, s2, false, q1, q2);
     ol[ 0 ].updateRepresentations({ position: true });
     ol[ 0 ].autoView();
