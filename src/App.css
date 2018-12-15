@@ -5,3 +5,8 @@ body {
 a {
   text-decoration: none;
 }
+
+button {
+  font-weight: 700;
+  font-family: 'Nunito, sans-serif';
+}
