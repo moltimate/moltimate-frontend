@@ -40,13 +40,17 @@ const styles = {
   },
   createButton: {
     // border: '3px solid #08AEEA',
-    //color: '#08AEEA',
+    // border: '3px solid #2AF598',
     marginRight: '20px',
   },
   searchButton: {
-    // border: '3px solid #2AF598',
-    //color: '#2AF598',
-    marginRight: '20px',
+    background: 'linear-gradient(45deg, #08AEEA 30%, #2AF598 90%)',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+    marginTop: '30px'
   },
   inlineFlex: {
     display: 'inline-flex',
@@ -79,9 +83,9 @@ function Splash(props) {
             <Button className={classes.button}>About</Button>
             <Button className={classes.button}>Publications</Button>
             <Link to="/search">
-              <Button className={classes.searchButton}>Search</Button>
+              <Button className={classes.button}>Search</Button>
             </Link>
-            <Button className={classes.createButton}>Create</Button>
+            <Button className={classes.button}>Create</Button>
           </div>
         </Toolbar>
       </AppBar>
@@ -89,6 +93,9 @@ function Splash(props) {
         <div className={classes.titleContainer}>
           <Typography className={classes.title}>Moltimate Protein Analysis</Typography>
           <Typography className={classes.subTitle}>Molecular visualization using catalytic site homology to predict unknown functions of proteins. </Typography>
+          <Link to="/search">
+            <Button className={classes.searchButton}>Get Started</Button>
+          </Link>
         </div>
         <img className={classes.protein} src={Protein} />
       </div>
