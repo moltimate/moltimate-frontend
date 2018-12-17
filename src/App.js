@@ -6,6 +6,8 @@ import './App.css';
 
 import Splash from './components/landing/Splash';
 import Search from './components/search/Search';
+import Create from './components/create/Create';
+
 import { theme } from './theme';
 
 const App = () => (
@@ -14,6 +16,7 @@ const App = () => (
       <div>
         <Route exact path='/' component={Splash} />
         <Route exact path='/search' component={Search} />
+        <Route exact path='/create' component={Create} />
       </div>
     </BrowserRouter>
   </MuiThemeProvider>
