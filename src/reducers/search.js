@@ -2,16 +2,16 @@ import searchTypes from '../actions/types';
 
 const initialState = {
   filters: [],
-  pdbs: [],
+  pdbIds: [],
   files: {},
-  calculations: [],
+  options: [],
 };
 
 const search = (state = initialState, action) => {
   switch (action.type) {
   case searchTypes.UPDATE_PDBS:
     return Object.assign({}, state, {
-      pdbs: action.payload
+      pdbIds: action.payload
     });
   // If a filter is checked/unchecked
   case searchTypes.UPDATE_QUERY:
@@ -30,7 +30,7 @@ const search = (state = initialState, action) => {
   case searchTypes.QUERY_SUBMIT_ERROR:
     return { ...state, status: 'error'};
   case searchTypes.UPDATE_RESULTS: {
-    return { ...state, results: action.payload};
+    return { ...state, results: action.response};
   }
   default:
     return state;

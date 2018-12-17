@@ -2,10 +2,22 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import ProteinView from '../protein/ProteinView';
+import ViewerContainer from './results/ViewerContainer';
 import SearchContainer from './form/SearchContainer';
 
 class Search extends React.Component {
+  state = {
+    isOpen: true,
+  };
+
+  handleClickOpen = () => {
+    this.setState({ isOpen: true });
+  };
+
+  handleClose = () => {
+    this.setState({ isOpen: false });
+  };
+
   render() {
     return (
       <div>
@@ -16,8 +28,12 @@ class Search extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <SearchContainer />
-        <ProteinView />
+        <SearchContainer
+          isOpen={this.state.isOpen}
+          handleClose={this.handleClose}
+          handleClickOpen={this.handleClickOpen}
+        />
+        <ViewerContainer toggleSearch={this.handleClickOpen}/>
       </div>
     );
   }

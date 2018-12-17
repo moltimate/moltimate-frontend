@@ -12,7 +12,7 @@ class Step1 extends React.Component {
     return (
       <>
         <ChipInput
-          id='pdbs'
+          id='pdbIds'
           defaultValue={[]}
           fullWidth
           label='PDB Names'
