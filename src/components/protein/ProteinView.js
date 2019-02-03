@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { init } from './ngl-temp-util';
+import { init } from './ngl-util';
 
 class ProteinView extends React.Component {
 

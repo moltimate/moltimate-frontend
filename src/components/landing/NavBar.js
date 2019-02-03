@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 
 import Logo from './logo.png';
-import MenuButton from './MenuButton';
 
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
@@ -16,18 +15,26 @@ function NavBar(props) {
   const { classes } = props;
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="fixed">
       <Toolbar className={classes.toolBar}>
         <img alt="MOltimate logo" className={classes.logo} src={Logo} />
         <div className={classes.float}>
-          <Link to='#about'>
+          <a href='#about'>
             <Button className={classes.button}>About</Button>
-          </Link>
-          <Link to='#publications'>
-            <Button className={classes.button}>Publications</Button>
-          </Link>
-          <MenuButton />
+          </a>
+          <a href='#cite'>
+            <Button className={classes.button}>Cite</Button>
+          </a>
+          <a href='https://github.com/moltimate'>
+            <Button className={classes.button}>GitHub</Button>
+          </a>
         </div>
+        <Link to="/search">
+          <Button className={`${classes.outlineButton} ${classes.blue} ${classes.spaced}`}>Search</Button>
+        </Link>
+        <Link to="/create">
+          <Button className={`${classes.outlineButton} ${classes.cyan}`}>Create</Button>
+        </Link>
       </Toolbar>
     </AppBar>
   );

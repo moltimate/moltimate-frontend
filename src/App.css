@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: 'Nunito, sans-serif';
 }
 
 a {
@@ -8,5 +9,4 @@ a {
 
 button {
   font-weight: 700;
-  font-family: 'Nunito, sans-serif';
 }
