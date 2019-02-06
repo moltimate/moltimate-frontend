@@ -22,7 +22,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import TuneIcon from '@material-ui/icons/Tune';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
-import ProteinView from './protein/ProteinView';
+import ProteinView from './ProteinView';
 import ResultList from './ResultList';
 
 const drawerWidth = 240;
