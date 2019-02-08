@@ -1,9 +1,10 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import ViewerContainer from '../protein/ViewerContainer';
-import SearchContainer from './form/SearchContainer';
+import PropTypes from 'prop-types';
+
+import MiniDrawer from './MiniDrawer';
+
+import styles from './styles.js';
+import { withStyles } from '@material-ui/core/styles';
 
 class Search extends React.Component {
   state = {
@@ -21,22 +22,14 @@ class Search extends React.Component {
   render() {
     return (
       <div>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" color="inherit">
-              Results
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <SearchContainer
-          isOpen={this.state.isOpen}
-          handleClose={this.handleClose}
-          handleClickOpen={this.handleClickOpen}
-        />
-        <ViewerContainer toggleSearch={this.handleClickOpen}/>
+        <MiniDrawer />
       </div>
     );
   }
 }
 
-export default Search;
+Search.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Search);

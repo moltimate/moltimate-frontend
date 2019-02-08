@@ -1,57 +1,90 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { submitQuery, uploadFile, updateQuery, updatePDBS } from '../../../actions/index';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
-import StepperContainer from './StepperContainer';
+import MultInputChip from './MultInputChip';
 
-const styles = {
-  appBar: {
-    position: 'relative',
-  },
-  flex: {
-    flex: 1,
-  },
-};
-
-function Transition(props) {
-  return <Slide direction="up" {...props} />;
-}
+import styles from '../styles.js';
+import { withStyles } from '@material-ui/core/styles';
 
 class SearchContainer extends React.Component {
+  state = {
+    open: true,
+    scroll: 'paper',
+  };
+
+  handleClickOpen = scroll => () => {
+    this.setState({ open: true, scroll });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  // TODO limit file type
   handleFileUpload = (event) => {
     const fileList = Array.from(event.currentTarget.files);
-    console.log(fileList.map(f => f.name).join(', '));
-  }
+    this.setState({fileUploaded: true, files: fileList});
+    this.props.dispatch(uploadFile(fileList));
+  };
+
+  handleSave = () => {
+    this.props.dispatch(submitQuery());
+    this.handleNext();
+  };
+
+  deleteFile = (file, event) => {
+    this.setState({
+      files: this.state.files.filter(f => {
+        return f.name !== file;
+      })
+    });
+  };
+
+  handleChange = (event) => {
+    if (event.target && event.target.type === 'checkbox') {
+      this.props.dispatch(updateQuery(event.target.id, event.target.value));
+    }
+    else {
+      this.props.dispatch(updatePDBS(event));
+    }
+  };
 
   render() {
-    const { classes, handleClose } = this.props;
+    const { classes } = this.props;
+
     return (
       <div>
         <Dialog
-          fullScreen
-          open={this.props.isOpen}
-          onClose={handleClose}
-          TransitionComponent={Transition}
+          open={this.state.open}
+          onClose={this.handleClose}
+          scroll="body"
+          className={classes.searchForm}
         >
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton color="inherit" onClick={handleClose} aria-label="Close">
-                <CloseIcon />
-              </IconButton>
-              <Typography variant="h6" color="inherit" className={classes.flex}>
-                Search
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <StepperContainer handleClose={handleClose}/>
+          <DialogTitle id="scroll-dialog-title" className={classes.smallTitle}>Search</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              <MultInputChip
+                files={this.state.files}
+                handleUpload={this.handleFileUpload}
+                handleChange={this.handleChange}
+                deleteFile={this.deleteFile}
+              />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} className={`${classes.outlineButton} ${classes.blueGradient}`}>
+              Search
+            </Button>
+          </DialogActions>
         </Dialog>
       </div>
     );
@@ -59,10 +92,17 @@ class SearchContainer extends React.Component {
 }
 
 SearchContainer.propTypes = {
-  classes: PropTypes.object.isRequired,
-  isOpen: PropTypes.bool,
-  handleClose: PropTypes.func.isRequired,
-  handleClickOpen: PropTypes.func.isRequired,
+  dispatch: PropTypes.func,
+  classes: PropTypes.object,
+  handleClose: PropTypes.func,
+  status: PropTypes.bool,
 };
 
-export default withStyles(styles)(SearchContainer);
+const mapToProps = state => {
+  return {
+    status: state.status
+  };
+};
+
+const withState = connect(mapToProps)(SearchContainer);
+export default withStyles(styles)(withState);

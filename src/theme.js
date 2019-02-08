@@ -1,6 +1,13 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 export const theme = createMuiTheme({
+  overrides: {
+    MuiButton: { // Name of the component ⚛️ / style sheet
+      primary: { // Name of the rule
+        color: 'green', // Some CSS
+      },
+    },
+  },
   typography: {
     useNextVariants: true,
     fontFamily: 'Nunito, sans-serif',
@@ -9,8 +16,5 @@ export const theme = createMuiTheme({
       fontWeight: 700,
       fontSize: '12px',
     },
-  },
-  palette: {
-    primary: { main: '#011638' },
   },
 });

@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
@@ -22,7 +21,7 @@ function About(props) {
           structures. However, determining the function of these proteins through traditional
           experimental procedures can be a slow process. This disparity has been the motivation
           behind the creation of computational tools to predict function from structural homology.
-          Moltimate is a web application which uses catalytic site 
+          Moltimate is a web application which uses catalytic site
           homology to predict the function of proteins with no known function.
           Grant Funding NSF-DUE 0402408, NIGMS 1R15GM078077, NIGMS 2R15GM078077-02, NIGMS 3R15GM078077-02S1, and NSF 1503811.
         </Typography>

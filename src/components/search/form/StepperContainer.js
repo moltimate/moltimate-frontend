@@ -78,34 +78,7 @@ class StepperContainer extends React.Component {
     }));
   };
 
-  // TODO limit file type
-  handleFileUpload = (event) => {
-    const fileList = Array.from(event.currentTarget.files);
-    this.setState({fileUploaded: true, files: fileList});
-    this.props.dispatch(uploadFile(fileList));
-  }
 
-  handleSave = () => {
-    this.props.dispatch(submitQuery());
-    this.handleNext();
-  };
-
-  deleteFile = (file, event) => {
-    this.setState({
-      files: this.state.files.filter(f => {
-        return f.name !== file;
-      })
-    });
-  };
-
-  handleChange = (event) => {
-    if (event.target && event.target.type === 'checkbox') {
-      this.props.dispatch(updateQuery(event.target.id, event.target.value));
-    }
-    else {
-      this.props.dispatch(updatePDBS(event));
-    }
-  }
 
   getStepContent(step) {
     switch (step) {
