@@ -41,7 +41,15 @@ export function init(base, compare) {
   ]).then(function (ol) {
     var s1 = ol[ 0 ].structure;
     var s2 = ol[ 1 ].structure;
-    NGL.superpose(s1, s2, false, q1, q2);
+
+    //Don't do sequence alignment if all residues are in the same chain
+    var seq = true;
+    var firstChain = compare.alignedResidues[0].residueChainName;
+    for(var i = 0; i < compare.alignedResidues.length; i++){
+      seq = seq && firstChain === compare.alignedResidues[i].residueChainName;
+    }
+
+    NGL.superpose(s1, s2, !seq, q1, q2);
     ol[ 0 ].updateRepresentations({ position: true });
     ol[ 0 ].autoView();
   });
