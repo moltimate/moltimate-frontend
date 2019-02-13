@@ -18,10 +18,18 @@ export function init(base, compare) {
   var a2 = [];
 
   for( var i = 0; i < compare.alignedResidues.length; i++ ){
-     a1.push(compare.alignedResidues[i].residueId +":"+compare.alignedResidues[i].residueChainName);
+    var alt = compare.alignedResidues[i].residueAltLoc;
+    if(alt != ""){
+      alt = "%"+ alt;
+    }
+     a1.push(compare.alignedResidues[i].residueId +":"+compare.alignedResidues[i].residueChainName+ alt + "/0");
   }
   for( var i = 0; i < compare.activeSiteResidues.length; i++ ){
-     a2.push(compare.activeSiteResidues[i].residueId +":"+compare.activeSiteResidues[i].residueChainName);
+    var alt = compare.activeSiteResidues[i].residueAltLoc;
+    if(alt != ""){
+      alt = "%"+ alt;
+    }
+     a2.push(compare.activeSiteResidues[i].residueId +":"+compare.activeSiteResidues[i].residueChainName+ alt + "/0");
   }
   var q1 = a1.join(" or ");
   var q2 = a2.join(" or ");
@@ -42,14 +50,7 @@ export function init(base, compare) {
     var s1 = ol[ 0 ].structure;
     var s2 = ol[ 1 ].structure;
 
-    //Don't do sequence alignment if all residues are in the same chain
-    var seq = true;
-    var firstChain = compare.alignedResidues[0].residueChainName;
-    for(var i = 0; i < compare.alignedResidues.length; i++){
-      seq = seq && firstChain === compare.alignedResidues[i].residueChainName;
-    }
-
-    NGL.superpose(s1, s2, !seq, q1, q2);
+    NGL.superpose(s1, s2, true, q1, q2);
     ol[ 0 ].updateRepresentations({ position: true });
     ol[ 0 ].autoView();
   });
