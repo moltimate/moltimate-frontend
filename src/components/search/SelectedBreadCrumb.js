@@ -2,35 +2,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Breadcrumbs from '@material-ui/lab/Breadcrumbs';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Typography from '@material-ui/core/Typography';
 
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { withStyles } from '@material-ui/core/styles';
+import styles from './styles';
 
 function SelectedBreadCrumb(props) {
-  // const {mode, base, compare} = this.props;
+  const { classes } = props;
+
   return (
     <Breadcrumbs
-      separator={<NavigateNextIcon fontSize="small" />}
-      arial-label="Breadcrumb"
-      style={{width: '300px'}}
+      separator={<NavigateNextIcon fontSize="small" style={{color: 'white'}}/>}
+      arial-label={`${props.crumbs[0]} ${props.crumbs[1]} ${props.crumbs[2]}`}
+      className={classes.breadcrumb}
     >
-      <Typography color="inherit" href="/">
-        Search
-      </Typography>
-      <Typography color="inherit" href="/">
-        8GCH
-      </Typography>
-      <Typography color="textPrimary">1RTF</Typography>
+      {props.crumbs.map((item,i) =>
+        <Typography key={i} className={classes.footerText}>
+          {item}
+        </Typography>
+      )}
     </Breadcrumbs>
   );
 }
 
 SelectedBreadCrumb.propTypes = {
-  classes: PropTypes.object,
-  mode: PropTypes.string,
-  base: PropTypes.string,
-  compare: PropTypes.string,
+  classes: PropTypes.object.isRequired,
+  crumbs: PropTypes.Array,
 };
 
-
-export default SelectedBreadCrumb;
+export default withStyles(styles)(SelectedBreadCrumb);

@@ -18,13 +18,13 @@ export function init(base, compare) {
   var a2 = [];
 
   for( var i = 0; i < compare.alignedResidues.length; i++ ){
-     a1.push(compare.alignedResidues[i].residueId +":"+compare.alignedResidues[i].residueChainName);
+    a1.push(compare.alignedResidues[i].residueId +':'+compare.alignedResidues[i].residueChainName);
   }
   for( var i = 0; i < compare.activeSiteResidues.length; i++ ){
-     a2.push(compare.activeSiteResidues[i].residueId +":"+compare.activeSiteResidues[i].residueChainName);
+    a2.push(compare.activeSiteResidues[i].residueId +':'+compare.activeSiteResidues[i].residueChainName);
   }
-  var q1 = a1.join(" or ");
-  var q2 = a2.join(" or ");
+  var q1 = a1.join(' or ');
+  var q2 = a2.join(' or ');
 
   Promise.all([
     stage.loadFile(`rcsb://${base}`).then(function (o) {

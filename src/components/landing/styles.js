@@ -91,6 +91,7 @@ export default {
   },
   smallText: {
     fontSize: '14px',
+    color: 'white',
   },
   subHeading: {
     fontSize: '16px',
