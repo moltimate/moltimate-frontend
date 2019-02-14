@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -20,7 +21,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import FormTab from './form/FormTab';
 import SearchContainer from './form/SearchContainer';
-import Results from './Results';
+import ResultList from './ResultList';
 
 const drawerWidth = 350;
 
@@ -48,7 +49,7 @@ const styles = theme => ({
     display: 'none',
   },
   drawer: {
-    width: drawerWidth,
+    maxWidth: drawerWidth,
     marginTop: '64px',
     flexShrink: 0,
     whiteSpace: 'nowrap',
@@ -73,11 +74,14 @@ const styles = theme => ({
       width: theme.spacing.unit * 9 + 1,
     },
   },
+  blueGradient: {
+    color: '#20BDFF',
+  },
 });
 
 class SideMenu extends React.Component {
   state = {
-    open: false,
+    open: true,
     build: false,
     results: false
   };
@@ -99,13 +103,6 @@ class SideMenu extends React.Component {
       results: !this.state.results
     });
   };
-
-  handleResultClick = (event, motif, base) => {
-    this.setState({
-      base: base,
-      compare: motif,
-    });
-  }
 
   render() {
     const { classes, theme } = this.props;
@@ -140,13 +137,13 @@ class SideMenu extends React.Component {
           <Divider />
           <ListItem button >
             <ListItemIcon>
-              <RestoreIcon onClick={this.handleToggleDrawer}/>
+              {this.props.status === 'pending' ?  <CircularProgress className={classes.blueGradient} /> :   <RestoreIcon onClick={this.handleToggleDrawer}/>}
             </ListItemIcon>
             <ListItemText inset primary="Results" onClick={this.handleResultsTab}/>
             {this.state.results ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={this.state.results}>
-            <Results results={this.props.results} handleResultClick={this.handleResultClick}/>
+            <ResultList results={this.props.results} handleResultClick={this.props.handleResultClick}/>
           </Collapse>
         </List>
       </Drawer>
@@ -157,12 +154,14 @@ class SideMenu extends React.Component {
 SideMenu.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  results: PropTypes.object.results
+  results: PropTypes.object.results,
+  status: PropTypes.object.string,
+  handleResultClick: PropTypes.func
 };
 
 const mapToProps = state => {
   return {
-    results: state.search.results
+    status: state.search.status
   };
 };
 

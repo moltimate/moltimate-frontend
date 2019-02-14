@@ -8,7 +8,8 @@ export function init(base, compare) {
 
   // Create NGL Stage object
   var stage = new NGL.Stage( 'viewport' , {backgroundColor: 'white'});
-
+  stage.mouseControls.remove( 'drag-ctrl-right' );
+  stage.mouseControls.remove( 'drag-ctrl-left' );
   // Handle window resizing
   window.addEventListener( 'resize', function( event ){
     stage.handleResize();

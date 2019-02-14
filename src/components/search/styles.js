@@ -102,4 +102,10 @@ export default {
   appBar: {
     marginLeft: '100px'
   },
+  loading: {
+    animation: 'spin 2s linear infinite',
+  },
+  spaced: {
+    margin: '20px 0'
+  }
 };

@@ -63,14 +63,18 @@ class ResultList extends React.Component {
               <ul className={classes.ul}>
                 <ListSubheader className={classes.secondaryHeading}>Matches for {result}</ListSubheader>
                 {results[result].map((pdb) =>
-                  <Button
-                    key={pdb.motifPdbId}
-                    onClick={(e) => this.handleClick(e, pdb, result)}
-                    fullWidth
-                    className={this.state.selected === pdb.motifPdbId && this.state.result === result ? classes.selected : classes.button}
-                  >
-                    <Typography className={classes.heading}>{pdb.motifPdbId}</Typography>
-                  </Button>
+                  <li key={pdb.motifPdbId}>
+                    <Button
+                      onClick={(e) => this.handleClick(e, pdb, result)}
+                      fullWidth
+                      className={this.state.selected === pdb.motifPdbId && this.state.result === result ? classes.selected : classes.button}
+                    >
+                      <ListItemText
+                        primary={pdb.motifPdbId}
+                        secondary={'rmsd: ' + pdb.rmsd}
+                      />
+                    </Button>
+                  </li>
                 )}
               </ul>
             </li>
@@ -81,10 +85,7 @@ class ResultList extends React.Component {
 }
 
 /*
-<ListItemText
-  primary={pdb.motifPdbId}
-  secondary={'rmsd: ' + pdb.rmsd}
-/>
+
 
 
 */

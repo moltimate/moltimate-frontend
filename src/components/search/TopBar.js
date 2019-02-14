@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -55,6 +56,8 @@ handleChange = (event) => {
 class TopBar extends React.Component {
   state = {
     open: false,
+    base: '-',
+    compare: '-'
   };
 
   handleDrawerOpen = () => {
@@ -65,22 +68,31 @@ class TopBar extends React.Component {
     this.setState({ open: false });
   };
 
+  handleClick = (event, motif, base) => {
+    console.log(base);
+    console.log(motif);
+    this.setState({
+      compare: motif,
+      base: base,
+    });
+  };
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
         <AppBar position="fixed" className={classes.purpleGradient}>
           <Toolbar>
-            <SelectedBreadCrumb crumbs={['Search', '8GCH', '1RTF']} />
+            <SelectedBreadCrumb crumbs={['Search', this.state.base, this.state.compare.motifPdbId]} />
             <div className={classes.wide}>
               <ExitToAppIcon className={classes.floatRight}/>
             </div>
           </Toolbar>
         </AppBar>
-        <SideMenu />
+        <SideMenu results={this.props.results} handleResultClick={this.handleClick}/>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <ProteinContainer />
+          <ProteinContainer base={this.state.base} compare={this.state.compare}/>
         </main>
       </div>
     );
@@ -89,6 +101,15 @@ class TopBar extends React.Component {
 
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  results: PropTypes.object.results,
 };
 
-export default withStyles(styles)(TopBar);
+const mapToProps = state => {
+  return {
+    results: state.search.results
+  };
+};
+
+const withState = connect(mapToProps)(TopBar);
+
+export default withStyles(styles, { withTheme: true })(withState);

@@ -9,41 +9,18 @@ import styles from '../search/styles';
 
 class ProteinContainer extends React.Component {
 
-  handleResultClick = (event, motif, base) => {
-    this.setState({
-      base: base,
-      compare: motif,
-    });
-  }
-
-  handleClick = (event, motif, base) => {
-    this.setState({
-      selected: motif.motifPdbId,
-      result: base,
-    });
-    // this.props.handleResultClick(event, motif, base);
-  };
-
   render() {
     return (
-      <div>
-        <ProteinView base='8gch' compare='1rtf' />
-        This is the protein
+      <div style={{marginLeft: '350px'}}>
+        <ProteinView base={this.props.base} compare={this.props.compare} />
       </div>
     );
   }
 }
 
 ProteinContainer.propTypes = {
-  results: PropTypes.object.results
+  base: PropTypes.string,
+  compare: PropTypes.object
 };
 
-const mapToProps = state => {
-  return {
-    results: state.search.results
-  };
-};
-
-const withState = connect(mapToProps)(ProteinContainer);
-
-export default withStyles(styles, { withTheme: true })(withState);
+export default withStyles(styles)(ProteinContainer);

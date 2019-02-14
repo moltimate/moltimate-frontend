@@ -83,7 +83,8 @@ class SearchContainer extends React.Component {
           <br/>
           <Button
             onClick={this.handleSave}
-            className={classes.button}>Search</Button>
+            className={`${classes.outlineButton} ${classes.purpleBackground} ${classes.floatRight} ${classes.spaced}`}
+          >Search</Button>
         </div>
       );
     }
