@@ -37,7 +37,7 @@ const styles = theme => ({
   }
 });
 
-class Results extends React.Component {
+class ResultList extends React.Component {
 
   state = {
     expanded: true,
@@ -69,7 +69,7 @@ class Results extends React.Component {
                     fullWidth
                     className={this.state.selected === pdb.motifPdbId && this.state.result === result ? classes.selected : classes.button}
                   >
-                    <ListItemText primary={pdb.motifPdbId} secondary={`RMSD ${pdb.rmsd}`} />
+                    <Typography className={classes.heading}>{pdb.motifPdbId}</Typography>
                   </Button>
                 )}
               </ul>
@@ -80,14 +80,23 @@ class Results extends React.Component {
   }
 }
 
-Results.propTypes = {
+/*
+<ListItemText
+  primary={pdb.motifPdbId}
+  secondary={'rmsd: ' + pdb.rmsd}
+/>
+
+
+*/
+
+ResultList.propTypes = {
   classes: PropTypes.object.isRequired,
   results: PropTypes.object.isRequired,
   handleResultClick: PropTypes.func.isRequired,
 };
 
-Results.defaultProps = {
+ResultList.defaultProps = {
   results: {}
 };
 
-export default withStyles(styles)(Results);
+export default withStyles(styles)(ResultList);
