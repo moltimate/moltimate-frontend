@@ -32,8 +32,8 @@ class SearchContainer extends React.Component {
     // TODO limit file type
     handleFileUpload = (event) => {
       const fileList = Array.from(event.currentTarget.files);
-      this.setState({fileUploaded: true, files: fileList});
-      this.props.dispatch(uploadFile(fileList));
+      this.setState({fileUploaded: true, files: fileList}, () => this.props.dispatch(uploadFile(fileList)));
+      // this.props.dispatch(uploadFile(fileList));
     }
 
     handleSave = () => {

@@ -15,6 +15,23 @@ function postRequest( url, payload) {
     });;
 }
 
+function buildFormData(formData, data, parentKey) {
+  if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
+    Object.keys(data).forEach(key => {
+      buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+    });
+  } else {
+    const value = data == null ? '' : data;
+    formData.append(parentKey, value);
+  }
+}
+
+function jsonToFormData(data) {
+  const formData = new FormData();
+  buildFormData(formData, data);
+  return formData;
+}
+
 const tempBody = {
   pdbIds: ['8gch', '1ezi', '1ma0'],
   ecNumber: '3.4.21',
@@ -23,9 +40,9 @@ const tempBody = {
 };
 
 function* submitSearch() {
-  let payload = yield select(getQuery);
+  let payload = jsonToFormData(yield select(getQuery));
   let response;
-  console.log(payload)
+  console.log(payload);
   try {
     response = yield call(postRequest, searchURL, payload);
     response = response.data.alignments;

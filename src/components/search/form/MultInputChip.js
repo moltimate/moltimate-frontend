@@ -19,23 +19,20 @@ class MultInputChip extends React.Component {
           placeholder='Press enter to add'
           onChange={this.props.handleChange}
         />
+        <UploadFile handleUpload={this.props.handleUpload}/>
+        { this.props.files.map(f => {
+          return (
+            <Chip
+              key={f.name}
+              onDelete={() => this.props.deleteFile(f.name)}
+              style={{ margin: '10px'}}
+              label={f.name}
+            />);
+        })}
       </>
     );
   }
 }
-
-/*
-<UploadFile handleUpload={this.props.handleUpload}/>
-{ this.props.files.map(f => {
-  return (
-    <Chip
-      key={f.name}
-      onDelete={() => this.props.deleteFile(f.name)}
-      style={{ margin: '10px'}}
-      label={f.name}
-    />);
-})}
-*/
 
 MultInputChip.propTypes = {
   handleChange: PropTypes.func.isRequired,
