@@ -22,9 +22,6 @@ import classNames from 'classnames';
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
-
-
-
 function BuilderContainer(props) {
   const { classes } = props;
   const { values, result, handleChange, handleClear, handleSubmit, handleChipInput } = useForm();
@@ -40,6 +37,14 @@ function BuilderContainer(props) {
 
   return (
     <>
+      {result.error ? <SnackbarContent
+        className={classes.error}
+        open={this.state.open}
+        message={
+          <span id="client-snackbar" className={classes.message}>
+            <ErrorIcon className={classes.icon}/>
+            There was an error with the query
+          </span>}
       <Card className={classNames(classes.search, classes.marginTop)} >
         <ListItem button onClick={() => setExpandBuild(!expandBuild)}>
           <ListItemIcon>
