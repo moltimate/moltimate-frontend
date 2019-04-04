@@ -17,6 +17,12 @@ import BuilderForm from './form/BuilderForm';
 import ResultsBox from './results/ResultsBox';
 import ProteinContainer from '../protein/ProteinContainer';
 
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
+import ErrorIcon from '@material-ui/icons/Error';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 import classNames from 'classnames';
 import styles from './styles.js';
@@ -28,6 +34,7 @@ function BuilderContainer(props) {
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
   const [selectedResult, setSelectedResult] = useState({});
+  const [open, setOpen] = useState(true);
 
   function handleSubmitExpand() {
     handleSubmit();
@@ -39,12 +46,22 @@ function BuilderContainer(props) {
     <>
       {result.error ? <SnackbarContent
         className={classes.error}
-        open={this.state.open}
+        open={open}
         message={
           <span id="client-snackbar" className={classes.message}>
             <ErrorIcon className={classes.icon}/>
-            There was an error with the query
-          </span>}
+              There was an error with the query
+            </span>
+        }
+        action={[
+          <IconButton
+            key="close"
+            onClick={() => setOpen(false)}
+          >
+            <CloseIcon />
+        </IconButton>,
+        ]}
+          /> : null}
       <Card className={classNames(classes.search, classes.marginTop)} >
         <ListItem button onClick={() => setExpandBuild(!expandBuild)}>
           <ListItemIcon>
