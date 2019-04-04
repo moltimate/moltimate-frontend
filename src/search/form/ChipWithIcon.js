@@ -10,14 +10,16 @@ export default function ChipWithIcon(props) {
     <ChipInput
       id='pdbIds'
       defaultValue={[]}
+      name={props.nameVal}
       fullWidth
       label='PDB Names'
       placeholder='Press enter to add'
-      onChange={props.handleChange}
+      onChange={props.handleChipInput}
     />
   );
 }
 
 ChipWithIcon.propTypes = {
-  handleChange: PropTypes.func
+  handleChipInput: PropTypes.func,
+  nameVal: PropTypes.string
 };

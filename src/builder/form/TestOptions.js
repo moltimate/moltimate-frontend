@@ -15,8 +15,7 @@ import UploadFile from  '../../search/form/UploadFile';
 import ChipWithIcon from '../../search/form/ChipWithIcon';
 
 function TestOptions(props) {
-  const {classes} = props
-  const [value, setValue] = useState('self');
+  const {classes, handleChange, handleChipInput, type} = props;
 
 // TODO change Radio button color
   return (
@@ -24,17 +23,17 @@ function TestOptions(props) {
       <FormLabel component='legend'>Test Options</FormLabel>
       <RadioGroup
         aria-label='Test Options'
-        name='testMode'
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        name='type'
+        value={type}
+        onChange={handleChange}
       >
         <FormControlLabel value='self' control={<Radio />} label='Self' />
         <FormControlLabel value='homolog' control={<Radio />} label='Homolog' />
         <FormControlLabel value='random' control={<Radio />} label='Random' />
         <FormControlLabel value='list' control={<Radio />} label='List'/>
       </RadioGroup>
-      {value === 'list' ? <ChipWithIcon handleChange={() => console.log("Input changed")}/> : <></>}
-      {value === 'random' ? <TextField label='Amount'/> : <></>}
+      {type === 'list' ? <ChipWithIcon nameVal='testPdbIds' handleChipInput={handleChipInput}/> : null}
+      {type === 'random' ? <TextField required type='number' name='randomCount' label='Amount' onChange={handleChange}/> : null}
       <UploadFile handleUpload={() => console.log("Input changed")} label='Custom Structures' buttonText='Upload'/>
     </FormControl>
   );

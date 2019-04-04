@@ -29,7 +29,7 @@ function ResidueInputs(props) {
       {labels.map((i, key) => {
         return (<TextField
           key={key}
-          id={`${key} ${i.id}`}
+          id={props.id}
           name='activeSiteResidues'
           className={classes.narrowInput}
           onChange={handleChange}
@@ -44,7 +44,8 @@ function ResidueInputs(props) {
 ResidueInputs.propTypes = {
   classes: PropTypes.object,
   handleChange: PropTypes.func,
-  values: PropTypes.array
+  values: PropTypes.array,
+  id: PropTypes.string
 };
 
 export default withStyles(styles)(ResidueInputs);

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import useForm from '../../util/request';
 
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -25,22 +24,20 @@ import { withStyles } from '@material-ui/core/styles';
 const MAX_RESIDUE = 10;
 const MIN_RESIDUE = 3;
 
-function renderResidueInputs(num) {
-  const { handleChange } = useForm();
+function renderResidueInputs(num, handleResidues) {
   const inputs = [];
 
   num = num > MAX_RESIDUE ? MAX_RESIDUE : num;
   num = num < MIN_RESIDUE ? MIN_RESIDUE : num;
 
   for(let i=0; i < num ; i++ ){
-    inputs.push(<ResidueInputs key={i} handleChange={handleChange}/>)
+    inputs.push(<ResidueInputs key={i} id={`${i}`} handleChange={handleResidues}/>)
   }
   return inputs;
 }
 
 function BuilderForm(props) {
-  const { classes } = props;
-  const { values, handleChange, handleSubmit } = useForm();
+  const { classes, values, handleChange, handleClear, handleResidues, handleSubmit, handleChipInput } = props;
   const [ numberInputs, setNumberInputs ] = useState(3);
 
   return (
@@ -49,7 +46,7 @@ function BuilderForm(props) {
       <Divider className={classes.padded}/>
       <FormLabel component='legend'>Active Sites</FormLabel>
       <div>
-        { renderResidueInputs(numberInputs) }
+        { renderResidueInputs(numberInputs, handleResidues) }
         <div className={classes.buttonContainer}>
           <Button onClick={() => setNumberInputs(numberInputs + 1)}>
             <AddIcon className={classes.grey}/>
@@ -63,10 +60,14 @@ function BuilderForm(props) {
       </div>
       <Divider className={classes.padded}/>
       <div>
-        <TestOptions handleChange={handleChange}/>
+        <TestOptions
+          handleChange={handleChange}
+          handleChipInput={handleChipInput}
+          type={values.type}
+        />
       </div>
       <div className={classes.floatButton}>
-        <Button className={classes.cancelButton}>Clear</Button>
+        <Button className={classes.cancelButton} onClick={handleClear}>Clear</Button>
         <Button className={classes.rounded} onClick={handleSubmit}>Run Test</Button>
       </div>
   </div>

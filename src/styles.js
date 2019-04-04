@@ -211,5 +211,6 @@ export default {
     maxHeight: '90vh',
     overflow: 'scroll',
     width: '400px',
+    padding: '10px'
   }
 };
