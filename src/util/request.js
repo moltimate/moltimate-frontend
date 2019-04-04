@@ -7,7 +7,7 @@ const headers = {
  }
 
 const dummyPayload = {
-  type: 'SELF',
+  type: 'self',
   pdbId: '1YPH',
   ecNumber: '3.4.21.*',
   activeSiteResidues: ['Ser E 195', 'Gly E 196', 'Gly E 193', 'Asp C 102', 'His C 57'],
