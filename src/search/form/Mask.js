@@ -9,7 +9,9 @@ export default function ECMask(props) {
   return (
     <MaskedInput
       {...other}
-      ref={inputRef}
+      ref={ref => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
       mask={[/\d/, '.', /\d/, '.', /\d/, /\d/, '.', /\d/, /\d/]}
       placeholderChar={'\u2000'}
       showMask

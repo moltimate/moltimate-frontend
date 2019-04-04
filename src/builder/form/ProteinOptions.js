@@ -20,17 +20,27 @@ function ProteinOptions(props) {
   const [value, setValue] = useState('standard');
 
   return (
-    <FormControl component='fieldset' >
-      <FormLabel component='legend'>Protein Details</FormLabel>
-      <RadioGroup
-        aria-label='Test Options'
-        name='details'
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      >
-        <FormControlLabel value='standard' control={<Radio />} label='Standard' />
-        <FormControlLabel value='custom' control={<Radio />} label='Custom' />
-      </RadioGroup>
+    <>
+      <FormControlLabel
+        control={
+          <Radio
+            checked={value === 'standard'}
+            onChange={(e) => setValue(e.target.name)}
+            name='standard'
+          />
+        }
+        label='Standard'
+      />
+      <FormControlLabel
+        control={
+          <Radio
+            checked={value === 'custom'}
+            onChange={(e) => setValue(e.target.name)}
+            name='custom'
+          />
+        }
+        label='Custom'
+      />
       {value === 'standard' ? <div className={classes.inline}>
         <TextField
           name='pdbid'
@@ -46,7 +56,7 @@ function ProteinOptions(props) {
         />
       </div> : <></>}
       {value === 'custom' ? <UploadFile handleUpload={() => console.log("Input changed")} label='' buttonText='Custom Upload'/>: <></>}
-    </FormControl>
+    </>
   );
 }
 

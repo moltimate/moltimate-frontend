@@ -15,8 +15,8 @@ import './app.css';
 const App = () => (
   <MuiThemeProvider theme={theme}>
     <BrowserRouter>
-      <Route exact path='/' component={LandingContainer} />
-      <Route exact path='/search' component={MoltimateContainer} />
+      <Route exact path='/s' component={LandingContainer} />
+      <Route exact path='/' component={MoltimateContainer} />
       <Route exact path='/publications' component={LandingContainer} />
     </BrowserRouter>
   </MuiThemeProvider>

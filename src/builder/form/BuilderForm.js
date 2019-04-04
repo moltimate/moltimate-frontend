@@ -47,7 +47,7 @@ function BuilderForm(props) {
     <div className={classes.container}>
       <ProteinOptions handleChange={handleChange}/>
       <Divider className={classes.padded}/>
-      <FormLabel component="legend">Active Sites</FormLabel>
+      <FormLabel component='legend'>Active Sites</FormLabel>
       <div>
         { renderResidueInputs(numberInputs) }
         <div className={classes.buttonContainer}>
