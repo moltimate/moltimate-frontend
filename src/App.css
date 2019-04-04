@@ -1,12 +1,8 @@
 body {
-  margin: 0;
-  font-family: 'Nunito, sans-serif';
+    line-height: 2;
+    margin: 0;
 }
 
 a {
-  text-decoration: none;
-}
-
-button {
-  font-weight: 700;
+  text-decoration: none!important;
 }
