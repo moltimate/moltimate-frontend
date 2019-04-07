@@ -5,6 +5,7 @@ import Chip from '@material-ui/core/Chip';
 import ChipInput from 'material-ui-chip-input';
 import DoneIcon from '@material-ui/icons/Done';
 
+// TODO needing to press enter doesnt make sense
 export default function ChipWithIcon(props) {
   return (
     <ChipInput

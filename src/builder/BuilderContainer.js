@@ -4,49 +4,74 @@ import useForm from '../util/request';
 
 import BuildIcon from '@material-ui/icons/Build';
 import Card from '@material-ui/core/Card';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CloseIcon from '@material-ui/icons/Close';
 import Collapse from '@material-ui/core/Collapse';
+import ErrorIcon from '@material-ui/icons/Error';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import RestoreIcon from '@material-ui/icons/Restore';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 import BuilderForm from './form/BuilderForm';
 import ResultsBox from './results/ResultsBox';
-import ProteinContainer from '../protein/ProteinContainer';
-
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-
-import ErrorIcon from '@material-ui/icons/Error';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 import classNames from 'classnames';
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
+
+
 function BuilderContainer(props) {
   const { classes } = props;
-  const { values, result, handleChange, handleClear, handleSubmit, handleChipInput } = useForm();
+  const { values, result, handleChange, handleClear, handleSubmit, handleChipInput, handleResidues } = useForm();
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
-  const [selectedResult, setSelectedResult] = useState({});
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
-  function handleSubmitExpand() {
-    handleSubmit();
-    setExpandBuild(false);
-    setExpandResult(true);
+  function switchHandler(e, type) {
+    console.log('inside switch handler');
+    console.log(e);
+    console.log(type);
+
+    switch(type) {
+      case 0:
+        handleChange(e);
+        break;
+      case 1:
+        handleChipInput(e);
+        break;
+      case 2:
+        handleResidues(e);
+        break;
+      case 3:
+        handleUpload(e);
+        break;
+      case 4:
+        handleSubmit();
+        setExpandBuild(false);
+        setExpandResult(true);
+        break;
+      case 5:
+        handleClear()
+        break;
+      default:
+        break;
+      };
   }
 
+  // TODO error message wont Close
   return (
     <>
       {result.error ? <SnackbarContent
         className={classes.error}
         open={open}
+        onClose={() => setOpen(false)}
         message={
           <span id="client-snackbar" className={classes.message}>
             <ErrorIcon className={classes.icon}/>
@@ -59,7 +84,7 @@ function BuilderContainer(props) {
             onClick={() => setOpen(false)}
           >
             <CloseIcon />
-        </IconButton>,
+          </IconButton>,
         ]}
           /> : null}
       <Card className={classNames(classes.search, classes.marginTop)} >
@@ -73,24 +98,22 @@ function BuilderContainer(props) {
         <Collapse in={expandBuild}>
           <BuilderForm
             values={values}
-            handleChange={handleChange}
-            handleClear={handleClear}
-            handleSubmit={handleSubmitExpand}
-            handleChipInput={handleChipInput}
+            handleChange={switchHandler}
           />
         </Collapse>
       </Card>
-      { result.pending || result.complete ?
+      { result.pending || result.complete || result.error ?
         <Card className={classNames(classes.search, classes.marginTop)} >
           <ListItem button onClick={() => setExpandResult(!expandResult)}>
             <ListItemIcon>
               {result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
             </ListItemIcon>
-            <ListItemText inset primary='Builder Results' />
+            <ListItemText
+              inset primary='Maker Results' />
             {expandResult ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={expandResult}>
-            <ResultsBox  results={result}/>
+            <ResultsBox results={result}/>
           </Collapse>
         </Card> : null
       }

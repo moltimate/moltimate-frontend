@@ -8,31 +8,30 @@ import { withStyles } from '@material-ui/core/styles';
 
 const labels = [
   {
-    id: 'residue',
+    id: 'residueName',
     label: 'Residue',
   },
   {
-    id: 'chain',
+    id: 'residueChainName',
     label: 'Chain',
   },
   {
-    id: 'id',
+    id: 'residueId',
     label: 'Id',
   }
 ]
 
 function ResidueInputs(props) {
-  const { classes, handleChange } = props;
+  const { classes, handleResidues, id } = props;
 
   return (
     <span>
       {labels.map((i, key) => {
         return (<TextField
           key={key}
-          id={props.id}
-          name='activeSiteResidues'
+          id={id}
           className={classes.narrowInput}
-          onChange={handleChange}
+          onChange={handleResidues}
           placeholder={i.label}
         />)
       })}
@@ -43,8 +42,7 @@ function ResidueInputs(props) {
 
 ResidueInputs.propTypes = {
   classes: PropTypes.object,
-  handleChange: PropTypes.func,
-  values: PropTypes.array,
+  handleResidues: PropTypes.func,
   id: PropTypes.string
 };
 

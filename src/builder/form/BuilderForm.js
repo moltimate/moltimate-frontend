@@ -2,21 +2,16 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import Input from '@material-ui/core/Input';
-import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
-import UploadFile from  '../../search/form/UploadFile';
-import Tooltip from '@material-ui/core/Tooltip';
+import Input from '@material-ui/core/Input';
+import RemoveIcon from '@material-ui/icons/Remove';
 
-import Mask from '../../search/form/Mask';
 import ResidueInputs from './ResidueInputs';
 import TestOptions from './TestOptions';
 import ProteinOptions from './ProteinOptions';
 
-import classNames from 'classnames';
 import styles from '../styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -24,21 +19,21 @@ import { withStyles } from '@material-ui/core/styles';
 const MAX_RESIDUE = 10;
 const MIN_RESIDUE = 3;
 
-function renderResidueInputs(num, handleResidues) {
-  const inputs = [];
-
-  num = num > MAX_RESIDUE ? MAX_RESIDUE : num;
-  num = num < MIN_RESIDUE ? MIN_RESIDUE : num;
-
-  for(let i=0; i < num ; i++ ){
-    inputs.push(<ResidueInputs key={i} id={`${i}`} handleChange={handleResidues}/>)
-  }
-  return inputs;
-}
-
 function BuilderForm(props) {
-  const { classes, values, handleChange, handleClear, handleResidues, handleSubmit, handleChipInput } = props;
+  const { classes, values, handleChange } = props;
   const [ numberInputs, setNumberInputs ] = useState(3);
+
+  function renderResidueInputs(num) {
+    const inputs = [];
+
+    num = num > MAX_RESIDUE ? MAX_RESIDUE : num;
+    num = num < MIN_RESIDUE ? MIN_RESIDUE : num;
+
+    for(let i=0; i < num ; i++ ){
+      inputs.push(<ResidueInputs key={i} id={`${i}`} handleResidues={handleChange}/>)
+    }
+    return inputs;
+  }
 
   return (
     <div className={classes.container}>
@@ -46,7 +41,7 @@ function BuilderForm(props) {
       <Divider className={classes.padded}/>
       <FormLabel component='legend'>Active Sites</FormLabel>
       <div>
-        { renderResidueInputs(numberInputs, handleResidues) }
+        { renderResidueInputs(numberInputs) }
         <div className={classes.buttonContainer}>
           <Button onClick={() => setNumberInputs(numberInputs + 1)}>
             <AddIcon className={classes.grey}/>
@@ -62,30 +57,25 @@ function BuilderForm(props) {
       <div>
         <TestOptions
           handleChange={handleChange}
-          handleChipInput={handleChipInput}
           type={values.type}
         />
       </div>
       <div className={classes.floatButton}>
-        <Button className={classes.cancelButton} onClick={handleClear}>Clear</Button>
-        <Button className={classes.rounded} onClick={handleSubmit}>Run Test</Button>
+        <Button className={classes.cancelButton} onClick={handleChange}>Clear</Button>
+        <Button className={classes.rounded} onClick={handleChange}>Run Test</Button>
       </div>
   </div>
   );
 }
 
-/* Test Options
-Self
-Homolog
-Random test needs number of proteins to test against
-List needs list of PDB ids to be tested against
-
-Require EC#
-
-*/
-
 BuilderForm.propTypes = {
   classes: PropTypes.object,
+  values: PropTypes.object,
+  handleChange: PropTypes.func,
+  handleClear: PropTypes.func,
+  handleResidues: PropTypes.func,
+  handleSubmit:PropTypes.func,
+  handleChipInput:PropTypes.func,
 };
 
 export default withStyles(styles)(BuilderForm);

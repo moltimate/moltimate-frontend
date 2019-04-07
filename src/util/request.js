@@ -14,7 +14,7 @@ const dummyPayload = {
 }
 
 const useForm = (callback) => {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({activeSiteResidues: []});
   const [result, setResult] = useState({
     data: null,
     complete: false,
@@ -62,8 +62,8 @@ const useForm = (callback) => {
   };
 
   const handleChange = (e) => {
-    console.log(result);
     e.persist();
+    console.log('POTESOOSO')
     setValues(values => ({ ...values, [e.target.name]: e.target.value }));
   };
 
@@ -71,19 +71,18 @@ const useForm = (callback) => {
     setValues(values => ({ ...values, testPdbIds: e}))
   }
 
+  // TODO this does not work
   const handleResidues = (e) => {
-    // index in values.residues array t.id
-
-    // t.value is string value to merge
-    // console.log(e.target.id);
-    // console.log(e.target.value);
-    // console.log(e.target.placeholder);
     e.persist();
-
+    // activeSiteResidues = [ { res: '', chain: '', id: ''} , {} , {}]
+    // e.target.id => index
+    // e.target.value => value
+    // e.target.name => key
   }
 
+  // TODO this does not work
   const handleClear = (e) => {
-    setValues(values => ({}))
+    setValues({});
   }
 
   return {

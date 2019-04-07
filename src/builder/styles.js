@@ -48,5 +48,24 @@ export default {
   },
   padded: {
     margin: '20px'
-  }
+  },
+  error: {
+    backgroundColor: '#FF6857',
+    marginLeft: '50%',
+    position: 'fixed',
+    marginLeft: '30%',
+    width: '35%',
+    top: '70px',
+  },
+  icon: {
+    fontSize: 20,
+    marginRight: '10px'
+  },
+  iconVariant: {
+    opacity: 0.9,
+  },
+  message: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }
