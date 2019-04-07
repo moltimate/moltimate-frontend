@@ -19,14 +19,19 @@ const useForm = (callback) => {
     data: null,
     complete: false,
     pending: false,
-    error: false
+    error: {
+      type: null,
+      message: null,
+    },
   });
   const [request, setRequest] = useState();
 
   const queryURL = 'http://localhost:8080/test/motif';
 
   const handleSubmit = (e) => {
-    if (e) event.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     /* Build the form data */
     const form_data = new FormData();
@@ -35,7 +40,11 @@ const useForm = (callback) => {
         form_data.append(key, dummyPayload[key]);
     }
 
-    if (!values) return;
+    if (!!values.pdbId) {
+      setResult({ ...results, error: { type: 'form', message: 'You must fill out the form.'} });
+      return;
+    };
+
     setResult({
       data: null,
       pending: true,
@@ -55,7 +64,10 @@ const useForm = (callback) => {
           setResult({
             data: null,
             pending: false,
-            error: true,
+            error: {
+              type: 'request',
+              message: 'The result could not be retrieve',
+            },
             complete: true
           })
         );
@@ -63,12 +75,15 @@ const useForm = (callback) => {
 
   const handleChange = (e) => {
     e.persist();
-    console.log('POTESOOSO')
     setValues(values => ({ ...values, [e.target.name]: e.target.value }));
   };
 
   const handleChipInput = (e) => {
     setValues(values => ({ ...values, testPdbIds: e}))
+  }
+
+  const handleFileUpload = (e) => {
+
   }
 
   // TODO this does not work
@@ -88,6 +103,7 @@ const useForm = (callback) => {
   return {
     handleChange,
     handleSubmit,
+    handleFileUpload,
     handleChipInput,
     handleResidues,
     handleClear,

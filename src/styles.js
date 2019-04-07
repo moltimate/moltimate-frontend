@@ -206,7 +206,7 @@ export default {
     zIndex: 10,
   },
   controlPanel: {
-    position: 'absolute',
+    marginTop: '64px',
     bottom: '10px',
     maxHeight: '90vh',
     overflow: 'scroll',

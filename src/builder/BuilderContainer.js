@@ -35,10 +35,6 @@ function BuilderContainer(props) {
   const [open, setOpen] = useState(false);
 
   function switchHandler(e, type) {
-    console.log('inside switch handler');
-    console.log(e);
-    console.log(type);
-
     switch(type) {
       case 0:
         handleChange(e);
@@ -54,6 +50,7 @@ function BuilderContainer(props) {
         break;
       case 4:
         handleSubmit();
+        
         setExpandBuild(false);
         setExpandResult(true);
         break;
@@ -68,14 +65,14 @@ function BuilderContainer(props) {
   // TODO error message wont Close
   return (
     <>
-      {result.error ? <SnackbarContent
+      {result.error.type === 'request' ? <SnackbarContent
         className={classes.error}
         open={open}
         onClose={() => setOpen(false)}
         message={
           <span id="client-snackbar" className={classes.message}>
             <ErrorIcon className={classes.icon}/>
-              There was an error with the query
+              {result.error.message}
             </span>
         }
         action={[

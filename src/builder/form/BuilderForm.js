@@ -61,8 +61,8 @@ function BuilderForm(props) {
         />
       </div>
       <div className={classes.floatButton}>
-        <Button className={classes.cancelButton} onClick={handleChange}>Clear</Button>
-        <Button className={classes.rounded} onClick={handleChange}>Run Test</Button>
+        <Button className={classes.cancelButton} onClick={(e) => handleChange(e, 5)}>Clear</Button>
+        <Button className={classes.rounded} onClick={(e) => handleChange(e, 4)}>Run Test</Button>
       </div>
   </div>
   );
