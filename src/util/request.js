@@ -41,7 +41,7 @@ const useForm = (callback) => {
     }
 
     if (!!values.pdbId) {
-      setResult({ ...results, error: { type: 'form', message: 'You must fill out the form.'} });
+      setResult({ ...results, error: { type: 100, message: 'You must fill out the form.'} });
       return;
     };
 
@@ -65,7 +65,7 @@ const useForm = (callback) => {
             data: null,
             pending: false,
             error: {
-              type: 'request',
+              type: 500,
               message: 'The result could not be retrieve',
             },
             complete: true
@@ -97,6 +97,13 @@ const useForm = (callback) => {
 
   // TODO this does not work
   const handleClear = (e) => {
+    setRequest({
+      ...result,
+      error: {
+        type: null,
+        message: null,
+      },
+    });
     setValues({});
   }
 

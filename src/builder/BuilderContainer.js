@@ -32,7 +32,7 @@ function BuilderContainer(props) {
   const { values, result, handleChange, handleClear, handleSubmit, handleChipInput, handleResidues } = useForm();
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   function switchHandler(e, type) {
     switch(type) {
@@ -50,7 +50,7 @@ function BuilderContainer(props) {
         break;
       case 4:
         handleSubmit();
-        
+
         setExpandBuild(false);
         setExpandResult(true);
         break;
@@ -65,10 +65,9 @@ function BuilderContainer(props) {
   // TODO error message wont Close
   return (
     <>
-      {result.error.type === 'request' ? <SnackbarContent
+      {result.error.type === 500 && open ? <SnackbarContent
         className={classes.error}
         open={open}
-        onClose={() => setOpen(false)}
         message={
           <span id="client-snackbar" className={classes.message}>
             <ErrorIcon className={classes.icon}/>
