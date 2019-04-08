@@ -24,7 +24,12 @@ export default function ResultItem(props) {
               </ListItemIcon>
               <ListItemText
                 primary={r.queryPdbId}
-                secondary={`RMSD ${r.rmsd ? r.rmsd.toFixed(4) : ''}`}
+                secondary={`EC ${r.queryEcNumber}`}
+
+              />
+              <ListItemText
+                primary='RMSD'
+                secondary={`${r.rmsd ? r.rmsd.toFixed(4) : ''}`}
               />
             </ListItem>
           )
