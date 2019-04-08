@@ -20,6 +20,7 @@ import BuilderForm from './form/BuilderForm';
 import ResultsBox from './results/ResultsBox';
 import MenuCard from './MenuCard';
 import ErrorBar from '../common/ErrorBar';
+import ResultDetails from '../common/ResultDetails';
 
 import classNames from 'classnames';
 import styles from './styles.js';
@@ -96,6 +97,9 @@ function BuilderContainer(props) {
           cardChild={<ResultsBox results={result.data} handleSelectedResult={handleSelectedResult}/>}
           childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
         /> : null
+      }
+      {
+        selectedResult ? <ResultDetails motifPdbId={result.data.motifPdbId} activeSiteResidues={result.data.activeSiteResidues} compare={selectedResult}/> : null
       }
     </>
   );
