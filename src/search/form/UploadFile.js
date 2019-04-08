@@ -31,6 +31,7 @@ function UploadFile(props) {
       <label htmlFor="contained-button-file">
         <Button
           variant="contained"
+          color='secondary'
           component="span"
           children={buttonText}
         >

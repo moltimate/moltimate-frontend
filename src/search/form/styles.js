@@ -27,7 +27,6 @@ export default {
   search: {
     width: '375px',
     marginTop: '10px',
-    background: '#F9F9F9',
   },
   smallInput: {
     width: '100px'

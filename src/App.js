@@ -9,11 +9,15 @@ import Handle404 from './landing/Handle404';
 import Publications from './landing/Publications';
 import MoltimateContainer from './MoltimateContainer';
 
-import { theme } from './theme';
+import theme from './theme';
 import './app.css';
+
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 
 const App = () => (
   <MuiThemeProvider theme={theme}>
+    <CssBaseline />
     <BrowserRouter>
       <Route exact path='/s' component={LandingContainer} />
       <Route exact path='/' component={MoltimateContainer} />

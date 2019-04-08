@@ -1,25 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import FailedResults from './FailedResults';
-import PassedResults from './PassedResults';
+import ResultItem from './ResultItem';
+import Filters from '../../filters/Filters';
 
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-
-import Card from '@material-ui/core/Card';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import RestoreIcon from '@material-ui/icons/Restore';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
 
 import classNames from 'classnames';
 import styles from '../styles.js';
@@ -31,18 +17,9 @@ function ResultsBox(props) {
 
   return (
     <div className={classes.container}>
-      <Tabs
-        value={value}
-        indicatorColor="secondary"
-        textColor="secondary"
-        onChange={() => setValue(value === 1 ? 0 : 1)}
-      >
-        <Tab  value={0} label="Passed" />
-        <Tab value={1} label="Failed" />
-      </Tabs>
-      {value === 1 ?
-        <FailedResults results={results.failedPdbIds} />: <PassedResults results={results.alignments}/>
-      }
+      <Filters />
+      <ResultItem results={results.alignments} isSuccess={true}/>
+      <ResultItem results={results.failedAlignments}/>
     </div>
   );
 }

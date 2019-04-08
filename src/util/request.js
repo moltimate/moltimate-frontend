@@ -1,19 +1,16 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import testMakerResponse from './testMakerResponse';
+
+// TODO make this a config file
 const queryURL = 'http://localhost:8080/test/motif';
 
-const dummyPayload = {
-  type: 'self',
-  pdbId: '1YPH',
-  ecNumber: '3.4.21.*',
-  activeSiteResidues: ['Ser E 195', 'Gly E 196', 'Gly E 193', 'Asp C 102', 'His C 57'],
-}
 
 const useForm = (callback) => {
   const [values, setValues] = useState({activeSiteResidues: [], type: 'self'});
   const [result, setResult] = useState({
-    data: null,
+    data: testMakerResponse,
     complete: false,
     pending: false,
     error: {
@@ -32,12 +29,9 @@ const useForm = (callback) => {
     const form_data = new FormData();
     for ( let key in values ) {
       if ( String(key) === 'activeSiteResidues') {
-        /*
         form_data.append(key, values.activeSiteResidues.map(a => {
           return `${a.residueName} ${a.residueChainName} ${a.residueId}`
         }));
-        */
-        form_data.append(key, ['Ser E 195','Gly E 196','Gly E 193','Asp C 102','His C 57']);
       } else {
         form_data.append(key, values[key]);
       }
@@ -49,6 +43,8 @@ const useForm = (callback) => {
       return;
     };
     */
+
+    console.log(testMakerResponse)
 
     setResult({
       data: null,
@@ -76,6 +72,7 @@ const useForm = (callback) => {
             complete: true
           })
         );
+
   };
 
   /* Generic input handleChange */

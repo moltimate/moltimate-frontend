@@ -101,7 +101,6 @@ function BuilderContainer(props) {
           />
         </Collapse>
       </Card>
-      { result.pending || result.complete || result.error ?
         <Card className={classNames(classes.search, classes.marginTop)} >
           <ListItem button onClick={() => setExpandResult(!expandResult)}>
             <ListItemIcon>
@@ -112,10 +111,9 @@ function BuilderContainer(props) {
             {expandResult ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={expandResult}>
-            <ResultsBox results={result}/>
+            <ResultsBox results={result.data}/>
           </Collapse>
-        </Card> : null
-      }
+        </Card>
     </>
   );
 }
