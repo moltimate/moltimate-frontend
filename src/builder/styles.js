@@ -15,10 +15,6 @@ export default {
     width: '75px',
     margin: '10px'
   },
-  container: {
-    width: '300px',
-    margin: '5% 10%'
-  },
   rounded: {
     borderRadius: 25,
     background: '#5433FF',

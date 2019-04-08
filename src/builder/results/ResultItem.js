@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import CheckCirclOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import BlockIcon from '@material-ui/icons/Block';
-
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -15,7 +14,10 @@ export default function ResultItem(props) {
       <>
         { results.map((r, k) => {
           return (
-            <ListItem key={k}>
+            <ListItem
+              button
+              key={k}
+            >
               <ListItemIcon>
                 { isSuccess ? <CheckCirclOutlineIcon style={{color: '#84C556'}}/>
                   : <BlockIcon color='error'/>
@@ -24,7 +26,6 @@ export default function ResultItem(props) {
               <ListItemText
                 primary={r.queryPdbId}
                 secondary={`EC ${r.queryEcNumber}`}
-
               />
               <div>
                 <ListItemText

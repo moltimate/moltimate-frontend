@@ -22,7 +22,7 @@ export default function Filters() {
   const id = open ? 'ecNumberFilter' : null;
 
   return (
-    <>
+    <div style={{margin: '5% 10%'}}>
       <Typography color="textSecondary">Filters:</Typography>
         <FilterButton
           buttonTitle='EC Class'
@@ -40,7 +40,7 @@ export default function Filters() {
           popoverContent={pdbId}
         />
       <Divider />
-    </>
+    </div>
   );
 }
 
