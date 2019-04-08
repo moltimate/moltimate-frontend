@@ -25,7 +25,7 @@ function MenuCard(props) {
         <ListItemText inset primary={label} />
         {expand ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      <Collapse in={expand}>
+      <Collapse in={expand} className={classes.scrolling}>
         {cardChild}
       </Collapse>
     </Card>

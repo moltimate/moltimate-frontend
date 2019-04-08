@@ -3,7 +3,6 @@ export default {
     width: '375px',
     marginTop: '10px',
     maxHeight: '400px',
-    overflow: 'scroll'
   },
   cyanBackground: {
     background: '#2AF598',
@@ -37,6 +36,7 @@ export default {
     display: 'flex',
     justifyContent: 'center',
     margin: '10px 0',
+    overflow: 'scroll'
   },
   grey: {
     color: 'rgba(0, 0, 0, 0.54)'
@@ -46,6 +46,10 @@ export default {
   },
   builderContainer: {
     margin: '5% 10%'
+  },
+  scrolling: {
+    maxHeight: '500px',
+    overflow: 'scroll'
   }
 
 }
