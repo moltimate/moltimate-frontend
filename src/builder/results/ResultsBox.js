@@ -6,6 +6,7 @@ import Filters from '../../filters/Filters';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import List from '@material-ui/core/List';
 
 import classNames from 'classnames';
 import styles from '../styles.js';
@@ -18,8 +19,10 @@ function ResultsBox(props) {
   return (
     <div className={classes.container}>
       <Filters />
-      <ResultItem results={results.alignments} isSuccess={true}/>
-      <ResultItem results={results.failedAlignments}/>
+      <List>
+        <ResultItem results={results.alignments} isSuccess={true}/>
+        <ResultItem results={results.failedAlignments}/>
+      </List>
     </div>
   );
 }
