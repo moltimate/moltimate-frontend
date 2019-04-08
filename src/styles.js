@@ -206,11 +206,13 @@ export default {
     zIndex: 10,
   },
   controlPanel: {
-    marginTop: '64px',
-    bottom: '10px',
-    maxHeight: '90vh',
-    overflow: 'scroll',
+    left: '5px',
     width: '400px',
-    padding: '10px'
+    padding: '10px',
+    overflow: 'scroll',
+    display: 'inline',
+    position: 'relative',
+    top: '30px',
+    maxHeight: '90vh',
   }
 };

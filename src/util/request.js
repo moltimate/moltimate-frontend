@@ -6,7 +6,6 @@ import testMakerResponse from './testMakerResponse';
 // TODO make this a config file
 const queryURL = 'http://localhost:8080/test/motif';
 
-
 const useForm = (callback) => {
   const [values, setValues] = useState({activeSiteResidues: [], type: 'self'});
   const [result, setResult] = useState({
@@ -43,8 +42,6 @@ const useForm = (callback) => {
       return;
     };
     */
-
-    console.log(testMakerResponse)
 
     setResult({
       data: null,
@@ -102,16 +99,21 @@ const useForm = (callback) => {
   /* Clears the values of state */
   const handleClearValues = (e) => {
     setValues({activeSiteResidues: [], type: 'self'});
+    setResult({
+      data: null,
+      complete: false,
+      pending: false,
+      error: {
+        type: null,
+        message: null,
+      },
+    });
   }
 
   const handleFileDelete = (value, x, key) => {
     const copy = values[key].filter((f) => {
       return f.name !== value;
     });
-
-    console.log(copy)
-
-    // const v = values[key].length > 1 ? values[key].filter(f => f.name) : [];
     setValues(values => ({ ...values, [key]: copy}));
   }
 

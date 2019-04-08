@@ -7,6 +7,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Breadcrumbs from '@material-ui/lab/Breadcrumbs';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import InvertColorsIcon from '@material-ui/icons/InvertColors';
+import IconButton from '@material-ui/core/IconButton';
+
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -16,17 +19,15 @@ import styles from './styles';
 
 function TopBar(props) {
   const { classes, compare, base } = props;
-  const crumbs = ['Search'];
-  crumbs.push(compare, base);
 
   return (
     <AppBar className={classNames(classes.purpleGradient, classes.topLayer)}>
       <Toolbar>
         <Typography className={classes.title}>MOLTIMATE</Typography>
         <div className={classes.wide}>
-          <Link to="/">
-            <ExitToAppIcon className={classNames(classes.floatRight, classes.white)}/>
-          </Link>
+          <IconButton className={classes.floatRight} onClick={() => console.log('temp')}>
+            <InvertColorsIcon className={classNames(classes.floatRight, classes.white)}/>
+          </IconButton>
         </div>
       </Toolbar>
     </AppBar>
@@ -35,8 +36,6 @@ function TopBar(props) {
 
 TopBar.propTypes = {
   classes: PropTypes.object.isRequired,
-  compare: PropTypes.string,
-  base: PropTypes.string
 };
 
 export default withStyles(styles)(TopBar);

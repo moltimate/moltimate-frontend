@@ -8,7 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 export default function ResultItem(props) {
-  const { results, isSuccess } = props;
+  const { results, isSuccess, handleSelectedResult } = props;
 
     return (
       <>
@@ -16,6 +16,7 @@ export default function ResultItem(props) {
           return (
             <ListItem
               button
+              onClick={(e) => handleSelectedResult(e, r.queryPdbId)}
               key={k}
             >
               <ListItemIcon>
@@ -43,6 +44,7 @@ export default function ResultItem(props) {
 
 ResultItem.propTypes = {
   results: PropTypes.array,
+  handleSelectedResult: PropTypes.func
 };
 
 ResultItem.defaultProps = {

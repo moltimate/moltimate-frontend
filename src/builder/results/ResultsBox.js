@@ -13,15 +13,15 @@ import styles from '../styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function ResultsBox(props) {
-  const { classes, results } = props;
+  const { classes, results, handleSelectedResult } = props;
   const [value, setValue] = useState(0);
 
   return (
     <div className={classes.container}>
       <Filters />
       <List>
-        <ResultItem results={results.alignments} isSuccess={true}/>
-        <ResultItem results={results.failedAlignments}/>
+        <ResultItem handleSelectedResult={handleSelectedResult} results={results.alignments} isSuccess={true}/>
+        <ResultItem handleSelectedResult={handleSelectedResult} results={results.failedAlignments}/>
       </List>
     </div>
   );
@@ -29,6 +29,11 @@ function ResultsBox(props) {
 
 ResultsBox.propTypes = {
   classes: PropTypes.object,
+  handleSelectedResult: PropTypes.func
 };
+
+ResultsBox.defaultProps = {
+  results: {}
+}
 
 export default withStyles(styles)(ResultsBox);

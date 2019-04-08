@@ -36,7 +36,7 @@ function BuilderForm(props) {
   }
 
   return (
-    <div className={classes.container}>
+    <div className={classes.builderContainer}>
       <ProteinOptions handleChange={handleChange} values={values} />
       <Divider className={classes.padded}/>
       <FormLabel component='legend'>Active Sites</FormLabel>

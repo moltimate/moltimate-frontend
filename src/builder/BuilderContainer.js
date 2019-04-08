@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import useForm from '../util/request';
 
 import BuildIcon from '@material-ui/icons/Build';
-import Card from '@material-ui/core/Card';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseIcon from '@material-ui/icons/Close';
-import Collapse from '@material-ui/core/Collapse';
 import ErrorIcon from '@material-ui/icons/Error';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -20,20 +18,29 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 import BuilderForm from './form/BuilderForm';
 import ResultsBox from './results/ResultsBox';
+import MenuCard from './MenuCard';
+import ErrorBar from '../common/ErrorBar';
 
 import classNames from 'classnames';
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
-
-
 function BuilderContainer(props) {
   const { classes } = props;
   const { values, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete } = useForm();
+
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
   const [open, setOpen] = useState(true);
+  const [selectedResult, setSelectedResult] = useState(null);
+
+  function handleSelectedResult(e, pdbId) {
+    const temp = result.data.alignments.filter(a => {
+      return a.queryPdbId === pdbId;
+    })
+    setSelectedResult(temp[0]);
+  }
 
   function switchHandler(e, type, extra) {
     switch(type) {
@@ -65,55 +72,31 @@ function BuilderContainer(props) {
       };
   }
 
-  // TODO error message wont Close
   return (
     <>
-      {result.error.type === 500 && open ? <SnackbarContent
-        className={classes.error}
-        open={open}
-        message={
-          <span id="client-snackbar" className={classes.message}>
-            <ErrorIcon className={classes.icon}/>
-              {result.error.message}
-            </span>
-        }
-        action={[
-          <IconButton
-            key="close"
-            onClick={() => setOpen(false)}
-          >
-            <CloseIcon />
-          </IconButton>,
-        ]}
-          /> : null}
-      <Card className={classNames(classes.search, classes.marginTop)} >
-        <ListItem button onClick={() => setExpandBuild(!expandBuild)}>
-          <ListItemIcon>
-            <BuildIcon />
-          </ListItemIcon>
-          <ListItemText inset primary='Maker' />
-          {expandBuild ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={expandBuild}>
-          <BuilderForm
-            values={values}
-            handleChange={switchHandler}
-          />
-        </Collapse>
-      </Card>
-        <Card className={classNames(classes.search, classes.marginTop)} >
-          <ListItem button onClick={() => setExpandResult(!expandResult)}>
-            <ListItemIcon>
-              {result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
-            </ListItemIcon>
-            <ListItemText
-              inset primary='Test Results' />
-            {expandResult ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={expandResult}>
-            <ResultsBox results={result.data}/>
-          </Collapse>
-        </Card>
+      {result.error.type === 500 && open ?
+        <ErrorBar
+          open={open}
+          message={result.error.message}
+          handleClose={setOpen}
+        /> : null
+      }
+      <MenuCard
+        label='Maker'
+        expand={expandBuild}
+        handleClick={setExpandBuild}
+        cardChild={<BuilderForm values={values} handleChange={switchHandler} />}
+        childIcon={<BuildIcon />}
+      />
+      {
+        result.data ? <MenuCard
+          label='Test Results'
+          expand={expandResult}
+          handleClick={setExpandResult}
+          cardChild={<ResultsBox results={result.data} handleSelectedResult={handleSelectedResult}/>}
+          childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
+        /> : null
+      }
     </>
   );
 }
