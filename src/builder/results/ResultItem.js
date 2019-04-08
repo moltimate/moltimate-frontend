@@ -26,10 +26,13 @@ export default function ResultItem(props) {
                 secondary={`EC ${r.queryEcNumber}`}
 
               />
-              <ListItemText
-                primary='RMSD'
-                secondary={`${r.rmsd ? r.rmsd.toFixed(4) : 'unknown'}`}
-              />
+              <div>
+                <ListItemText
+                  style={{float: 'right'}}
+                  primary='RMSD'
+                  secondary={`${r.rmsd ? r.rmsd.toFixed(4) : 'n/a'}`}
+                />
+              </div>
             </ListItem>
           )
         })}
