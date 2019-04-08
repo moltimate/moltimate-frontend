@@ -29,7 +29,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 function BuilderContainer(props) {
   const { classes } = props;
-  const { values, result, handleChange, handleClear, handleSubmit, handleChipInput, handleResidues } = useForm();
+  const { values, result, handleChange, handleClearValues, handleSubmit, handleChipInput, handleResidues } = useForm();
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
   const [open, setOpen] = useState(true);
@@ -50,12 +50,11 @@ function BuilderContainer(props) {
         break;
       case 4:
         handleSubmit();
-
         setExpandBuild(false);
         setExpandResult(true);
         break;
       case 5:
-        handleClear()
+        handleClearValues()
         break;
       default:
         break;

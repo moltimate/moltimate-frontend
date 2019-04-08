@@ -16,7 +16,6 @@ export default class ProteinContainer extends React.Component {
 
   render() {
     const key = `${this.props.base}${!!this.props.compare ? this.props.compare.motifPdbId : ''}`;
-    console.log(this.props);
     return (
       <div key={key} id="viewport" style={{width: '100%', height: '90vh'}} />
     );

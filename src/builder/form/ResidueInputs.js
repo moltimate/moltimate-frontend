@@ -22,7 +22,7 @@ const labels = [
 ]
 
 function ResidueInputs(props) {
-  const { classes, handleResidues, id } = props;
+  const { classes, handleChange, id, residues } = props;
 
   return (
     <span>
@@ -30,9 +30,11 @@ function ResidueInputs(props) {
         return (<TextField
           key={key}
           id={id}
+          name={i.id}
           className={classes.narrowInput}
-          onChange={handleResidues}
+          onChange={(e) => handleChange(e, 2)}
           placeholder={i.label}
+          value={residues[i.id] || ''}
         />)
       })}
     </span>
@@ -42,7 +44,7 @@ function ResidueInputs(props) {
 
 ResidueInputs.propTypes = {
   classes: PropTypes.object,
-  handleResidues: PropTypes.func,
+  handleChange: PropTypes.func,
   id: PropTypes.string
 };
 

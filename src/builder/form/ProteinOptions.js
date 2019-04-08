@@ -12,7 +12,7 @@ import styles from '../styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function ProteinOptions(props) {
-  const { classes, handleChange } = props
+  const { classes, handleChange, values } = props;
   const [value, setValue] = useState('standard');
 
   return (
@@ -39,13 +39,15 @@ function ProteinOptions(props) {
       />
       {value === 'standard' ? <div className={classes.inline}>
         <TextField
-          name='pdbid'
+          name='pdbId'
           className={classes.narrowInput}
           onChange={e => handleChange(e, 0)}
+          value={values.pdbId || ''}
           label='PDB Id'
         />
         <TextField
-          name='ecClass'
+          name='ecNumber'
+          value={values.ecNumber || ''}
           onChange={e => handleChange(e, 0)}
           className={classes.narrowInput}
           label='EC Class'

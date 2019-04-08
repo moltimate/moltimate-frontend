@@ -30,14 +30,14 @@ function BuilderForm(props) {
     num = num < MIN_RESIDUE ? MIN_RESIDUE : num;
 
     for(let i=0; i < num ; i++ ){
-      inputs.push(<ResidueInputs key={i} id={`${i}`} handleResidues={handleChange}/>)
+      inputs.push(<ResidueInputs key={i} id={`${i}`} handleChange={handleChange} residues={values.activeSiteResidues[i] || []}/>)
     }
     return inputs;
   }
 
   return (
     <div className={classes.container}>
-      <ProteinOptions handleChange={handleChange}/>
+      <ProteinOptions handleChange={handleChange} values={values} />
       <Divider className={classes.padded}/>
       <FormLabel component='legend'>Active Sites</FormLabel>
       <div>
@@ -57,7 +57,7 @@ function BuilderForm(props) {
       <div>
         <TestOptions
           handleChange={handleChange}
-          type={values.type}
+          values={values}
         />
       </div>
       <div className={classes.floatButton}>

@@ -4,7 +4,7 @@ import axios from 'axios';
 const headers = {
   'X-Requested-With': 'XMLHttpRequest',
   'Content-Type': 'multipart/form-data'
- }
+}
 
 const dummyPayload = {
   type: 'self',
@@ -35,7 +35,6 @@ const useForm = (callback) => {
 
     /* Build the form data */
     const form_data = new FormData();
-
     for ( let key in dummyPayload ) {
         form_data.append(key, dummyPayload[key]);
     }
@@ -73,38 +72,33 @@ const useForm = (callback) => {
         );
   };
 
+  /* Generic input handleChange */
   const handleChange = (e) => {
     e.persist();
     setValues(values => ({ ...values, [e.target.name]: e.target.value }));
   };
 
+  /* Chipinput API only returns the value, not a full event */
   const handleChipInput = (e) => {
     setValues(values => ({ ...values, testPdbIds: e}))
   }
 
+  // TODO
   const handleFileUpload = (e) => {
 
   }
 
-  // TODO this does not work
+  /* Use this to create alignment objects for active site residue array */
   const handleResidues = (e) => {
     e.persist();
-    // activeSiteResidues = [ { res: '', chain: '', id: ''} , {} , {}]
-    // e.target.id => index
-    // e.target.value => value
-    // e.target.name => key
+    const copy = values.activeSiteResidues;
+    copy[e.target.id] = { ...copy[e.target.id], [e.target.name]: e.target.value};
+    setValues(values => ({ ...values, activeSiteResidues: copy}));
   }
 
-  // TODO this does not work
-  const handleClear = (e) => {
-    setRequest({
-      ...result,
-      error: {
-        type: null,
-        message: null,
-      },
-    });
-    setValues({});
+  /* Clears the values of state */
+  const handleClearValues = (e) => {
+    setValues({activeSiteResidues: []});
   }
 
   return {
@@ -113,7 +107,7 @@ const useForm = (callback) => {
     handleFileUpload,
     handleChipInput,
     handleResidues,
-    handleClear,
+    handleClearValues,
     values,
     result
   }

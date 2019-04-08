@@ -84,7 +84,6 @@ function SearchContainer(props) {
 
   // Builds the query
   function createQuery() {
-      console.log('calling create query')
       postQuery({
         pdbIds,
         ecMask,
