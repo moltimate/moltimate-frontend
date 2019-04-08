@@ -3,7 +3,7 @@ export default {
     width: '375px',
     marginTop: '10px',
     background: '#F9F9F9',
-    maxHeight: '500px',
+    maxHeight: '400px',
     overflow: 'scroll'
   },
   cyanBackground: {

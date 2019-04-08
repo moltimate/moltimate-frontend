@@ -1,45 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import FormLabel from '@material-ui/core/FormLabel';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
+import Chip from '@material-ui/core/Chip';
+import CloseIcon from '@material-ui/icons/Close';
+
+import NameChips from './NameChips';
 
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 
 function UploadFile(props) {
-  const { classes, label, buttonText } = props;
+  const { classes, label, buttonText, inputName, handleChange, files } = props;
 
   return (
     <div className={classes.upload}>
-      <FormLabel component='legend'>{label}</FormLabel>
+      <FormLabel className={classes.label} component='legend'>{label}</FormLabel>
       <input
-        accept="motif"
+        accept="*"
         className={classes.input}
         id="contained-button-file"
+        name={inputName}
+        multiple
         type="file"
-        onChange={props.handleUpload}
+        onChange={(e) => handleChange(e, 3)}
       />
       <label htmlFor="contained-button-file">
         <Button
-          className={classes.button}
           variant="contained"
           component="span"
           children={buttonText}
         >
+          <GetAppIcon className={classes.rotate}/>
           {`${buttonText}`}
         </Button>
       </label>
+      <NameChips elements={files} handleDelete={handleChange} inputName={inputName}/>
     </div>
   );
 }
 
 UploadFile.propTypes = {
   classes: PropTypes.object,
-  handleUpload: PropTypes.func
+  handleChange: PropTypes.func,
+  inputName: PropTypes.string
 };
 
 export default withStyles(styles)(UploadFile);

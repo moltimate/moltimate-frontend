@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -31,8 +30,14 @@ function TestOptions(props) {
         <FormControlLabel value='list' control={<Radio />} label='List'/>
       </RadioGroup>
       {values.type === 'list' ? <ChipWithIcon nameVal='testPdbIds' handleChipInput={(e) => handleChange(e, 0)}/> : null}
-      {values.type === 'random' ? <TextField required type='number' name='randomCount' label='Amount' value={values.randomCount} onChange={handleChange}/> : null}
-      <UploadFile handleUpload={() => console.log("Input changed")} label='Custom Structures' buttonText='Upload'/>
+      {values.type === 'random' ? <TextField required type='number' name='randomCount' label='Amount' value={values.randomCount} onChange={(e) => handleChange(e, 0)}/> : null}
+      <UploadFile
+        handleChange={handleChange}
+        label='Custom Structures'
+        inputName='customStructures'
+        buttonText='Upload'
+        files={values.customStructures}
+      />
     </FormControl>
   );
 }

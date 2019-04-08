@@ -51,7 +51,6 @@ function QueryFormContainer(props) {
             id='precision'
             label='Precision'/>
           <Slide handleChange={() => console.log("Input changed")}/>
-          <UploadFile handleUpload={() => console.log("Input changed")} label='Custom Motifs'/>
 
           <div className={classes.floatButton}>
             <Button className={classes.cancelButton}>Clear</Button>

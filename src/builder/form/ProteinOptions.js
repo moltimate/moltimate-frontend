@@ -53,7 +53,14 @@ function ProteinOptions(props) {
           label='EC Class'
         />
       </div> : <></>}
-      {value === 'custom' ? <UploadFile handleUpload={(e) => handleChange(e, 3)} label='' buttonText='Custom Structure'/>: <></>}
+      {value === 'custom' ?
+        <UploadFile
+          handleChange={handleChange}
+          label=''
+          inputName='customMotifStructure'
+          buttonText='Custom Structure'
+          files={values.customMotifStructure}
+        />: <></>}
     </>
   );
 }

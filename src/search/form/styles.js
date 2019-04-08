@@ -2,11 +2,15 @@ export default {
   upload: {
     marginTop: '10px',
   },
+  label: {
+    marginBottom: '20px'
+  },
   input: {
     display: 'none',
   },
   button: {
     margin: '10px',
+    height: '50px',
     background: '#20BDFF',
     color: 'white'
   },
@@ -38,4 +42,7 @@ export default {
     borderRadius: 25,
     padding: '10px 20px',
   },
+  rotate: {
+    transform: 'rotate(180deg)'
+  }
 }

@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const headers = {
-  'X-Requested-With': 'XMLHttpRequest',
-  'Content-Type': 'multipart/form-data'
-}
+const queryURL = 'http://localhost:8080/test/motif';
 
 const dummyPayload = {
   type: 'self',
@@ -14,7 +11,7 @@ const dummyPayload = {
 }
 
 const useForm = (callback) => {
-  const [values, setValues] = useState({activeSiteResidues: []});
+  const [values, setValues] = useState({activeSiteResidues: [], type: 'self'});
   const [result, setResult] = useState({
     data: null,
     complete: false,
@@ -25,24 +22,33 @@ const useForm = (callback) => {
     },
   });
   const [request, setRequest] = useState();
-
-  const queryURL = 'http://localhost:8080/test/motif';
+  const [formStatus, setFormStatus] = useState();
 
   const handleSubmit = (e) => {
     if (e) {
       e.preventDefault();
     }
 
-    /* Build the form data */
     const form_data = new FormData();
-    for ( let key in dummyPayload ) {
-        form_data.append(key, dummyPayload[key]);
+    for ( let key in values ) {
+      if ( String(key) === 'activeSiteResidues') {
+        /*
+        form_data.append(key, values.activeSiteResidues.map(a => {
+          return `${a.residueName} ${a.residueChainName} ${a.residueId}`
+        }));
+        */
+        form_data.append(key, ['Ser E 195','Gly E 196','Gly E 193','Asp C 102','His C 57']);
+      } else {
+        form_data.append(key, values[key]);
+      }
     }
 
-    if (!!values.pdbId) {
-      setResult({ ...results, error: { type: 100, message: 'You must fill out the form.'} });
+    /*
+    if (Object.keys(values).) {
+      setResult({ ...result, error: { type: 100, message: 'You must fill out the form.'} });
       return;
     };
+    */
 
     setResult({
       data: null,
@@ -50,10 +56,10 @@ const useForm = (callback) => {
       error: false,
       complete: false
     });
+
     axios.post(queryURL, form_data)
       .then(result =>
         setResult({
-          headers,
           data: result.data,
           pending: false,
           error: false,
@@ -85,7 +91,7 @@ const useForm = (callback) => {
 
   // TODO
   const handleFileUpload = (e) => {
-
+    setValues(values => ({ ...values, [e.target.name]: Array.from(e.target.files)}));
   }
 
   /* Use this to create alignment objects for active site residue array */
@@ -98,7 +104,18 @@ const useForm = (callback) => {
 
   /* Clears the values of state */
   const handleClearValues = (e) => {
-    setValues({activeSiteResidues: []});
+    setValues({activeSiteResidues: [], type: 'self'});
+  }
+
+  const handleFileDelete = (value, x, key) => {
+    const copy = values[key].filter((f) => {
+      return f.name !== value;
+    });
+
+    console.log(copy)
+
+    // const v = values[key].length > 1 ? values[key].filter(f => f.name) : [];
+    setValues(values => ({ ...values, [key]: copy}));
   }
 
   return {
@@ -108,6 +125,7 @@ const useForm = (callback) => {
     handleChipInput,
     handleResidues,
     handleClearValues,
+    handleFileDelete,
     values,
     result
   }

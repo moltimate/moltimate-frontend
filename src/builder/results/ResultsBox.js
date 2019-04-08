@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 
 import Card from '@material-ui/core/Card';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -29,8 +31,13 @@ function ResultsBox(props) {
 
   return (
     <div className={classes.container}>
-      <Tabs value={value} indicatorColor="primary" onChange={() => setValue(value === 1 ? 0 : 1)}>
-        <Tab value={0} label="Passed" />
+      <Tabs
+        value={value}
+        indicatorColor="secondary"
+        textColor="secondary"
+        onChange={() => setValue(value === 1 ? 0 : 1)}
+      >
+        <Tab  value={0} label="Passed" />
         <Tab value={1} label="Failed" />
       </Tabs>
       {value === 1 ?

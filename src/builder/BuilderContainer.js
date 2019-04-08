@@ -29,12 +29,13 @@ import { withStyles } from '@material-ui/core/styles';
 
 function BuilderContainer(props) {
   const { classes } = props;
-  const { values, result, handleChange, handleClearValues, handleSubmit, handleChipInput, handleResidues } = useForm();
+  const { values, result, handleChange, handleClearValues, handleSubmit,
+    handleChipInput, handleResidues, handleFileUpload, handleFileDelete } = useForm();
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
   const [open, setOpen] = useState(true);
 
-  function switchHandler(e, type) {
+  function switchHandler(e, type, extra) {
     switch(type) {
       case 0:
         handleChange(e);
@@ -46,7 +47,7 @@ function BuilderContainer(props) {
         handleResidues(e);
         break;
       case 3:
-        handleUpload(e);
+        handleFileUpload(e);
         break;
       case 4:
         handleSubmit();
@@ -54,7 +55,10 @@ function BuilderContainer(props) {
         setExpandResult(true);
         break;
       case 5:
-        handleClearValues()
+        handleClearValues(e)
+        break;
+      case 6:
+        handleFileDelete(e, type, extra);
         break;
       default:
         break;
@@ -104,7 +108,7 @@ function BuilderContainer(props) {
               {result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
             </ListItemIcon>
             <ListItemText
-              inset primary='Maker Results' />
+              inset primary='Test Results' />
             {expandResult ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={expandResult}>
