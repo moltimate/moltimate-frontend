@@ -99,7 +99,7 @@ function BuilderContainer(props) {
         /> : null
       }
       {
-        selectedResult ? <ResultDetails motifPdbId={result.data.motifPdbId} activeSiteResidues={result.data.activeSiteResidues} compare={selectedResult}/> : null
+        selectedResult ? <ResultDetails motifPdbId={result.data.motifPdbId} activeSiteResidues={result.data.activeSiteResidues} motifEC={result.data.motifEcNumber} compare={selectedResult}/> : null
       }
     </>
   );

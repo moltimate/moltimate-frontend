@@ -52,36 +52,35 @@ const styles = {
 };
 
 function ResultDetails(props) {
-  const { classes, compare, activeSiteResidues, motifPdbId } = props;
+  const { classes, compare, activeSiteResidues, motifPdbId, motifEC } = props;
 
   return (
     <Card className={classes.card}>
       <CardContent>
-        <ListItem>
-          <Tooltip
-            placement="right"
-            interactive
-            title={
-                <CopyToClipboard text={compare.rmsd}>
-                  <Button
-                    className={classes.white}
-                    variant='outlined'
-                  >
-                    <FileCopyIcon className={classes.fileIcon}/>
-                    {compare.rmsd}
-                  </Button>
-                </CopyToClipboard>
-            }>
+        <div style={{display: 'flex'}}>
+          <ListItem>
             <ListItemText
-              primary='RMSD'
-              secondary={compare.rmsd.toFixed(4)}
+              primary={
+                <>
+                  <Typography variant='subtitle2' color='primary'>Query</Typography>
+                  <Typography variant='body2'>EC Class</Typography>
+                </>
+              }
+              secondary={compare.queryEcNumber}
             />
-          </Tooltip>
-          <ListItemText
-            primary='EC Class'
-            secondary={compare.queryEcNumber}
-          />
-        </ListItem>
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              primary={
+                <>
+                  <Typography color='primary'>Motif</Typography>
+                  <Typography variant='body2'>EC Class</Typography>
+                </>
+              }
+              secondary={motifEC}
+            />
+          </ListItem>
+        </div>
         <div style={{display: 'flex'}}>
           <ListItem>
             <ListItemText
@@ -91,14 +90,16 @@ function ResultDetails(props) {
                   href={`https://www.rcsb.org/structure/${compare.queryPdbId}`}
                   target="_blank"
                 >
-                  {compare.queryPdbId}
-                  <InfoIcon color="disabled" className={classes.icon}/>
+                  <Typography variant='body2'>
+                    {compare.queryPdbId}
+                    <InfoIcon color="disabled" className={classes.icon}/>
+                  </Typography>
                 </a>
               }
               secondary={compare.alignedResidues.map((r, k) => {
                 return (
-                  <Typography key={k} className={classes.title} color="textSecondary" >
-                    {r.identifier}
+                  <Typography key={k} variant='body2' component={'span'} className={classes.title} color="textSecondary" >
+                    {r.identifier.toUpperCase()}
                   </Typography>
                 )})}
               />
@@ -111,17 +112,42 @@ function ResultDetails(props) {
                   href={`https://www.rcsb.org/structure/${motifPdbId}`}
                   target="_blank"
                 >
-                  {motifPdbId}
-                  <InfoIcon color="disabled" className={classes.icon}/>
+                  <Typography variant='body2'>
+                    {motifPdbId}
+                    <InfoIcon color="disabled" className={classes.icon}/>
+                  </Typography>
                 </a>
               }
               secondary={activeSiteResidues.map((r, k) => {
                 return (
-                  <Typography key={k} className={classes.title} color="textSecondary" >
-                    {r.identifier}
+                  <Typography variant='body2' component={'span'} key={k} className={classes.title} color="textSecondary" >
+                    {r.identifier.toUpperCase()}
                   </Typography>
                 )})}
               />
+          </ListItem>
+        </div>
+        <div style={{display: 'flex'}}>
+          <ListItem>
+            <Tooltip
+              placement="right"
+              interactive
+              title={
+                  <CopyToClipboard text={compare.rmsd}>
+                    <Button
+                      className={classes.white}
+                      variant='outlined'
+                    >
+                      <FileCopyIcon className={classes.fileIcon}/>
+                      {compare.rmsd}
+                    </Button>
+                  </CopyToClipboard>
+              }>
+              <ListItemText
+                primary={<Typography variant='body2'>RMSD</Typography>}
+                secondary={compare.rmsd.toFixed(4)}
+              />
+            </Tooltip>
           </ListItem>
         </div>
       </CardContent>
