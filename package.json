@@ -1,43 +1,53 @@
 {
-  "name": "moltimate",
-  "version": "0.1.0",
-  "private": true,
+  "name": "Moltimate",
+  "version": "1",
+  "description": "sr project frontend ",
+  "main": "index.js",
+  "homepage": ".",
+  "author": "Shannon McIntosh",
+  "license": "MIT",
+  "engines": {
+  "node": ">=11.9.0"
+},
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-preset-env": "^1.6.1",
+    "eslint-import-resolver-webpack": "^0.11.0",
+    "eslint-plugin-import": "^2.16.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  },
   "dependencies": {
+<<<<<<< HEAD
     "@material-ui/core": "^3.2.2",
     "@material-ui/icons": "^3.0.1",
     "@material-ui/lab": "^3.0.0-alpha.30",
+=======
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-react": "^7.0.0",
+    "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "@material-ui/lab": "^3.0.0-alpha.30",
+    "@material-ui/styles": "^3.0.0-alpha.10",
+>>>>>>> dev
     "axios": "^0.18.0",
+    "css-loader": "^2.1.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
     "material-ui-chip-input": "1.0.0-beta.8",
+    "mini-css-extract-plugin": "^0.5.0",
     "ngl": "^0.10.4",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "2.0.5",
-    "react-select": "^2.1.1",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
+    "react-router-dom": "^5.0.0",
     "react-text-mask": "^5.4.3",
-    "redux-logger": "^3.0.6"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "devDependencies": {
-    "react-redux": "^5.0.7",
-    "redux": "^4.0.1",
-    "redux-actions": "^2.6.1",
-    "redux-devtools-extension": "^2.13.5",
-    "redux-form": "^7.4.2",
-    "redux-saga": "^0.16.2"
+    "webpack-dev-server": "^3.2.1"
   }
 }

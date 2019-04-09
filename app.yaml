@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Copyright 2017, Google, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,3 +29,24 @@ handlers:
     http_headers:
       Access-Control-Allow-Origin: https://moltimate-backend-dot-moltimate.appspot.com
 # [END gae_quickstart_yaml]
+=======
+runtime: nodejs
+env: flex
+
+# This sample incurs costs to run on the App Engine flexible environment.
+# The settings below are to reduce costs during testing and are not appropriate
+# for production use. For more information, see:
+# https://cloud.google.com/appengine/docs/flexible/nodejs/configuring-your-app-with-app-yaml
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+handlers:
+- url: /
+  static_files: build/index.html
+  upload: build/index.html
+- url: /
+  static_dir: build
+>>>>>>> dev
