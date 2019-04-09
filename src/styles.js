@@ -20,6 +20,13 @@ export default {
     display: 'flex',
     justifyContent: 'space-evenly',
   },
+  controlPanel: {
+    width: '375px',
+    padding: '0 0 0 10px',
+    position: 'fixed',
+    top: '70px',
+    left: '5px',
+  },
   // ABOUT END
 
   // GENERAL START
@@ -205,14 +212,4 @@ export default {
     position: 'fixed',
     zIndex: 10,
   },
-  controlPanel: {
-    left: '5px',
-    width: '400px',
-    padding: '10px',
-    overflow: 'scroll',
-    display: 'inline',
-    position: 'relative',
-    top: '30px',
-    maxHeight: '90vh',
-  }
 };

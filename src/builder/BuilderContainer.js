@@ -27,20 +27,19 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function BuilderContainer(props) {
-  const { classes } = props;
+  const { classes, selectedResult, handleSelectedResult } = props;
   const { values, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete } = useForm();
 
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
   const [open, setOpen] = useState(true);
-  const [selectedResult, setSelectedResult] = useState(null);
 
-  function handleSelectedResult(e, pdbId) {
+  function filterHandleSelectedResult(e, pdbId) {
     const temp = result.data.alignments.filter(a => {
       return a.queryPdbId === pdbId;
     })
-    setSelectedResult(temp[0]);
+    handleSelectedResult(e, temp[0], result.data.motifPdbId, result.data.activeSiteResidues);
   }
 
   function switchHandler(e, type, extra) {
@@ -94,12 +93,18 @@ function BuilderContainer(props) {
           label='Test Results'
           expand={expandResult}
           handleClick={setExpandResult}
-          cardChild={<ResultsBox results={result.data} handleSelectedResult={handleSelectedResult}/>}
+          cardChild={<ResultsBox results={result.data} handleSelectedResult={filterHandleSelectedResult}/>}
           childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
         /> : null
       }
       {
-        selectedResult ? <ResultDetails motifPdbId={result.data.motifPdbId} activeSiteResidues={result.data.activeSiteResidues} motifEC={result.data.motifEcNumber} compare={selectedResult}/> : null
+        selectedResult ? <ResultDetails
+          motifPdbId={result.data.motifPdbId}
+          activeSiteResidues={result.data.activeSiteResidues}
+          motifEC={result.data.motifEcNumber}
+          compare={selectedResult}
+          handleClose={() => setSelectedResult(null)}
+        /> : null
       }
     </>
   );

@@ -1,8 +1,7 @@
 export default {
   search: {
-    width: '375px',
-    marginTop: '10px',
-    maxHeight: '400px',
+    margin: '10px 0',
+    maxHeight: '500px'
   },
   cyanBackground: {
     background: '#2AF598',

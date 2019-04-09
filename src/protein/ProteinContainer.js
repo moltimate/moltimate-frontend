@@ -5,24 +5,26 @@ import { init } from './ngl-util';
 export default class ProteinContainer extends React.Component {
 
   componentDidUpdate(prevProps) {
-    const {base, compare} = this.props;
+    const {activeSites, motifPdbId, compare} = this.props;
 
     if (compare && prevProps.compare) {
-      if (compare.motifPdbId !== prevProps.compare.motifPdbId || base !== prevProps.base) {
-        init(base, compare);
+      if (compare.queryPdbId !== prevProps.compare.queryPdbId || motifPdbId !== prevProps.motifPdbId) {
+        init(motifPdbId, activeSites, compare);
       }
     }
+
   }
 
   render() {
-    const key = `${this.props.base}${!!this.props.compare ? this.props.compare.motifPdbId : ''}`;
+    const key = `${this.props.motifPdbId}${!!this.props.compare ? this.props.compare.queryPdbId : ''}`;
     return (
-      <div key={key} id="viewport" style={{width: '100%', height: '90vh'}} />
+      <div key={key} id="viewport" style={{width: '100%', height: '100vh'}} />
     );
   }
 }
 
 ProteinContainer.propTypes = {
-  base: PropTypes.string.isRequired,
+  motifPdbId: PropTypes.string.isRequired,
   compare: PropTypes.object.isRequired,
+  activeSites: PropTypes.array
 };

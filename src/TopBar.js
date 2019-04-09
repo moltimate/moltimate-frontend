@@ -7,6 +7,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Breadcrumbs from '@material-ui/lab/Breadcrumbs';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SettingsIcon from '@material-ui/icons/Settings';
+
 import InvertColorsIcon from '@material-ui/icons/InvertColors';
 import IconButton from '@material-ui/core/IconButton';
 
@@ -25,6 +27,9 @@ function TopBar(props) {
       <Toolbar>
         <Typography className={classes.title}>MOLTIMATE</Typography>
         <div className={classes.wide}>
+          <IconButton className={classes.floatRight} onClick={() => console.log('temp')}>
+            <SettingsIcon className={classNames(classes.floatRight, classes.white)}/>
+          </IconButton>
           <IconButton className={classes.floatRight} onClick={() => console.log('temp')}>
             <InvertColorsIcon className={classNames(classes.floatRight, classes.white)}/>
           </IconButton>

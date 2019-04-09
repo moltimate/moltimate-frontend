@@ -24,10 +24,6 @@ export default {
   spaced: {
     margin: '20px 0'
   },
-  search: {
-    width: '375px',
-    marginTop: '10px',
-  },
   smallInput: {
     width: '100px'
   },
@@ -43,5 +39,8 @@ export default {
   },
   rotate: {
     transform: 'rotate(180deg)'
+  },
+  search: {
+    margin: '10px 0'
   }
 }

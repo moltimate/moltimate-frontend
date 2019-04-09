@@ -1,6 +1,6 @@
 import * as NGL from 'ngl';
 
-export function init(base, compare) {
+export function init(motifPdbId, activeSites, compare) {
   // Setup to load data from rawgit
   NGL.DatasourceRegistry.add(
     'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
@@ -18,18 +18,21 @@ export function init(base, compare) {
   let select1 = '';
   let select2 = '';
 
+  console.log(compare);
+  console.log(activeSites);
+
   // Build the query with residue and chain pairs
   compare.alignedResidues.forEach((r) => { select1 = select1.concat(`${r.residueId}:${r.residueChainName} or `);});
-  compare.activeSiteResidues.forEach((r) => { select2 = select2.concat(`${r.residueId}:${r.residueChainName} or `);});
+  activeSites.forEach((r) => { select2 = select2.concat(`${r.residueId}:${r.residueChainName} or `);});
 
   Promise.all([
-    stage.loadFile(`rcsb://${base}`).then((o) => {
+    stage.loadFile(`rcsb://${motifPdbId}`).then((o) => {
       o.addRepresentation('ball+stick', { sele: select1, color: '#2AF598'});
       o.autoView();
       return o;
     }),
 
-    stage.loadFile(`rcsb://${compare.motifPdbId}`).then((o) => {
+    stage.loadFile(`rcsb://${compare.queryPdbId}`).then((o) => {
       o.addRepresentation('ball+stick', { sele: select2, color: '#20BDFF' });
       o.autoView();
       return o;
