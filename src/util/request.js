@@ -70,6 +70,8 @@ const useForm = (callback) => {
           })
         );
 
+        console.log(values);
+
   };
 
   /* Generic input handleChange */
@@ -79,8 +81,8 @@ const useForm = (callback) => {
   };
 
   /* Chipinput API only returns the value, not a full event */
-  const handleChipInput = (e) => {
-    setValues(values => ({ ...values, testPdbIds: e}))
+  const handleChipInput = (e, key) => {
+    setValues(values => ({ ...values, [key]: e}))
   }
 
   // TODO

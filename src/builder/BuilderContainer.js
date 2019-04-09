@@ -39,7 +39,7 @@ function BuilderContainer(props) {
     const temp = result.data.alignments.filter(a => {
       return a.queryPdbId === pdbId;
     })
-    handleSelectedResult(e, temp[0], result.data.motifPdbId, result.data.activeSiteResidues);
+    if ( result.data ) handleSelectedResult(e, temp[0], result.data.motifPdbId, result.data.activeSiteResidues);
   }
 
   function switchHandler(e, type, extra) {
@@ -48,7 +48,7 @@ function BuilderContainer(props) {
         handleChange(e);
         break;
       case 1:
-        handleChipInput(e);
+        handleChipInput(e, extra);
         break;
       case 2:
         handleResidues(e);
@@ -98,7 +98,7 @@ function BuilderContainer(props) {
         /> : null
       }
       {
-        selectedResult ? <ResultDetails
+        selectedResult && result.data ? <ResultDetails
           motifPdbId={result.data.motifPdbId}
           activeSiteResidues={result.data.activeSiteResidues}
           motifEC={result.data.motifEcNumber}
