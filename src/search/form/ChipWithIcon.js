@@ -7,20 +7,20 @@ import DoneIcon from '@material-ui/icons/Done';
 
 // TODO needing to press enter doesnt make sense
 export default function ChipWithIcon(props) {
+  const { handleChange, nameVal } = props;
   return (
     <ChipInput
       id='pdbIds'
-      defaultValue={[]}
-      name={props.nameVal}
+      name={nameVal}
       fullWidth
       label='PDB Names'
       placeholder='Press enter to add'
-      onChange={props.handleChipInput}
+      onChange={(e) => handleChange(e, 1)}
     />
   );
 }
 
 ChipWithIcon.propTypes = {
-  handleChipInput: PropTypes.func,
+  handleChange: PropTypes.func,
   nameVal: PropTypes.string
 };

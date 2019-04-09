@@ -29,8 +29,22 @@ function TestOptions(props) {
         <FormControlLabel value='random' control={<Radio />} label='Random' />
         <FormControlLabel value='list' control={<Radio />} label='List'/>
       </RadioGroup>
-      {values.type === 'list' ? <ChipWithIcon nameVal='testPdbIds' handleChipInput={(e) => handleChange(e, 0)}/> : null}
-      {values.type === 'random' ? <TextField required type='number' name='randomCount' label='Amount' value={values.randomCount} onChange={(e) => handleChange(e, 0)}/> : null}
+      {values.type === 'list' ?
+        <ChipWithIcon
+          nameVal='testPdbIds'
+          handleChange={handleChange}
+        /> : null
+      }
+      {values.type === 'random' ?
+        <TextField
+          required
+          type='number'
+          name='randomCount'
+          label='Amount'
+          value={values.randomCount}
+          onChange={(e) => handleChange(e, 0)}
+        /> : null
+      }
       <UploadFile
         handleChange={handleChange}
         label='Custom Structures'
