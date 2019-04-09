@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useRef  } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,9 +10,11 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import InfoIcon from '@material-ui/icons/Info';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import ListItemText from '@material-ui/core/ListItemText';
 
@@ -33,26 +37,46 @@ const styles = {
   },
   icon: {
     fontSize: 14,
-    marginLeft: '5px'
+    margin: '5px 5px 0 5px'
+  },
+  fileIcon: {
+    fontSize: 16,
+    marginRight: '10px'
   },
   linkOverride: {
     color: 'rgba(0, 0, 0, 0.87)',
+  },
+  white: {
+    color: 'white'
   }
 };
 
-
 function ResultDetails(props) {
   const { classes, compare, activeSiteResidues, motifPdbId } = props;
-  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Card className={classes.card}>
       <CardContent>
         <ListItem>
-          <ListItemText
-            primary='RMSD'
-            secondary={compare.rmsd.toFixed(4)}
-          />
+          <Tooltip
+            placement="right"
+            interactive
+            title={
+                <CopyToClipboard text={compare.rmsd}>
+                  <Button
+                    className={classes.white}
+                    variant='outlined'
+                  >
+                    <FileCopyIcon className={classes.fileIcon}/>
+                    {compare.rmsd}
+                  </Button>
+                </CopyToClipboard>
+            }>
+            <ListItemText
+              primary='RMSD'
+              secondary={compare.rmsd.toFixed(4)}
+            />
+          </Tooltip>
           <ListItemText
             primary='EC Class'
             secondary={compare.queryEcNumber}
