@@ -1,26 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { init } from './ngl-util';
 
-export default class ProteinContainer extends React.Component {
+export default function ProteinContainer(props) {
+  const {activeSites, motifPdbId, compare} = props;
+  const key = `${motifPdbId}${!!compare ? compare.queryPdbId : ''}`;
 
-  componentDidUpdate(prevProps) {
-    const {activeSites, motifPdbId, compare} = this.props;
+  useEffect(() => {
+    init(motifPdbId, activeSites, compare);
+  });
 
-    if (compare && prevProps.compare) {
-      if (compare.queryPdbId !== prevProps.compare.queryPdbId || motifPdbId !== prevProps.motifPdbId) {
-        init(motifPdbId, activeSites, compare);
-      }
-    }
-
-  }
-
-  render() {
-    const key = `${this.props.motifPdbId}${!!this.props.compare ? this.props.compare.queryPdbId : ''}`;
-    return (
-      <div key={key} id="viewport" style={{width: '100%', height: '100vh'}} />
-    );
-  }
+  return (
+    <div key={key} id="viewport" style={{width: '100%', height: '100vh'}} />
+  );
 }
 
 ProteinContainer.propTypes = {

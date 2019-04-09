@@ -9,7 +9,7 @@ const queryURL = 'http://localhost:8080/test/motif';
 const useForm = (callback) => {
   const [values, setValues] = useState({activeSiteResidues: [], type: 'self'});
   const [result, setResult] = useState({
-    data: testMakerResponse,
+    data: null,
     complete: false,
     pending: false,
     error: {

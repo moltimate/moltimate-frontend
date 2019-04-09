@@ -18,12 +18,18 @@ export function init(motifPdbId, activeSites, compare) {
   let select1 = '';
   let select2 = '';
 
-  console.log(compare);
-  console.log(activeSites);
-
   // Build the query with residue and chain pairs
-  compare.alignedResidues.forEach((r) => { select1 = select1.concat(`${r.residueId}:${r.residueChainName} or `);});
-  activeSites.forEach((r) => { select2 = select2.concat(`${r.residueId}:${r.residueChainName} or `);});
+  compare.alignedResidues.forEach((r) => {
+    select1 = select1.concat(
+      `${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0 or `
+    );
+  });
+
+  activeSites.forEach((r) => {
+    select2 = select2.concat(
+      `${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0 or `
+    );
+  });
 
   Promise.all([
     stage.loadFile(`rcsb://${motifPdbId}`).then((o) => {
@@ -40,8 +46,8 @@ export function init(motifPdbId, activeSites, compare) {
   ]).then((ol) => {
     var s1 = ol[ 0 ].structure;
     var s2 = ol[ 1 ].structure;
-    NGL.superpose(s1, s2, false, select1, select2);
+    NGL.superpose(s1, s2, true, select1, select2);
     ol[ 0 ].updateRepresentations({ position: true });
-    ol[ 0 ].autoView();
+    ol[ 1 ].autoView();
   });
 }
