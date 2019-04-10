@@ -99,7 +99,7 @@ function SearchContainer(props) {
         }
         childIcon={<SearchIcon />}
       />
-      { result.mode === 'search' ?
+      { result.mode === 'search' && result.data ?
           <MenuCard
             label='Search Results'
             expand={expandResult}

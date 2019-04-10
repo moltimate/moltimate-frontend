@@ -18,6 +18,7 @@ const useForm = (callback) => {
       type: null,
       message: null,
     },
+    mode: null
   });
   const [request, setRequest] = useState(null);
   const [formStatus, setFormStatus] = useState(null);

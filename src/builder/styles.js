@@ -10,7 +10,6 @@ export default {
     display: 'flex',
     justifyContent: 'center',
     margin: '10px 0',
-    overflow: 'scroll'
   },
   grey: {
     color: 'rgba(0, 0, 0, 0.54)',
