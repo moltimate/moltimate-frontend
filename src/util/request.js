@@ -11,7 +11,7 @@ const searchQuery = 'http://localhost:8080/align/activesite';
 const useForm = (callback) => {
   const [values, setValues] = useState({});
   const [result, setResult] = useState({
-    data: testSearchResponse,
+    data: null,
     complete: false,
     pending: false,
     error: {
@@ -21,15 +21,13 @@ const useForm = (callback) => {
   });
   const [request, setRequest] = useState(null);
   const [formStatus, setFormStatus] = useState(null);
-  const [mode, setMode] = useState();
 
   const handleSubmit = (e) => {
     if (e) {
       e.preventDefault();
     }
-
-    // Is this a search or test request?
-    setMode(e.target.name);
+    e.persist();
+    const eventMode = e.target.name;
 
     const queryURL = e.target.name === 'test' ? testQuery : searchQuery;
 
@@ -44,16 +42,15 @@ const useForm = (callback) => {
       }
     }
 
-    if (!Object.keys(values)) {
-      setResult({ ...result, error: { type: 100, message: 'You must fill out the form.'} });
-      return;
-    };
-
     setResult({
       data: null,
       pending: true,
-      error: false,
-      complete: false
+      error: {
+        type: null,
+        message: null,
+      },
+      complete: false,
+      mode: eventMode,
     });
 
     axios.post(queryURL, form_data)
@@ -61,8 +58,12 @@ const useForm = (callback) => {
         setResult({
           data: result.data,
           pending: false,
-          error: false,
-          complete: true
+          error: {
+            type: null,
+            message: null,
+          },
+          complete: true,
+          mode: eventMode,
         })
       ).catch(() =>
           setResult({
@@ -132,7 +133,6 @@ const useForm = (callback) => {
     handleFileDelete,
     values,
     result,
-    mode
   }
 };
 

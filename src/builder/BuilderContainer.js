@@ -78,7 +78,7 @@ function BuilderContainer(props) {
 
   return (
     <>
-      {result.error.type === 500 && open ?
+      {result.error.type === 500 ?
         <ErrorBar
           open={open}
           message={result.error.message}
@@ -93,7 +93,7 @@ function BuilderContainer(props) {
         childIcon={<BuildIcon />}
       />
       {
-        result.data ? <MenuCard
+        result.mode === 'test' ? <MenuCard
           label='Test Results'
           expand={expandResult}
           handleClick={setExpandResult}

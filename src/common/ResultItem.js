@@ -18,11 +18,8 @@ export default function ResultItem(props) {
               onClick={(e) => handleSelectedResult(e, r, parent)}
               key={k}
             >
-              <ListItemIcon>
-                { isSuccess ? <CheckCirclOutlineIcon style={{color: '#84C556'}}/>
-                  : <BlockIcon color='error'/>
-                }
-              </ListItemIcon>
+              { isSuccess === 1 ? <ListItemIcon><CheckCirclOutlineIcon style={{color: '#84C556'}} /></ListItemIcon> : null}
+              { isSuccess === 0 ? <ListItemIcon><BlockIcon color='error'/> </ListItemIcon>: null }
               <ListItemText
                 primary={r.pdbId}
                 secondary={`EC ${r.ecNumber}`}
@@ -34,6 +31,13 @@ export default function ResultItem(props) {
                   secondary={`${r.rmsd ? r.rmsd.toFixed(4) : 'n/a'}`}
                 />
               </div>
+              { parent ?
+                <ListItemText
+                  style={{float: 'right'}}
+                  primary={parent.pdbId}
+                  secondary={`EC ${parent.ecNumber}`}
+                /> : null
+              }
             </ListItem>
           )
         })}
@@ -43,7 +47,7 @@ export default function ResultItem(props) {
 
 ResultItem.propTypes = {
   handleSelectedResult: PropTypes.func,
-  isSuccess: PropTypes.bool,
+  isSuccess: PropTypes.number,
   results: PropTypes.array,
 };
 

@@ -1,29 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
 
 import List from '@material-ui/core/List';
 
 import ResultItem from './ResultItem';
 
-const useStyles = makeStyles({
-  container: {
-    margin: '5% 10%'
-  },
-});
 
 export default function ResultsBox(props) {
-  const classes = useStyles();
   const { failedResult, successResult, handleSelectedResult, temp } = props;
 
   return (
-    <div className={classes.container}>
+    <div>
       <List>
         {
           failedResult ?
             <ResultItem
               handleSelectedResult={handleSelectedResult}
               results={failedResult}
+              isSuccess={0}
             /> : null
         }
         {
@@ -31,7 +25,7 @@ export default function ResultsBox(props) {
             <ResultItem
               handleSelectedResult={handleSelectedResult}
               results={successResult}
-              isSuccess={true}
+              isSuccess={1}
             /> : null
         }
         {
@@ -43,7 +37,6 @@ export default function ResultsBox(props) {
                   parent={{pdbId: m.pdbId, ecNumber: m.ecNumber}}
                   handleSelectedResult={handleSelectedResult}
                   results={m.alignments}
-                  isSuccess={true}
                 />
               )
             }) : null

@@ -80,7 +80,8 @@ function SearchContainer(props) {
 
   return (
     <>
-      {result.error.type === 500 && open ?
+      {JSON.stringify(result)}
+      {result.error.type === 500 ?
         <ErrorBar
           open={open}
           message={result.error.message}
@@ -99,7 +100,7 @@ function SearchContainer(props) {
         }
         childIcon={<SearchIcon />}
       />
-      { result.data ?
+      { result.mode === 'search' ?
           <MenuCard
             label='Search Results'
             expand={expandResult}
@@ -107,7 +108,7 @@ function SearchContainer(props) {
             cardChild={
               <ResultsBox
                 handleSelectedResult={filterHandleSelectedResult}
-                temp={result.data.entries}
+                temp={ result.data ? result.data.entries : []}
               />
             }
             childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
