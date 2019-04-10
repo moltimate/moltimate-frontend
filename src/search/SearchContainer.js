@@ -27,14 +27,18 @@ import { withStyles } from '@material-ui/core/styles';
 
 function SearchContainer(props) {
   const { classes, selectedResult, handleSelectedResult } = props;
-  const { values, mode, result, handleChange, handleClearValues, handleSubmit,
-    handleChipInput, handleResidues, handleFileUpload, handleFileDelete } = useForm();
+  const { values, result, handleChange, handleClearValues, handleSubmit,
+    handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm();
 
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
   const [open, setOpen] = useState(true);
   const [ selected, setSelected ] = useState(null);
   const [ res, setRes ] = useState(null);
+
+  useEffect(() => {
+    handleSetMode('search');
+  });
 
   function filterHandleSelectedResult(e, pdbId, extra) {
     const childId = extra.pdbId;
@@ -63,9 +67,9 @@ function SearchContainer(props) {
         handleFileUpload(e);
         break;
       case 4:
-        handleSubmit(e);
         setExpandBuild(false);
         setExpandResult(true);
+        handleSubmit(e);
         break;
       case 5:
         handleClearValues(e)
@@ -78,14 +82,12 @@ function SearchContainer(props) {
       };
   }
 
-  console.log(result.error)
-
   return (
     <>
       {result.error && open?
         <ErrorBar
           open={open}
-          message={result.error.toString()}
+          message={result.error.response.data.toString()}
           handleClose={setOpen}
         /> : null
       }
@@ -101,7 +103,7 @@ function SearchContainer(props) {
         }
         childIcon={<SearchIcon />}
       />
-      { result.mode === 'search' && result.data ?
+      {result.mode === 'search' ?
           <MenuCard
             label='Search Results'
             expand={expandResult}

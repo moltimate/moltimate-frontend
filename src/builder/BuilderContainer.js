@@ -28,13 +28,17 @@ import { withStyles } from '@material-ui/core/styles';
 
 function BuilderContainer(props) {
   const { classes, handleSelectedResult } = props;
-  const { values, mode, result, handleChange, handleClearValues, handleSubmit,
-    handleChipInput, handleResidues, handleFileUpload, handleFileDelete } = useForm();
+  const { values, result, handleChange, handleClearValues, handleSubmit,
+    handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm();
 
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
   const [open, setOpen] = useState(true);
   const [ selected, setSelected ] = useState(null);
+
+  useEffect(() => {
+    handleSetMode('test');
+  });
 
   function filterHandleSelectedResult(e, pdbId) {
     setSelected(pdbId);
@@ -78,10 +82,10 @@ function BuilderContainer(props) {
 
   return (
     <>
-      {result.error ?
+      {result.error && open?
         <ErrorBar
           open={open}
-          message={result.error.message}
+          message={result.error.response.data.toString()}
           handleClose={setOpen}
         /> : null
       }
@@ -97,7 +101,7 @@ function BuilderContainer(props) {
           label='Test Results'
           expand={expandResult}
           handleClick={setExpandResult}
-          cardChild={<ResultsBox successResult={result.data.alignments} handleSelectedResult={filterHandleSelectedResult}/>}
+          cardChild={<ResultsBox successResult={result.data ? result.data.alignments : []} handleSelectedResult={filterHandleSelectedResult}/>}
           childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
         /> : null
       }

@@ -10,12 +10,13 @@ const searchQuery = 'http://localhost:8080/align/activesite';
 
 const useForm = (callback) => {
   const [values, setValues] = useState({});
+  const [currentMode, setCurrentMode] = useState('');
   const [result, setResult] = useState({
     data: null,
     complete: false,
     pending: false,
     error: null,
-    mode: null
+    mode: currentMode
   });
   const [request, setRequest] = useState(null);
   const [formStatus, setFormStatus] = useState(null);
@@ -25,7 +26,6 @@ const useForm = (callback) => {
       e.preventDefault();
     }
     e.persist();
-    const eventMode = e.target.name;
 
     const queryURL = e.target.name === 'test' ? testQuery : searchQuery;
 
@@ -45,7 +45,7 @@ const useForm = (callback) => {
       pending: true,
       error: null,
       complete: false,
-      mode: eventMode,
+      mode: currentMode,
     });
 
     axios.post(queryURL, form_data)
@@ -55,14 +55,15 @@ const useForm = (callback) => {
           pending: false,
           error: null,
           complete: true,
-          mode: eventMode,
+          mode: currentMode,
         })
       ).catch((error) =>
           setResult({
             data: null,
             pending: false,
             error: error,
-            complete: true
+            complete: true,
+            mode: currentMode,
           })
         );
   };
@@ -98,11 +99,12 @@ const useForm = (callback) => {
       data: null,
       complete: false,
       pending: false,
-      error: {
-        type: null,
-        message: null,
-      },
+      error: null,
     });
+  }
+
+  const handleSetMode = (value) => {
+    setCurrentMode(value);
   }
 
   const handleFileDelete = (value, x, key) => {
@@ -121,6 +123,7 @@ const useForm = (callback) => {
     handleClearValues,
     handleFileDelete,
     values,
+    handleSetMode,
     result,
   }
 };

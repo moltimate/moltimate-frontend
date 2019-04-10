@@ -13,7 +13,6 @@ const useStyles = makeStyles({
     marginLeft: '50%',
     position: 'fixed',
     marginLeft: '30%',
-    width: '35%',
     top: '70px',
   },
   icon: {

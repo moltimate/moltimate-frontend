@@ -31,13 +31,6 @@ export default function ResultItem(props) {
                   secondary={`${r.rmsd ? r.rmsd.toFixed(4) : 'n/a'}`}
                 />
               </div>
-              { parent ?
-                <ListItemText
-                  style={{float: 'right'}}
-                  primary={parent.pdbId}
-                  secondary={`EC ${parent.ecNumber}`}
-                /> : null
-              }
             </ListItem>
           )
         })}
