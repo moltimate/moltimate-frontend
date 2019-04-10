@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/styles';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -8,11 +9,16 @@ import TextField from '@material-ui/core/TextField';
 
 import UploadFile from  '../../search/form/UploadFile';
 
-import styles from '../styles.js';
-import { withStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles({
+  narrowInput: {
+    width: '75px',
+    margin: '10px'
+  },
+});
 
-function ProteinOptions(props) {
-  const { classes, handleChange, values } = props;
+export default function ProteinOptions(props) {
+  const classes = useStyles();
+  const { handleChange, values } = props;
   const [value, setValue] = useState('standard');
 
   return (
@@ -37,22 +43,24 @@ function ProteinOptions(props) {
         }
         label='Custom'
       />
-      {value === 'standard' ? <div className={classes.inline}>
-        <TextField
-          name='pdbId'
-          className={classes.narrowInput}
-          onChange={e => handleChange(e, 0)}
-          value={values.pdbId || ''}
-          label='PDB Id'
-        />
-        <TextField
-          name='ecNumber'
-          value={values.ecNumber || ''}
-          onChange={e => handleChange(e, 0)}
-          className={classes.narrowInput}
-          label='EC Class'
-        />
-      </div> : <></>}
+      {value === 'standard' ?
+        <div>
+          <TextField
+            name='pdbId'
+            className={classes.narrowInput}
+            onChange={e => handleChange(e, 0)}
+            value={values.pdbId || ''}
+            label='PDB Id'
+          />
+          <TextField
+            name='ecNumber'
+            value={values.ecNumber || ''}
+            onChange={e => handleChange(e, 0)}
+            className={classes.narrowInput}
+            label='EC Class'
+          />
+        </div> : <></>
+      }
       {value === 'custom' ?
         <UploadFile
           handleChange={handleChange}
@@ -65,5 +73,13 @@ function ProteinOptions(props) {
   );
 }
 
-// TODO proptype checking
-export default withStyles(styles)(ProteinOptions);
+ProteinOptions.propTypes = {
+  classes: PropTypes.object,
+  handleClose: PropTypes.func,
+  message: PropTypes.string,
+  open: PropTypes.bool,
+};
+
+ProteinOptions.defaultProps = {
+  open: false
+};

@@ -31,6 +31,7 @@ function TestOptions(props) {
       </RadioGroup>
       {values.type === 'list' ?
         <ChipWithIcon
+          value={values.testPdbIds}
           nameVal='testPdbIds'
           handleChange={handleChange}
         /> : null

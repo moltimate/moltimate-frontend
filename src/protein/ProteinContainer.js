@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { init } from './ngl-util';
 
 export default function ProteinContainer(props) {
-  const {activeSites, motifPdbId, compare} = props;
-  const key = `${motifPdbId}${!!compare ? compare.queryPdbId : ''}`;
+  const { parentId, childId, aligned, active } = props;
+  const key = `${parentId} ${childId}`;
 
   useEffect(() => {
-    init(motifPdbId, activeSites, compare);
+    init(parentId, childId, aligned, active);
   });
 
   return (
@@ -16,7 +16,8 @@ export default function ProteinContainer(props) {
 }
 
 ProteinContainer.propTypes = {
-  motifPdbId: PropTypes.string.isRequired,
-  compare: PropTypes.object.isRequired,
-  activeSites: PropTypes.array
+  parentId: PropTypes.string,
+  childId: PropTypes.string,
+  aligned: PropTypes.array,
+  active: PropTypes.array,
 };

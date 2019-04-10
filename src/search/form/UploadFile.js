@@ -33,6 +33,7 @@ function UploadFile(props) {
           variant="contained"
           color='secondary'
           component="span"
+          className={classes.white}
           children={buttonText}
         >
           <GetAppIcon className={classes.rotate}/>

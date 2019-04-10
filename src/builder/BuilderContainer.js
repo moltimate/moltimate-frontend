@@ -17,7 +17,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 import BuilderForm from './form/BuilderForm';
-import ResultsBox from './results/ResultsBox';
+import ResultsBox from '../common/ResultsBox';
 import MenuCard from './MenuCard';
 import ErrorBar from '../common/ErrorBar';
 import ResultDetails from '../common/ResultDetails';
@@ -27,19 +27,23 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function BuilderContainer(props) {
-  const { classes, selectedResult, handleSelectedResult } = props;
-  const { values, result, handleChange, handleClearValues, handleSubmit,
+  const { classes, handleSelectedResult } = props;
+  const { values, mode, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete } = useForm();
 
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
   const [open, setOpen] = useState(true);
+  const [ selected, setSelected ] = useState(null);
 
   function filterHandleSelectedResult(e, pdbId) {
-    const temp = result.data.alignments.filter(a => {
-      return a.queryPdbId === pdbId;
-    })
-    if ( result.data ) handleSelectedResult(e, temp[0], result.data.motifPdbId, result.data.activeSiteResidues);
+    setSelected(pdbId);
+    const parentId = result.data.pdbId;
+    const active = result.data.activeSiteResidues;
+    const childId = pdbId.pdbId;
+    const aligned = pdbId.alignedResidues;
+
+    if ( result.data ) handleSelectedResult(e, parentId, childId, active, aligned);
   }
 
   function switchHandler(e, type, extra) {
@@ -57,7 +61,7 @@ function BuilderContainer(props) {
         handleFileUpload(e);
         break;
       case 4:
-        handleSubmit();
+        handleSubmit(e);
         setExpandBuild(false);
         setExpandResult(true);
         break;
@@ -93,17 +97,21 @@ function BuilderContainer(props) {
           label='Test Results'
           expand={expandResult}
           handleClick={setExpandResult}
-          cardChild={<ResultsBox results={result.data} handleSelectedResult={filterHandleSelectedResult}/>}
+          cardChild={<ResultsBox successResult={result.data.alignments} handleSelectedResult={filterHandleSelectedResult}/>}
           childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
         /> : null
       }
       {
-        selectedResult && result.data ? <ResultDetails
-          motifPdbId={result.data.motifPdbId}
-          activeSiteResidues={result.data.activeSiteResidues}
-          motifEC={result.data.motifEcNumber}
-          compare={selectedResult}
-          handleClose={() => setSelectedResult(null)}
+        selected && result.data ?
+          <ResultDetails
+            parentEc={result.data.ecNumber}
+            rmsd={selected.rmsd}
+            parentId={result.data.pdbId}
+            childId={selected.pdbId}
+            childEc={selected.ecNumber}
+            active={result.data.activeSiteResidues || []}
+            aligned={selected.alignedResidues || []}
+            handleClose={() => setSelected(null)}
         /> : null
       }
     </>

@@ -7,7 +7,6 @@ import ErrorIcon from '@material-ui/icons/Error';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-
 const useStyles = makeStyles({
   error: {
     backgroundColor: '#FF6857',
@@ -55,3 +54,14 @@ export default function ErrorBar(props) {
     />
   )
 }
+
+ErrorBar.propTypes = {
+  classes: PropTypes.object,
+  handleClose: PropTypes.func,
+  message: PropTypes.string,
+  open: PropTypes.bool,
+};
+
+ErrorBar.defaultProps = {
+  open: false
+};

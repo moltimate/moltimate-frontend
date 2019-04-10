@@ -2,6 +2,9 @@ export default {
   upload: {
     marginTop: '10px',
   },
+  white: {
+    color: 'white'
+  },
   label: {
     marginBottom: '20px'
   },
@@ -19,13 +22,14 @@ export default {
   },
   floatButton: {
     float: 'right',
-    marginBottom: '20px',
+    margin: '20px 0',
   },
   spaced: {
     margin: '20px 0'
   },
   smallInput: {
-    width: '100px'
+    width: '100px',
+    margin: '10px 20px 20px 0'
   },
   rounded: {
     borderRadius: 25,
@@ -42,5 +46,8 @@ export default {
   },
   search: {
     margin: '10px 0'
-  }
+  },
+  searchContainer: {
+    margin: '0% 10%'
+  },
 }

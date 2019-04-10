@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import testMakerResponse from './testMakerResponse';
 import testSearchResponse from './testSearchResponse';
 
 // TODO make this a config file
-const testQuery = 'http://localhost:8080/test/motif';
-const searchQuery = 'http://localhost:8080/align/activesite';
+const queryURL = 'http://localhost:8080/align/activesite';
 
 const useForm = (callback) => {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({activeSiteResidues: [], type: 'self'});
   const [result, setResult] = useState({
-    data: null,
+    data: testMakerResponse,
     complete: false,
     pending: false,
     error: {
@@ -19,19 +17,13 @@ const useForm = (callback) => {
       message: null,
     },
   });
-  const [request, setRequest] = useState(null);
-  const [formStatus, setFormStatus] = useState(null);
-  const [mode, setMode] = useState();
+  const [request, setRequest] = useState();
+  const [formStatus, setFormStatus] = useState();
 
   const handleSubmit = (e) => {
     if (e) {
       e.preventDefault();
     }
-
-    // Is this a search or test request?
-    setMode(e.target.name);
-
-    const queryURL = e.target.name === 'test' ? testQuery : searchQuery;
 
     const form_data = new FormData();
     for ( let key in values ) {
@@ -44,10 +36,12 @@ const useForm = (callback) => {
       }
     }
 
-    if (!Object.keys(values)) {
+    /*
+    if (Object.keys(values).) {
       setResult({ ...result, error: { type: 100, message: 'You must fill out the form.'} });
       return;
     };
+    */
 
     setResult({
       data: null,
@@ -93,13 +87,6 @@ const useForm = (callback) => {
     setValues(values => ({ ...values, [e.target.name]: Array.from(e.target.files)}));
   }
 
-  /* Use this to create alignment objects for active site residue array */
-  const handleResidues = (e) => {
-    e.persist();
-    const copy = values.activeSiteResidues;
-    copy[e.target.id] = { ...copy[e.target.id], [e.target.name]: e.target.value};
-    setValues(values => ({ ...values, activeSiteResidues: copy}));
-  }
 
   /* Clears the values of state */
   const handleClearValues = (e) => {
@@ -131,8 +118,7 @@ const useForm = (callback) => {
     handleClearValues,
     handleFileDelete,
     values,
-    result,
-    mode
+    result
   }
 };
 

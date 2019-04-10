@@ -25,40 +25,42 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function QueryFormContainer(props) {
-  const { classes, handleChange, handleSubmit } = props;
+  const { classes, handleChange, handleSubmit, values } = props;
   const [expand, setExpand] = useState(false);
 
   return (
-    <Card className={classNames(classes.search)} >
-      <ListItem button onClick={() => setExpand(!expand)} >
-        <ListItemIcon>
-          <SearchIcon />
-        </ListItemIcon>
-        <ListItemText className={classes.white} inset primary='Search' />
-        {expand ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={expand}>
-        <div style={{width: '300px', marginLeft: '10%'}}>
-          <ChipWithIcon handleChange={() => console.log("Input changed")}/>
-          <Input
-            value=''
-            onChange={() => console.log("Input changed")}
-            id='ecnumber'
-            inputComponent={Mask}
-          />
-          <TextField
-            className={classes.smallInput}
-            id='precision'
-            label='Precision'/>
-          <Slide handleChange={() => console.log("Input changed")}/>
-
-          <div className={classes.floatButton}>
-            <Button className={classes.cancelButton}>Clear</Button>
-            <Button className={classes.rounded} onClick={handleSubmit}>Search</Button>
-          </div>
-        </div>
-      </Collapse>
-    </Card>
+    <div className={classes.searchContainer}>
+      <ChipWithIcon
+        value={values.pdbIds}
+        nameVal='pdbIds'
+        handleChange={handleChange}
+      />
+      <TextField
+        name='ecNumber'
+        value={values.ecNumber || ''}
+        onChange={e => handleChange(e, 0)}
+        className={classes.smallInput}
+        label='EC Class'
+      />
+      <TextField
+        name='precision'
+        value={values.precision || ''}
+        onChange={e => handleChange(e, 0)}
+        className={classes.smallInput}
+        label='Precision'
+      />
+      <UploadFile
+        handleChange={handleChange}
+        label=''
+        inputName='customMotifStructure'
+        buttonText='Custom'
+        files={values.customMotifStructure}
+      />
+      <div className={classes.floatButton}>
+        <Button className={classes.cancelButton} onClick={(e) => handleChange(e, 5)}>Clear</Button>
+        <Button name='search' className={classes.rounded} onClick={(e) => handleChange(e, 4)}>Search</Button>
+      </div>
+    </div>
   );
 }
 

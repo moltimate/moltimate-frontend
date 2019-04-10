@@ -13,7 +13,7 @@ export default function NameChips(props) {
         return (
           <Chip
             key={i}
-            label={el.name}
+            label={el.name.substring(0, 30)}
             name={inputName}
             id={el.name}
             onDelete={() => handleDelete(el.name, 6, inputName)}

@@ -55,11 +55,12 @@ const styles = {
 };
 
 function ResultDetails(props) {
-  const { classes, compare, activeSiteResidues, motifPdbId, motifEC, handleClose } = props;
+  const { classes, parentId, childId, active, aligned, rmsd, parentEc, childEc, handleClose } = props;
 
   return (
       <Card className={classes.card}>
         <IconButton className={classes.closeIcon} onClick={() => handleClose(false)}><CloseIcon /></IconButton>
+
         <CardContent>
           <div style={{display: 'flex'}}>
             <ListItem className={classes.noPadding}>
@@ -70,7 +71,7 @@ function ResultDetails(props) {
                     <Typography variant='body2'>EC Class</Typography>
                   </>
                 }
-                secondary={compare.queryEcNumber}
+                secondary={childEc}
               />
             </ListItem>
             <ListItem className={classes.noPadding}>
@@ -81,7 +82,7 @@ function ResultDetails(props) {
                     <Typography variant='body2'>EC Class</Typography>
                   </>
                 }
-                secondary={motifEC}
+                secondary={parentEc}
               />
             </ListItem>
           </div>
@@ -91,16 +92,16 @@ function ResultDetails(props) {
                 primary={
                   <a
                     className={classes.linkOverride}
-                    href={`https://www.rcsb.org/structure/${compare.queryPdbId}`}
+                    href={`https://www.rcsb.org/structure/${childId}`}
                     target="_blank"
                   >
                     <Typography variant='body2'>
-                      {compare.queryPdbId}
+                      {childId}
                       <InfoIcon color="disabled" className={classes.icon}/>
                     </Typography>
                   </a>
                 }
-                secondary={compare.alignedResidues.map((r, k) => {
+                secondary={aligned.map((r, k) => {
                   return (
                     <Typography key={k} variant='body2' component={'span'} className={classes.title} color="textSecondary" >
                       {r.identifier.toUpperCase()}
@@ -113,16 +114,16 @@ function ResultDetails(props) {
                 primary={
                   <a
                     className={classes.linkOverride}
-                    href={`https://www.rcsb.org/structure/${motifPdbId}`}
+                    href={`https://www.rcsb.org/structure/${parentId}`}
                     target="_blank"
                   >
                     <Typography variant='body2'>
-                      {motifPdbId}
+                      {parentId}
                       <InfoIcon color="disabled" className={classes.icon}/>
                     </Typography>
                   </a>
                 }
-                secondary={activeSiteResidues.map((r, k) => {
+                secondary={active.map((r, k) => {
                   return (
                     <Typography variant='body2' component={'span'} key={k} className={classes.title} color="textSecondary" >
                       {r.identifier.toUpperCase()}
@@ -137,19 +138,19 @@ function ResultDetails(props) {
                 placement="right"
                 interactive
                 title={
-                    <CopyToClipboard text={compare.rmsd}>
+                    <CopyToClipboard text={rmsd}>
                       <Button
                         className={classes.white}
                         variant='outlined'
                       >
                         <FileCopyIcon className={classes.fileIcon}/>
-                        {compare.rmsd}
+                        {rmsd}
                       </Button>
                     </CopyToClipboard>
                 }>
                 <ListItemText
                   primary={<Typography variant='body2'>RMSD</Typography>}
-                  secondary={compare.rmsd.toFixed(4)}
+                  secondary={rmsd.toFixed(4)}
                 />
               </Tooltip>
             </ListItem>
@@ -157,6 +158,12 @@ function ResultDetails(props) {
         </CardContent>
       </Card>
   );
+}
+
+ResultDetails.defaultProps = {
+  aligned: [],
+  active: [],
+  rmsd: ''
 }
 
 ResultDetails.propTypes = {

@@ -1,6 +1,6 @@
 export default  {
-   "motifPdbId":"1YPH",
-   "motifEcNumber":"3.4.21.1",
+   "pdbId":"1YPH",
+   "ecNumber":"3.4.21.1",
    "activeSiteResidues":[
       {
          "residueName":"His",
@@ -40,8 +40,8 @@ export default  {
    ],
    "alignments":[
       {
-         "queryPdbId":"1AB9",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1AB9",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8217166578377232,
          "levenshtein":0,
          "alignedResidues":[
@@ -83,8 +83,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1ACB",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1ACB",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8272303640265916,
          "levenshtein":0,
          "alignedResidues":[
@@ -126,8 +126,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1AFQ",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1AFQ",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.789474616010918,
          "levenshtein":0,
          "alignedResidues":[
@@ -169,8 +169,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1CA0",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1CA0",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.811694621879621,
          "levenshtein":0,
          "alignedResidues":[
@@ -212,8 +212,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1CBW",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1CBW",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8382363799489961,
          "levenshtein":0,
          "alignedResidues":[
@@ -255,8 +255,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1CGI",
-         "queryEcNumber":"unknown",
+         "pdbId":"1CGI",
+         "ecNumber":"unknown",
          "rmsd":0.8094298628910432,
          "levenshtein":0,
          "alignedResidues":[
@@ -298,8 +298,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1CGJ",
-         "queryEcNumber":"unknown",
+         "pdbId":"1CGJ",
+         "ecNumber":"unknown",
          "rmsd":0.8155393051819947,
          "levenshtein":0,
          "alignedResidues":[
@@ -341,8 +341,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1CHG",
-         "queryEcNumber":"unknown",
+         "pdbId":"1CHG",
+         "ecNumber":"unknown",
          "rmsd":1.5523571808376457,
          "levenshtein":0,
          "alignedResidues":[
@@ -384,8 +384,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1CHO",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1CHO",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.22941081500491567,
          "levenshtein":0,
          "alignedResidues":[
@@ -427,8 +427,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1DLK",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1DLK",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.5659853005687774,
          "levenshtein":0,
          "alignedResidues":[
@@ -470,8 +470,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1EX3",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1EX3",
+         "ecNumber":"3.4.21.1",
          "rmsd":1.386346422145109,
          "levenshtein":0,
          "alignedResidues":[
@@ -513,8 +513,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GCD",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1GCD",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8389371487006955,
          "levenshtein":0,
          "alignedResidues":[
@@ -556,8 +556,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GCT",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1GCT",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.3266564364501988,
          "levenshtein":0,
          "alignedResidues":[
@@ -599,8 +599,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GG6",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1GG6",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7778779019505676,
          "levenshtein":0,
          "alignedResidues":[
@@ -642,8 +642,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GGD",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1GGD",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.3406737868222311,
          "levenshtein":0,
          "alignedResidues":[
@@ -685,8 +685,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GHA",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1GHA",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8900430744072062,
          "levenshtein":0,
          "alignedResidues":[
@@ -728,8 +728,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GHB",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1GHB",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8207825996828907,
          "levenshtein":0,
          "alignedResidues":[
@@ -771,8 +771,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GL0",
-         "queryEcNumber":"unknown",
+         "pdbId":"1GL0",
+         "ecNumber":"unknown",
          "rmsd":0.23893025803678553,
          "levenshtein":0,
          "alignedResidues":[
@@ -814,8 +814,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GL1",
-         "queryEcNumber":"unknown",
+         "pdbId":"1GL1",
+         "ecNumber":"unknown",
          "rmsd":0.19656455985419394,
          "levenshtein":0,
          "alignedResidues":[
@@ -857,8 +857,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GMC",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1GMC",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8370028131825924,
          "levenshtein":0,
          "alignedResidues":[
@@ -900,8 +900,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GMD",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1GMD",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8155668420457952,
          "levenshtein":0,
          "alignedResidues":[
@@ -943,8 +943,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1GMH",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1GMH",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8552168657465161,
          "levenshtein":0,
          "alignedResidues":[
@@ -986,8 +986,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1HJA",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1HJA",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7946494807455641,
          "levenshtein":0,
          "alignedResidues":[
@@ -1029,8 +1029,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1K2I",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1K2I",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8183321168167873,
          "levenshtein":0,
          "alignedResidues":[
@@ -1072,8 +1072,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1KDQ",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1KDQ",
+         "ecNumber":"3.4.21.1",
          "rmsd":1.5655623717734797,
          "levenshtein":0,
          "alignedResidues":[
@@ -1115,8 +1115,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1MTN",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1MTN",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8590092790228974,
          "levenshtein":0,
          "alignedResidues":[
@@ -1158,8 +1158,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1N8O",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1N8O",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.15481311484216065,
          "levenshtein":0,
          "alignedResidues":[
@@ -1201,8 +1201,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1OXG",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1OXG",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8626855474650253,
          "levenshtein":0,
          "alignedResidues":[
@@ -1244,8 +1244,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1P2M",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1P2M",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7912688990692874,
          "levenshtein":0,
          "alignedResidues":[
@@ -1287,8 +1287,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1P2N",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1P2N",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7981145514242867,
          "levenshtein":0,
          "alignedResidues":[
@@ -1330,8 +1330,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1P2O",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1P2O",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7983862302041291,
          "levenshtein":0,
          "alignedResidues":[
@@ -1373,8 +1373,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1P2Q",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1P2Q",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7985911219102904,
          "levenshtein":0,
          "alignedResidues":[
@@ -1416,8 +1416,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1T7C",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1T7C",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7943332938093742,
          "levenshtein":0,
          "alignedResidues":[
@@ -1459,8 +1459,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1T8L",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1T8L",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8028198275334273,
          "levenshtein":0,
          "alignedResidues":[
@@ -1502,8 +1502,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1T8M",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1T8M",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7911004092085895,
          "levenshtein":0,
          "alignedResidues":[
@@ -1545,8 +1545,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1T8N",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1T8N",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8176409091014684,
          "levenshtein":0,
          "alignedResidues":[
@@ -1588,8 +1588,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1T8O",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1T8O",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8007054601972057,
          "levenshtein":0,
          "alignedResidues":[
@@ -1631,8 +1631,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1VGC",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1VGC",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7948917797015594,
          "levenshtein":0,
          "alignedResidues":[
@@ -1674,8 +1674,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"1YPH",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"1YPH",
+         "ecNumber":"3.4.21.1",
          "rmsd":3.259223002843751E-15,
          "levenshtein":0,
          "alignedResidues":[
@@ -1717,8 +1717,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"2CGA",
-         "queryEcNumber":"unknown",
+         "pdbId":"2CGA",
+         "ecNumber":"unknown",
          "rmsd":1.387288917213952,
          "levenshtein":0,
          "alignedResidues":[
@@ -1760,8 +1760,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"2CHA",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"2CHA",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.5694845140671579,
          "levenshtein":0,
          "alignedResidues":[
@@ -1803,8 +1803,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"2GCH",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"2GCH",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.39567600703193406,
          "levenshtein":0,
          "alignedResidues":[
@@ -1846,8 +1846,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"2GCT",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"2GCT",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.34173843867792136,
          "levenshtein":0,
          "alignedResidues":[
@@ -1889,8 +1889,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"2GMT",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"2GMT",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.9159698759004717,
          "levenshtein":0,
          "alignedResidues":[
@@ -1932,8 +1932,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"2JET",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"2JET",
+         "ecNumber":"3.4.21.1",
          "rmsd":1.559146283048337,
          "levenshtein":0,
          "alignedResidues":[
@@ -1975,8 +1975,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"2P8O",
-         "queryEcNumber":"unknown",
+         "pdbId":"2P8O",
+         "ecNumber":"unknown",
          "rmsd":0.18572666760721848,
          "levenshtein":0,
          "alignedResidues":[
@@ -2018,8 +2018,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"2VGC",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"2VGC",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8019639939710352,
          "levenshtein":0,
          "alignedResidues":[
@@ -2061,8 +2061,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"2Y6T",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"2Y6T",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7856232331616148,
          "levenshtein":0,
          "alignedResidues":[
@@ -2104,8 +2104,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"3BG4",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"3BG4",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.449503739391495,
          "levenshtein":0,
          "alignedResidues":[
@@ -2147,8 +2147,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"3CP7",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"3CP7",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.4694517940124932,
          "levenshtein":0,
          "alignedResidues":[
@@ -2190,8 +2190,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"3GCH",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"3GCH",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.4990396544365629,
          "levenshtein":0,
          "alignedResidues":[
@@ -2233,8 +2233,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"3GCT",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"3GCT",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.28835111601256364,
          "levenshtein":0,
          "alignedResidues":[
@@ -2276,8 +2276,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"3RU4",
-         "queryEcNumber":"3.4.21.4",
+         "pdbId":"3RU4",
+         "ecNumber":"3.4.21.4",
          "rmsd":0.8074661827497296,
          "levenshtein":0,
          "alignedResidues":[
@@ -2319,8 +2319,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"3T62",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"3T62",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8235478432927952,
          "levenshtein":0,
          "alignedResidues":[
@@ -2362,8 +2362,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"3VGC",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"3VGC",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8028558539728414,
          "levenshtein":0,
          "alignedResidues":[
@@ -2405,8 +2405,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"3WY8",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"3WY8",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8424305660684486,
          "levenshtein":0,
          "alignedResidues":[
@@ -2448,8 +2448,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"4CHA",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"4CHA",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.10002004906796964,
          "levenshtein":0,
          "alignedResidues":[
@@ -2491,8 +2491,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"4GCH",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"4GCH",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.4819454234451755,
          "levenshtein":0,
          "alignedResidues":[
@@ -2534,8 +2534,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"4VGC",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"4VGC",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8316279546630928,
          "levenshtein":0,
          "alignedResidues":[
@@ -2577,8 +2577,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"5CHA",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"5CHA",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.20170473858323656,
          "levenshtein":0,
          "alignedResidues":[
@@ -2620,8 +2620,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"5GCH",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"5GCH",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.3344165883088243,
          "levenshtein":0,
          "alignedResidues":[
@@ -2663,8 +2663,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"5J4Q",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"5J4Q",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8499722448620642,
          "levenshtein":0,
          "alignedResidues":[
@@ -2706,8 +2706,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"5J4S",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"5J4S",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.8253950403632855,
          "levenshtein":0,
          "alignedResidues":[
@@ -2749,8 +2749,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"6CHA",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"6CHA",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.2398146907627975,
          "levenshtein":0,
          "alignedResidues":[
@@ -2792,8 +2792,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"6DI8",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"6DI8",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.7681126234410789,
          "levenshtein":0,
          "alignedResidues":[
@@ -2835,8 +2835,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"6GCH",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"6GCH",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.28548621990010303,
          "levenshtein":0,
          "alignedResidues":[
@@ -2878,8 +2878,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"7GCH",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"7GCH",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.27207061637194696,
          "levenshtein":0,
          "alignedResidues":[
@@ -2921,8 +2921,8 @@ export default  {
          ]
       },
       {
-         "queryPdbId":"8GCH",
-         "queryEcNumber":"3.4.21.1",
+         "pdbId":"8GCH",
+         "ecNumber":"3.4.21.1",
          "rmsd":0.844092111170167,
          "levenshtein":0,
          "alignedResidues":[
@@ -2966,12 +2966,12 @@ export default  {
    ],
    "failedAlignments":[
       {
-         "queryPdbId":"1EQ9",
-         "queryEcNumber":"3.4.21.1"
+         "pdbId":"1EQ9",
+         "ecNumber":"3.4.21.1"
       },
       {
-         "queryPdbId":"4Q2K",
-         "queryEcNumber":"3.4.21.1"
+         "pdbId":"4Q2K",
+         "ecNumber":"3.4.21.1"
       }
    ],
    "failedPdbIds":[

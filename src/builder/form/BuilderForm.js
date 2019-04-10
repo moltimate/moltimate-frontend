@@ -30,7 +30,8 @@ function BuilderForm(props) {
     num = num < MIN_RESIDUE ? MIN_RESIDUE : num;
 
     for(let i=0; i < num ; i++ ){
-      inputs.push(<ResidueInputs key={i} id={`${i}`} handleChange={handleChange} residues={values.activeSiteResidues[i] || []}/>)
+      inputs.push(<ResidueInputs key={i} id={`${i}`} handleChange={handleChange}
+        residues={ values.activeSiteResidues && values.activeSiteResidues.length > 0 ? values.activeSiteResidues[i] : []}/>)
     }
     return inputs;
   }
@@ -69,6 +70,7 @@ function BuilderForm(props) {
         </Button>
         <Button
           color='primary'
+          name='test'
           variant='contained'
           onClick={(e) => handleChange(e, 4)}
         >
