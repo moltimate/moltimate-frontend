@@ -43,6 +43,6 @@
     "react-dom": "^16.8.5",
     "react-router-dom": "^5.0.0",
     "react-text-mask": "^5.4.3",
-    "webpack-dev-server": "^3.2.1"
+    "webpack-dev-server": "^3.3.1"
   }
 }
