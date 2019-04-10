@@ -78,7 +78,7 @@ function BuilderContainer(props) {
 
   return (
     <>
-      {result.error.type === 500 ?
+      {result.error ?
         <ErrorBar
           open={open}
           message={result.error.message}

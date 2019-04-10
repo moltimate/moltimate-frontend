@@ -14,10 +14,7 @@ const useForm = (callback) => {
     data: null,
     complete: false,
     pending: false,
-    error: {
-      type: null,
-      message: null,
-    },
+    error: null,
     mode: null
   });
   const [request, setRequest] = useState(null);
@@ -46,10 +43,7 @@ const useForm = (callback) => {
     setResult({
       data: null,
       pending: true,
-      error: {
-        type: null,
-        message: null,
-      },
+      error: null,
       complete: false,
       mode: eventMode,
     });
@@ -59,21 +53,15 @@ const useForm = (callback) => {
         setResult({
           data: result.data,
           pending: false,
-          error: {
-            type: null,
-            message: null,
-          },
+          error: null,
           complete: true,
           mode: eventMode,
         })
-      ).catch(() =>
+      ).catch((error) =>
           setResult({
             data: null,
             pending: false,
-            error: {
-              type: 500,
-              message: 'The result could not be retrieve',
-            },
+            error: error,
             complete: true
           })
         );

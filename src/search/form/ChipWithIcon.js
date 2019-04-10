@@ -13,7 +13,6 @@ export default function ChipWithIcon(props) {
       id='pdbIds'
       name={nameVal}
       fullWidth
-      value={value}
       label='PDB Ids'
       placeholder='Press enter to add'
       onChange={(e) => handleChange(e, 1, nameVal)}

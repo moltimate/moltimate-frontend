@@ -78,12 +78,14 @@ function SearchContainer(props) {
       };
   }
 
+  console.log(result.error)
+
   return (
     <>
-      {result.error.type === 500 ?
+      {result.error && open?
         <ErrorBar
           open={open}
-          message={result.error.message}
+          message={result.error.toString()}
           handleClose={setOpen}
         /> : null
       }
