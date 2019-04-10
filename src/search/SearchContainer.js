@@ -80,7 +80,6 @@ function SearchContainer(props) {
 
   return (
     <>
-      {JSON.stringify(result)}
       {result.error.type === 500 ?
         <ErrorBar
           open={open}
