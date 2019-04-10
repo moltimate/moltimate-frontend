@@ -1,7 +1,11 @@
 export default {
   search: {
     margin: '10px 0',
-    maxHeight: '500px'
+  },
+  scrolling: {
+    width: '375px',
+    maxHeight: '350px',
+    overflow: 'scroll'
   },
   cyanBackground: {
     background: '#2AF598',
@@ -46,9 +50,6 @@ export default {
   builderContainer: {
     margin: '5% 10%'
   },
-  scrolling: {
-    maxHeight: '500px',
-    overflow: 'scroll'
-  }
+
 
 }

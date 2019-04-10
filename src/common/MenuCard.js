@@ -17,7 +17,7 @@ function MenuCard(props) {
   const { classes, expand, label, cardChild, childIcon, handleClick } = props;
 
   return (
-    <Card className={classNames(classes.search, classes.marginTop)} >
+    <Card className={classes.search} >
       <ListItem button onClick={() => handleClick(!expand)}>
         <ListItemIcon>
           {childIcon}

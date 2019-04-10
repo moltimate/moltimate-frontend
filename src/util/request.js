@@ -11,7 +11,7 @@ const searchQuery = 'http://localhost:8080/align/activesite';
 const useForm = (callback) => {
   const [values, setValues] = useState({});
   const [result, setResult] = useState({
-    data: null,
+    data: testSearchResponse,
     complete: false,
     pending: false,
     error: {

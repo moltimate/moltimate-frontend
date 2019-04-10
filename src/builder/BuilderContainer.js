@@ -18,7 +18,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 import BuilderForm from './form/BuilderForm';
 import ResultsBox from '../common/ResultsBox';
-import MenuCard from './MenuCard';
+import MenuCard from '../common/MenuCard';
 import ErrorBar from '../common/ErrorBar';
 import ResultDetails from '../common/ResultDetails';
 
