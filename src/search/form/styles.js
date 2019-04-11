@@ -32,10 +32,13 @@ export default {
     margin: '10px 20px 20px 0'
   },
   rounded: {
-    borderRadius: 25,
     background: '#5433FF',
-    color: 'white',
+    borderRadius: 25,
     padding: '10px 20px',
+    color: 'white',
+    '&:hover': {
+      background: '#7f66ff'
+    }
   },
   cancelButton: {
     borderRadius: 25,

@@ -27,6 +27,13 @@ export default {
     margin: '20px 0'
   },
 
+  purpleButton: {
+    '&:hover': {
+      background: '#7f66ff'
+    }
+  },
+
+
 
   builderContainer: {
     margin: '5% 10%'

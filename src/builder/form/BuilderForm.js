@@ -72,6 +72,7 @@ function BuilderForm(props) {
           color='primary'
           name='test'
           variant='contained'
+          className={classes.purpleButton}
           onClick={(e) => handleChange(e, 4)}
         >
           Run Test
