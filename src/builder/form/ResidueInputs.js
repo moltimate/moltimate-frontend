@@ -48,4 +48,14 @@ ResidueInputs.propTypes = {
   id: PropTypes.string
 };
 
+ResidueInputs.defaultProps = {
+  residues: [
+    {
+      residueName: '',
+      residueChainName: '',
+      residueId: ''
+    }
+  ]
+}
+
 export default withStyles(styles)(ResidueInputs);

@@ -31,7 +31,7 @@ function BuilderForm(props) {
 
     for(let i=0; i < num ; i++ ){
       inputs.push(<ResidueInputs key={i} id={`${i}`} handleChange={handleChange}
-        residues={ values.activeSiteResidues && values.activeSiteResidues.length > 0 ? values.activeSiteResidues[i] : []}/>)
+        residues={values.activeSiteResidues ? values.activeSiteResidues[i] : {}} />)
     }
     return inputs;
   }
@@ -85,10 +85,6 @@ BuilderForm.propTypes = {
   classes: PropTypes.object,
   values: PropTypes.object,
   handleChange: PropTypes.func,
-  handleClear: PropTypes.func,
-  handleResidues: PropTypes.func,
-  handleSubmit:PropTypes.func,
-  handleChipInput:PropTypes.func,
 };
 
 export default withStyles(styles)(BuilderForm);

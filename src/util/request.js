@@ -87,7 +87,11 @@ const useForm = (callback) => {
   /* Use this to create alignment objects for active site residue array */
   const handleResidues = (e) => {
     e.persist();
+
+    values.activeSiteResidues = values.activeSiteResidues || [];
+
     const copy = values.activeSiteResidues;
+    copy[e.target.id] = copy[e.target.id] || {};
     copy[e.target.id] = { ...copy[e.target.id], [e.target.name]: e.target.value};
     setValues(values => ({ ...values, activeSiteResidues: copy}));
   }
