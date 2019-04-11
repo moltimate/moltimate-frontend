@@ -101,7 +101,7 @@ function BuilderContainer(props) {
           label='Test Results'
           expand={expandResult}
           handleClick={setExpandResult}
-          cardChild={<ResultsBox successResult={result.data ? result.data.alignments : []} handleSelectedResult={filterHandleSelectedResult}/>}
+          cardChild={<ResultsBox failedResult={result.data ? result.data.failedAlignments : []} successResult={result.data ? result.data.alignments : []} handleSelectedResult={filterHandleSelectedResult}/>}
           childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
         /> : null
       }
