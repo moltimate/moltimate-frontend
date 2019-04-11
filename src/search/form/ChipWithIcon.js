@@ -11,8 +11,11 @@ export default function ChipWithIcon(props) {
   return (
     <ChipInput
       id='pdbIds'
+      blurBehavior='add'
       name={nameVal}
       fullWidth
+      fullWidthInput
+      newChipKeyCodes={[32, 13, 35, 188]}
       label='PDB Ids'
       placeholder='Press enter to add'
       onChange={(e) => handleChange(e, 1, nameVal)}
