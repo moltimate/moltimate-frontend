@@ -27,8 +27,9 @@ const useForm = (callback) => {
     }
     e.persist();
 
-    const queryURL = e.target.name === 'test' ? testQuery : searchQuery;
+    const queryURL = currentMode === 'test' ? testQuery : searchQuery;
 
+    console.log(queryURL)
     const form_data = new FormData();
     for ( let key in values ) {
       if ( String(key) === 'activeSiteResidues') {
