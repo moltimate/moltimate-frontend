@@ -12,7 +12,7 @@ const useForm = (callback) => {
   const [values, setValues] = useState({});
   const [currentMode, setCurrentMode] = useState('');
   const [result, setResult] = useState({
-    data: testMakerResponse,
+    data: null,
     complete: false,
     pending: false,
     error: null,
