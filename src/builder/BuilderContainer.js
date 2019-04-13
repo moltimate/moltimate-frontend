@@ -97,7 +97,7 @@ function BuilderContainer(props) {
         childIcon={<BuildIcon />}
       />
       {
-        result.mode === 'test' ? <MenuCard
+        result.mode !== 'test' ? <MenuCard
           label='Test Results'
           expand={expandResult}
           handleClick={setExpandResult}
