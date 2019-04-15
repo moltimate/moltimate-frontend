@@ -15,6 +15,7 @@ export default function ResultItem(props) {
           return (
             <ListItem
               button
+              disabled={isSuccess === 0}
               onClick={(e) => handleSelectedResult(e, r, parent)}
               key={k}
             >

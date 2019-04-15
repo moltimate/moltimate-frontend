@@ -13,19 +13,19 @@ export default function ResultsBox(props) {
     <div>
       <List>
         {
-          failedResult ?
-            <ResultItem
-              handleSelectedResult={handleSelectedResult}
-              results={failedResult}
-              isSuccess={0}
-            /> : null
-        }
-        {
           successResult ?
             <ResultItem
               handleSelectedResult={handleSelectedResult}
               results={successResult}
               isSuccess={1}
+            /> : null
+        }
+        {
+          failedResult ?
+            <ResultItem
+              handleSelectedResult={handleSelectedResult}
+              results={failedResult}
+              isSuccess={0}
             /> : null
         }
         {
