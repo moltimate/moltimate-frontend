@@ -1,6 +1,7 @@
 body {
     line-height: 2;
     margin: 0;
+    overflow: hidden;
 }
 
 a {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
-import axios from "axios";
 
 import SearchContainer from './search/SearchContainer';
 import BuilderContainer from './builder/BuilderContainer';
@@ -12,7 +11,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 function MoltimateContainer(props) {
   const { classes } = props;
-  const [expanded, setExpanded] = useState(false);
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
 
