@@ -23,6 +23,7 @@ export default function FilterButton(props) {
         <Button
           variant="contained"
           style={{margin: '20px 5px'}}
+          color={filters.rmsdMaxFilter && buttonTitle === 'RMSD' ? 'primary' : ''}
           onClick={(e) => setAnchorEl(e.currentTarget)}
         >
           {buttonTitle}

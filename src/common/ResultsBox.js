@@ -14,6 +14,7 @@ export default function ResultsBox(props) {
     <div>
       <Filters filters={filters} handleFilters={handleFilters}/>
       <List>
+        
         {
           failedResult ?
             <ResultItem
