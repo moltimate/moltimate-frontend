@@ -7,8 +7,8 @@ export default function ProteinContainer(props) {
   const key = `${parentId} ${childId}`;
 
   useEffect(() => {
-    init(parentId, childId, aligned, active);
-  });
+    init({parentId, childId, aligned, active}, {background: 'white', color1: '#2AF598', color2: '#20BDFF'});
+  }, [childId]);
 
   return (
     <div key={key} id="viewport" style={{width: '100%', height: '100vh'}} />

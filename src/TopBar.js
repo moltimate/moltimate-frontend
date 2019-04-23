@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -30,9 +31,11 @@ function TopBar(props) {
           <IconButton className={classes.floatRight} onClick={() => console.log('temp')}>
             <SettingsIcon className={classNames(classes.floatRight, classes.white)}/>
           </IconButton>
-          <IconButton className={classes.floatRight} onClick={() => console.log('temp')}>
-            <InvertColorsIcon className={classNames(classes.floatRight, classes.white)}/>
-          </IconButton>
+          <Tooltip title="Toggle light/dark mode">
+            <IconButton className={classes.floatRight} onClick={() => console.log('temp')}>
+              <InvertColorsIcon className={classNames(classes.floatRight, classes.white)}/>
+            </IconButton>
+          </Tooltip>
         </div>
       </Toolbar>
     </AppBar>

@@ -18,8 +18,8 @@ export default function ResultItem(props) {
               onClick={(e) => handleSelectedResult(e, r, parent)}
               key={k}
             >
-              { isSuccess === 1 ? <ListItemIcon><CheckCirclOutlineIcon style={{color: '#84C556'}} /></ListItemIcon> : null}
-              { isSuccess === 0 ? <ListItemIcon><BlockIcon color='error'/> </ListItemIcon>: null }
+              { isSuccess === 1 ? <CheckCirclOutlineIcon style={{color: '#84C556'}} /> : null}
+              { isSuccess === 0 ? <BlockIcon color='error'/> : null }
               <ListItemText
                 primary={r.pdbId}
                 secondary={`EC ${r.ecNumber}`}
