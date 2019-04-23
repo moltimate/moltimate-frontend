@@ -47,7 +47,9 @@ function BuilderContainer(props) {
     const childId = pdbId.pdbId;
     const aligned = pdbId.alignedResidues;
 
-    if ( result.data ) handleSelectedResult(e, parentId, childId, active, aligned);
+    if ( result.data ) {
+      handleSelectedResult(e, parentId, childId, active, aligned);
+    }
   }
 
   function switchHandler(e, type, extra) {
@@ -97,7 +99,7 @@ function BuilderContainer(props) {
         childIcon={<BuildIcon />}
       />
       {
-        result.mode !== 'test' ? <MenuCard
+        result.mode === 'test' ? <MenuCard
           label='Test Results'
           expand={expandResult}
           handleClick={setExpandResult}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { debounce } from "debounce";
 
 import testMakerResponse from './testMakerResponse';
 import testSearchResponse from './testSearchResponse';
@@ -9,10 +10,12 @@ const testQuery = 'http://localhost:8080/test/motif';
 const searchQuery = 'http://localhost:8080/align/activesite';
 
 const useForm = (callback) => {
+  const [filters, setFilters] = useState({});
+
   const [values, setValues] = useState({});
   const [currentMode, setCurrentMode] = useState('');
   const [result, setResult] = useState({
-    data: testMakerResponse,
+    data: null,
     complete: false,
     pending: false,
     error: null,
@@ -70,6 +73,9 @@ const useForm = (callback) => {
 
   /* Generic input handleChange */
   const handleChange = (e) => {
+    setTimeout(function(){
+      console.log(result.data)
+    }, 2000);
     e.persist();
     setValues(values => ({ ...values, [e.target.name]: e.target.value }));
   };
@@ -118,6 +124,23 @@ const useForm = (callback) => {
     setValues(values => ({ ...values, [key]: copy}));
   }
 
+  // THIS NEEDS SOME REFINEMENT
+  const handleSort = (filter) => {
+    const temp = result.data;
+    for (const [key, value] of Object.entries(temp.entries)) {
+      value.alignments = value.alignments.filter(a => {
+        return a.rmsd < filters.rmsdMaxFilter && a.rmsd > filters.rmsdMinFilter
+      });
+    }
+    setResult(result => ({...result, data: temp}))
+  }
+
+  const handleFilters = (e) => {
+    e.persist();
+    setFilters(filters => ({ ...filters, [e.target.name]: e.target.value }));
+    if (filters.rmsdMaxFilter && filters.rmsdMinFilter) debounce(handleSort(), 1000);
+  };
+
   return {
     handleChange,
     handleSubmit,
@@ -129,6 +152,9 @@ const useForm = (callback) => {
     values,
     handleSetMode,
     result,
+    handleSort,
+    handleFilters,
+    filters
   }
 };
 

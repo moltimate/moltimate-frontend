@@ -16,8 +16,9 @@ import FilterButton from './FilterButton';
 import { rmsd, pdbId, ecNumber } from './inputs';
 
 export default function Filters(props) {
+  const { handleFilters, filters } = props;
   const [anchorEl, setAnchorEl] = useState(null);
-  const { handleFilters, filters }
+
   const open = Boolean(anchorEl);
   const id = open ? 'ecNumberFilter' : null;
 
@@ -26,21 +27,21 @@ export default function Filters(props) {
       <Typography color="textSecondary">Filters:</Typography>
         <FilterButton
           buttonTitle='EC Class'
+          popoverContent={ecNumber}
           handleFilters={handleFilters}
           filters={filters}
-          popoverContent={ecNumber}
         />
         <FilterButton
           buttonTitle='RMSD'
+          popoverContent={rmsd}
           handleFilters={handleFilters}
           filters={filters}
-          popoverContent={rmsd}
         />
         <FilterButton
           buttonTitle='PDB Id'
+          popoverContent={pdbId}
           handleFilters={handleFilters}
           filters={filters}
-          popoverContent={pdbId}
         />
       <Divider />
     </div>

@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import List from '@material-ui/core/List';
+import Filters from './filters/Filters';
 
 import ResultItem from './ResultItem';
 
 
 export default function ResultsBox(props) {
-  const { failedResult, successResult, handleSelectedResult, temp } = props;
+  const { failedResult, successResult, handleSelectedResult, temp, filters, handleFilters } = props;
 
   return (
     <div>
+      <Filters filters={filters} handleFilters={handleFilters}/>
       <List>
         {
           failedResult ?

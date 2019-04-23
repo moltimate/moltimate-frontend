@@ -28,7 +28,7 @@ import { withStyles } from '@material-ui/core/styles';
 function SearchContainer(props) {
   const { classes, selectedResult, handleSelectedResult } = props;
   const { values, result, handleChange, handleClearValues, handleSubmit,
-    handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm();
+    handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode, handleSort, filters, handleFilters } = useForm();
 
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
@@ -48,6 +48,8 @@ function SearchContainer(props) {
 
     setSelected(pdbId);
     setRes(extra);
+
+    handleSort();
 
     handleSelectedResult(e, parentId, childId, active, aligned)
   }
@@ -112,6 +114,8 @@ function SearchContainer(props) {
               <ResultsBox
                 handleSelectedResult={filterHandleSelectedResult}
                 temp={ result.data ? result.data.entries : []}
+                handleFilters={handleFilters}
+                filters={filters}
               />
             }
             childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
