@@ -5,6 +5,8 @@ import axios from "axios";
 import SearchContainer from './search/SearchContainer';
 import BuilderContainer from './builder/BuilderContainer';
 import ProteinContainer from './protein/ProteinContainer';
+import LigandLibraryContainer from './ligand_library/LigandLibraryContainer';
+import ImportedLigandsContainer from './imported_ligands/ImportedLigandsContainer';
 import TopBar from './TopBar';
 
 import styles from './styles.js';
@@ -33,6 +35,8 @@ function MoltimateContainer(props) {
             handleSelectedResult={handleSelectedResult}
             selectedResult={selectedResult}
           />
+          <LigandLibraryContainer/>
+          <ImportedLigandsContainer/>
         </div>
         {
           nglData ? <ProteinContainer
