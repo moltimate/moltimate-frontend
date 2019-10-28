@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import ResultsBox from '../common/ResultsBox';
+import FilteredResultsBox from '../common/ResultsBox';
 import MenuCard from '../common/MenuCard';
 
 import ListIcon from '@material-ui/icons/List';
@@ -13,7 +13,7 @@ function LigandLibraryContainer(props){
         label='Ligand Library'
         expand={expandLigandLibrary}
         handleClick={setExpandLigandLibrary}
-        cardChild={<ResultsBox values={null} handleChange={null} />}
+        cardChild={<FilteredResultsBox temp = {null} />}
         childIcon={<ListIcon />}
       />
     );

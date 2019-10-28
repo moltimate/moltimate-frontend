@@ -17,6 +17,10 @@ function MoltimateContainer(props) {
   const [expanded, setExpanded] = useState(false);
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
+  const test_ligands = [
+    {name:"ligand1",structure:"C20 H28 N2 O"},
+    {name:"ligand2A",structure:"C20 H22 N10 O2 S"}];
+  const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
@@ -36,7 +40,9 @@ function MoltimateContainer(props) {
             selectedResult={selectedResult}
           />
           <LigandLibraryContainer/>
-          <ImportedLigandsContainer/>
+          <ImportedLigandsContainer 
+            importedLigands = {uploadedLigands}
+          />
         </div>
         {
           nglData ? <ProteinContainer

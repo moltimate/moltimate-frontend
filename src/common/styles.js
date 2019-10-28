@@ -50,6 +50,7 @@ export default {
   builderContainer: {
     margin: '5% 10%'
   },
-
-
+  filter: {
+    margin: '0% 10%'
+  }
 }
