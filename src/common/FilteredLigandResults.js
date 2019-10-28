@@ -19,7 +19,7 @@ function FilteredResultsBox(props) {
           <TextField 
             //className = {filter}
             name = "filter" 
-            label = "Ligand"
+            label = "Ligand Filter"
           />
         </ListItemText>
       </ListItem>

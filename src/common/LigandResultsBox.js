@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { List, ListItem, ListItemText } from '@material-ui/core';
+import LigandResultItem from './LigandResultItem';
 
 export default function LigandResultsBox(props) {
   const {ligandResults} = props;
 
-  const box_list = ligandResults.map(ligand => <ListItemText>{ligand.name}</ListItemText>);
+  const box_list = ligandResults.map(ligand => <LigandResultItem ligand={ligand}/>);
     
   return(
     /*
@@ -14,9 +15,12 @@ export default function LigandResultsBox(props) {
         box_list
       }
     </List>
-    */
 
-    box_list
+    <LigandResultItem ligand={ligand}/>
+    */
+    <List>
+      {ligandResults.map(current_ligand => <LigandResultItem ligand={current_ligand}/>)}
+    </List>
   );
 }
 

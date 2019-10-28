@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import FilteredResultsBox from '../common/FilteredResultsBox';
+import FilteredResultsBox from '../common/FilteredLigandResults';
 import MenuCard from '../common/MenuCard';
 
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import FilteredLigandResults from "../common/FilteredLigandResults";
 
 function ImportedLigandsContainer(props){
   const {importedLigands} = props;
@@ -13,7 +14,7 @@ function ImportedLigandsContainer(props){
       label='Imported Ligands'
       expand={expandImportedLigands}
       handleClick={setExpandImportedLigands}
-      cardChild={<FilteredResultsBox temp={importedLigands} />}
+      cardChild={<FilteredLigandResults temp={importedLigands} />}
       childIcon={<AddCircleOutlineIcon />}
     />
   );
