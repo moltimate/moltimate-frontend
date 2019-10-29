@@ -1,4 +1,5 @@
 import React from "react";
+import {useState} from "react";
 import PropTypes from 'prop-types';
 
 import LigandResultsBox from "./LigandResultsBox";
@@ -6,12 +7,14 @@ import LigandResultsBox from "./LigandResultsBox";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles"
 import styles from "./styles.js";
 
 
 function FilteredResultsBox(props) {
-  const { temp } = props;
+  const { classes, temp } = props;
+  const [] = useState();
   return(
     <div>
       <ListItem>
@@ -21,6 +24,7 @@ function FilteredResultsBox(props) {
             name = "filter" 
             label = "Ligand Filter"
           />
+          <Button name='dock' className={classes.dockButton}>Dock</Button>         
         </ListItemText>
       </ListItem>
       <LigandResultsBox 
