@@ -32,10 +32,20 @@ function MoltimateContainer(props) {
 
   const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
   const [ libraryLigands, setLibraryLigands ] = useState(library_ligands);
+  const [selectedLigandNames, setSelectedLigandNames] = useState(new Set());
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
     setNglData({ parentId, childId, active, aligned });
+  }
+
+  //Used to toggle the selection of different ligands for docking
+  function handleSelectedLigand(ligand_name){
+    if(selectedLigandNames.has(ligand_name)){
+      selectedLigandNames.remove(ligand_name)
+    } else{
+      selectedLigandNames.add(ligand_name)
+    }
   }
 
     return (
