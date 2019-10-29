@@ -1,11 +1,11 @@
 import React, {useState} from "react"
-import FilteredResultsBox from '../common/ResultsBox';
+import FilteredLigandResults from '../common/FilteredLigandResults';
 import MenuCard from '../common/MenuCard';
 
 import ListIcon from '@material-ui/icons/List';
 
 function LigandLibraryContainer(props){
-
+    const {library} = props
     const [expandLigandLibrary, setExpandLigandLibrary] = useState(false);
 
     return(
@@ -13,7 +13,7 @@ function LigandLibraryContainer(props){
         label='Ligand Library'
         expand={expandLigandLibrary}
         handleClick={setExpandLigandLibrary}
-        cardChild={<FilteredResultsBox temp = {null} />}
+        cardChild={<FilteredLigandResults temp={library} />}
         childIcon={<ListIcon />}
       />
     );
