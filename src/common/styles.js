@@ -33,6 +33,9 @@ export default {
       background: '#7f66ff'
     },
   },
+  selected: {
+    background: '#856eff'
+  },
   cancelButton: {
     borderRadius: 25,
     color: 'rgba(0, 0, 0, 0.54)',
