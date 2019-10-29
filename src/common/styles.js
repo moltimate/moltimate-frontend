@@ -23,6 +23,16 @@ export default {
     color: 'white',
     padding: '10px 20px',
   },
+  dockButton:{
+    float: 'right',
+    background: '#5433FF',
+    borderRadius: 25,
+    padding: '10px 20px',
+    color: 'white',
+    '&:hover': {
+      background: '#7f66ff'
+    },
+  },
   cancelButton: {
     borderRadius: 25,
     color: 'rgba(0, 0, 0, 0.54)',
