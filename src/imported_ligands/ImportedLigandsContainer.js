@@ -6,7 +6,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import FilteredLigandResults from "../common/FilteredLigandResults";
 
 function ImportedLigandsContainer(props){
-  const {importedLigands} = props;
+  const {importedLigands, selectedLigands, clickLigandHandler} = props;
   const [expandImportedLigands, setExpandImportedLigands] = useState(false);
 
   return(
@@ -14,7 +14,13 @@ function ImportedLigandsContainer(props){
       label='Imported Ligands'
       expand={expandImportedLigands}
       handleClick={setExpandImportedLigands}
-      cardChild={<FilteredLigandResults temp={importedLigands} />}
+      cardChild={
+        <FilteredLigandResults 
+          temp={importedLigands} 
+          selectedLigands={selectedLigands}
+          clickLigandHandler={clickLigandHandler}
+        />
+      }
       childIcon={<AddCircleOutlineIcon />}
     />
   );

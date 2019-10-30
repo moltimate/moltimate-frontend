@@ -3,7 +3,7 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 
 export default function LigandResultItem(props){
-  const {classes, ligand, isSelected} = props;
+  const {classes, ligand, isSelected, clickHandler} = props;
 
   const contents = 
     <>

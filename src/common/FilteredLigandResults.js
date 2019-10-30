@@ -13,7 +13,7 @@ import styles from "./styles.js";
 
 
 function FilteredResultsBox(props) {
-  const { classes, temp } = props;
+  const { classes, temp, selectedLigands, clickLigandHandler } = props;
   const [] = useState();
   return(
     <div>
@@ -29,6 +29,8 @@ function FilteredResultsBox(props) {
       </ListItem>
       <LigandResultsBox 
         ligandResults = {temp}
+        selectedLigands = {selectedLigands}
+        clickLigandHandler = {clickLigandHandler}
       />
     </div>
 
