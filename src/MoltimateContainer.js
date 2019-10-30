@@ -61,10 +61,14 @@ function MoltimateContainer(props) {
             selectedResult={selectedResult}
           />
           <LigandLibraryContainer
-             library = {libraryLigands}
+            library = {libraryLigands}
+            selectedLigandNames = {selectedLigandNames}
+            clickLigandHandler = {handleSelectedLigand}
           />
           <ImportedLigandsContainer 
             importedLigands = {uploadedLigands}
+            selectedLigandNames = {selectedLigandNames}
+            clickLigandHandler = {handleSelectedLigand}
           />
         </div>
         {
