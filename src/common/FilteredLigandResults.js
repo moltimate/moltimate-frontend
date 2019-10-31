@@ -37,14 +37,14 @@ function FilteredResultsBox(props) {
   );
 };
 
-FilteredResultsBox.PropTypes = {
-  classes: PropTypes.object,
-  handleSelectedResult: PropTypes.func,
-  successResult: PropTypes.array,
-  failedResult: PropTypes.array,
+FilteredLigandResultsBox.propTypes = {
+  classes: propTypes.object,
+  handleSelectedResult: propTypes.func,
+  successResult: propTypes.array,
+  failedResult: propTypes.array,
 };
 
-FilteredResultsBox.defaultProps = {
+FilteredLigandResultsBox.defaultProps = {
   successResult: [],
   
 };
