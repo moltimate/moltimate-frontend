@@ -4,7 +4,7 @@ import { List, ListItem, ListItemText } from '@material-ui/core';
 import LigandResultItem from './LigandResultItem';
 
 export default function LigandResultsBox(props) {
-  const {ligandResults, selectedLigands, clickLigandHandler} = props;
+  const {ligandResults, selectedLigands, dockedLigands, clickLigandHandler} = props;
   const box_list = ligandResults.map(current_ligand => <LigandResultItem ligand={current_ligand}/>);
 
   return(
@@ -14,7 +14,7 @@ export default function LigandResultsBox(props) {
           key={ligand.name}
           ligand={ligand} 
           isSelected = {selectedLigands.has(ligand)} 
-          isDocked = {false}
+          isDocked = {dockedLigands.has(ligand)}
           clickHandler={clickLigandHandler} 
         />))
       }

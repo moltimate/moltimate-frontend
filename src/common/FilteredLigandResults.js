@@ -13,7 +13,7 @@ import styles from "./styles.js";
 
 
 function FilteredLigandResults(props) {
-  const { classes, temp, selectedLigands, clickLigandHandler, dockHandler } = props;
+  const { classes, temp, selectedLigands, dockedLigands, clickLigandHandler, dockHandler } = props;
   const [] = useState();
   return(
     <div>
@@ -37,6 +37,7 @@ function FilteredLigandResults(props) {
         ligandResults = {temp}
         selectedLigands = {selectedLigands}
         clickLigandHandler = {clickLigandHandler}
+        dockedLigands = {dockedLigands}
       />
     </div>
 
