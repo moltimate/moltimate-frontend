@@ -33,8 +33,12 @@ export default {
       background: '#7f66ff'
     },
   },
+  unselected: {
+    cursor: "pointer",
+  },
   selected: {
-    background: '#856eff'
+    background: '#856eff',
+    cursor: "pointer",
   },
   cancelButton: {
     borderRadius: 25,

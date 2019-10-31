@@ -1,8 +1,11 @@
 import React, { useState } from "react"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
+import {withStyles} from "@material-ui/core/styles"
+import styles from './styles.js'
 
-export default function LigandResultItem(props){
+
+function LigandResultItem(props){
   const {classes, ligand, isSelected, clickHandler} = props;
 
   const contents = 
@@ -14,14 +17,30 @@ export default function LigandResultItem(props){
   let item;
 
   if(isSelected){
-    item = <ListItem>{contents}</ListItem>;
+    item = <ListItem
+      //button
+      cursor="pointer"
+      onClick={(e) => clickHandler(ligand)}
+      className={classes.selected}
+    >
+      {contents}
+    </ListItem>;
   } else {
-    item = <ListItem>{contents}</ListItem>;
+    item = <ListItem 
+      //button 
+      cursor="pointer"
+      onClick={(e) => clickHandler(ligand)}
+      className = {classes.unselected}
+    >
+      {contents}
+    </ListItem>;
   }
 
   return(
-    <ListItem>{contents}</ListItem>
+    item
   );
   //<ListItemText primary = {ligand.name}/>
   //<ListItemText primary = {ligand.structure} style={{float: 'right'}}/>
 }
+
+export default withStyles(styles)(LigandResultItem);
