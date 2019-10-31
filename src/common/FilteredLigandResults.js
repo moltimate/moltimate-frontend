@@ -13,7 +13,7 @@ import styles from "./styles.js";
 
 
 function FilteredLigandResults(props) {
-  const { classes, temp, selectedLigands, clickLigandHandler } = props;
+  const { classes, temp, selectedLigands, clickLigandHandler, dockHandler } = props;
   const [] = useState();
   return(
     <div>
@@ -24,7 +24,13 @@ function FilteredLigandResults(props) {
             name = "filter" 
             label = "Ligand Filter"
           />
-          <Button name='dock' className={classes.dockButton}>Dock</Button>         
+          <Button 
+            name='dock' 
+            className={classes.dockButton}
+            onClick = {dockHandler}
+          >
+            Dock
+          </Button>         
         </ListItemText>
       </ListItem>
       <LigandResultsBox 

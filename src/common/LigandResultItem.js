@@ -6,7 +6,7 @@ import styles from './styles.js'
 
 
 function LigandResultItem(props){
-  const {classes, ligand, isSelected, clickHandler} = props;
+  const {classes, ligand, isSelected, isDocked, clickHandler} = props;
 
   const contents = 
     <>
