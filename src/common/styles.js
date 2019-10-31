@@ -40,6 +40,14 @@ export default {
     background: '#856eff',
     cursor: "pointer",
   },
+  dockedSelected: {
+    background: '#6a4dff',
+    cursor: "pointer",
+  },
+  dockedUnselected: {
+    background: '#e6e6e6',
+    cursor: "pointer",
+  },
   cancelButton: {
     borderRadius: 25,
     color: 'rgba(0, 0, 0, 0.54)',

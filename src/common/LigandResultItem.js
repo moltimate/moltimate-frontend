@@ -14,9 +14,34 @@ function LigandResultItem(props){
       <ListItemText secondary = {ligand.structure} style={{float: 'right', textAlign: 'right'}}/>
     </>;
 
+  const contents_docked = 
+    <>
+      <ListItemText>{ligand.name}</ListItemText>
+      <ListItemText secondary = {"Min BA: " + ligand.min_affinity.toString()} />
+      <ListItemText secondary = {ligand.structure} style={{float: 'right', textAlign: 'right'}}/>
+    </>;
+
   let item;
 
-  if(isSelected){
+  if(isDocked && isSelected){
+    item = <ListItem
+      //button
+      cursor="pointer"
+      onClick={(e) => clickHandler(ligand)}
+      className={classes.dockedSelected}
+    >
+      {contents_docked}
+    </ListItem>;
+  }else if(isDocked && !isSelected){
+    item = <ListItem
+      //button
+      cursor="pointer"
+      onClick={(e) => clickHandler(ligand)}
+      className={classes.dockedUnselected}
+    >
+      {contents_docked}
+    </ListItem>;
+  }else if(isSelected){
     item = <ListItem
       //button
       cursor="pointer"

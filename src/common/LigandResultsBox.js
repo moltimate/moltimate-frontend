@@ -14,6 +14,7 @@ export default function LigandResultsBox(props) {
           key={ligand.name}
           ligand={ligand} 
           isSelected = {selectedLigands.has(ligand)} 
+          isDocked = {false}
           clickHandler={clickLigandHandler} 
         />))
       }
