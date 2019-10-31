@@ -1,6 +1,6 @@
 import React from "react";
 import {useState} from "react";
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
 import LigandResultsBox from "./LigandResultsBox";
 
@@ -12,7 +12,7 @@ import {withStyles} from "@material-ui/core/styles"
 import styles from "./styles.js";
 
 
-function FilteredResultsBox(props) {
+function FilteredLigandResults(props) {
   const { classes, temp, selectedLigands, clickLigandHandler } = props;
   const [] = useState();
   return(
@@ -37,16 +37,16 @@ function FilteredResultsBox(props) {
   );
 };
 
-FilteredLigandResultsBox.propTypes = {
+FilteredLigandResults.propTypes = {
   classes: propTypes.object,
   handleSelectedResult: propTypes.func,
   successResult: propTypes.array,
   failedResult: propTypes.array,
 };
 
-FilteredLigandResultsBox.defaultProps = {
+FilteredLigandResults.defaultProps = {
   successResult: [],
   
 };
 
-export default withStyles(styles)(FilteredResultsBox);
+export default withStyles(styles)(FilteredLigandResults);
