@@ -5,7 +5,7 @@ import MenuCard from '../common/MenuCard';
 import ListIcon from '@material-ui/icons/List';
 
 function LigandLibraryContainer(props){
-    const {library, selectedLigands, clickLigandHandler} = props
+    const {library, selectedLigands, dockedLigands, viewingLigand, clickLigandHandler, dockHandler} = props
     const [expandLigandLibrary, setExpandLigandLibrary] = useState(false);
 
     return(
@@ -16,7 +16,10 @@ function LigandLibraryContainer(props){
         cardChild={<FilteredLigandResults 
             temp={library} 
             selectedLigands = {selectedLigands}
+            dockedLigands = {dockedLigands}
             clickLigandHandler={clickLigandHandler}
+            dockHandler = {dockHandler}
+            viewingLigand = {viewingLigand}
           />}
         childIcon={<ListIcon />}
       />

@@ -13,7 +13,7 @@ import styles from "./styles.js";
 
 
 function FilteredLigandResults(props) {
-  const { classes, temp, selectedLigands, dockedLigands, clickLigandHandler, dockHandler } = props;
+  const { classes, temp, selectedLigands, dockedLigands, clickLigandHandler, dockHandler, viewingLigand } = props;
   const [] = useState();
   return(
     <div>
@@ -38,6 +38,7 @@ function FilteredLigandResults(props) {
         selectedLigands = {selectedLigands}
         clickLigandHandler = {clickLigandHandler}
         dockedLigands = {dockedLigands}
+        viewingLigand = {viewingLigand}
       />
     </div>
 

@@ -1,12 +1,11 @@
 import React, {useState} from "react";
-import FilteredResultsBox from '../common/FilteredLigandResults';
+import FilteredLigandResults from '../common/FilteredLigandResults';
 import MenuCard from '../common/MenuCard';
 
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import FilteredLigandResults from "../common/FilteredLigandResults";
 
 function ImportedLigandsContainer(props){
-  const {importedLigands, selectedLigands, clickLigandHandler} = props;
+  const {importedLigands, selectedLigands, dockedLigands, viewingLigand, clickLigandHandler, dockHandler} = props;
   const [expandImportedLigands, setExpandImportedLigands] = useState(false);
 
   return(
@@ -18,7 +17,10 @@ function ImportedLigandsContainer(props){
         <FilteredLigandResults 
           temp={importedLigands} 
           selectedLigands={selectedLigands}
+          dockedLigands = {dockedLigands}
           clickLigandHandler={clickLigandHandler}
+          dockHandler={dockHandler}
+          viewingLigand = {viewingLigand}
         />
       }
       childIcon={<AddCircleOutlineIcon />}
