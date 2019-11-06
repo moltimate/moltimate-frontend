@@ -41,7 +41,7 @@ export default {
     cursor: "pointer",
   },
   dockedSelected: {
-    background: '#6a4dff',
+    background: '#b3b3b3',
     cursor: "pointer",
   },
   dockedUnselected: {

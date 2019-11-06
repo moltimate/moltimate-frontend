@@ -6,7 +6,7 @@ import styles from './styles.js'
 
 
 function LigandResultItem(props){
-  const {classes, ligand, isSelected, isDocked, clickHandler} = props;
+  const {classes, ligand, isSelected, isDocked, clickHandler, isViewingLigand} = props;
 
   const contents = 
     <>
@@ -23,7 +23,7 @@ function LigandResultItem(props){
 
   let item;
 
-  if(isDocked && isSelected){
+  if(isViewingLigand){
     item = <ListItem
       //button
       cursor="pointer"
