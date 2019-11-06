@@ -111,7 +111,11 @@ function MoltimateContainer(props) {
             viewingLigand = {viewingLigand}
             dockedLigands = {dockedLigands}
           />
-          <DockingInfoContainer/>
+          {
+            //Only display docking info if there is a viewing ligand selected
+            viewingLigand ? <DockingInfoContainer/>:null
+          }
+          
         </div>
         {
           nglData ? <ProteinContainer
