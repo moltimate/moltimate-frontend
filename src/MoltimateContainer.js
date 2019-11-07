@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import axios from "axios";
 
+import TopBar from './TopBar';
+import Button from '@material-ui/core/Button'
+
 import SearchContainer from './search/SearchContainer';
 import BuilderContainer from './builder/BuilderContainer';
 import ProteinContainer from './protein/ProteinContainer';
 import LigandLibraryContainer from './ligand_library/LigandLibraryContainer';
 import ImportedLigandsContainer from './imported_ligands/ImportedLigandsContainer';
 import DockingInfoContainer from './docking_info/DockingInfoContainer';
-import TopBar from './TopBar';
-import Button from '@material-ui/core/Button'
+import SettingsContainer from './settings/SettingsContainer';
 
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
@@ -32,11 +34,18 @@ function MoltimateContainer(props) {
     {name:"ligand1",structure:"C20 H28 N2 O", selected:true, min_affinity: -4.6},
     {name:"ligand2A",structure:"C20 H22 N10 O2 S", selected:false, min_affinity: -8.3}];
 
+  //data on all the ligands the user has uploaded
   const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
+  //autopopulating data on ligands
   const [ libraryLigands, setLibraryLigands ] = useState(library_ligands);
+  //ligands selected for docking
   const [selectedLigands, setSelectedLigands] = useState(new Set());
+  //ligands which have been docked
   const [dockedLigands, setDockedLigands] = useState(new Set());
+  //the ligand selected to be viewed
   const [viewingLigand, setViewingLigand] = useState(null);
+  //whether the settings are showing or now
+  const [showSettings, setShowSettings] = useState(false)
 
   console.log("test");
 
@@ -82,9 +91,18 @@ function MoltimateContainer(props) {
     setSelectedLigands(new Set())
   }
 
+  /*
+  if the settings menu is showing, close the settings menu
+  if the settings menu is hidden, show the settings menu
+  */
+  function toggleSettingsMenu(){
+    if(showSettings) setShowSettings(false)
+    else setShowSettings(true)
+  }
+
     return (
       <>
-        <TopBar />
+        <TopBar toggleSettings = {toggleSettingsMenu}/>
         
         <div className={classes.controlPanel}>
           <SearchContainer
@@ -124,6 +142,10 @@ function MoltimateContainer(props) {
             active={nglData.active}
             aligned={nglData.aligned}
           /> : null
+        }
+        {
+          //Only display the settings modal when showSettings is true
+          showSettings ? <SettingsContainer setShowSettings = {setShowSettings}/>:null
         }
       </>
     );
