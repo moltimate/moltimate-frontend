@@ -9,48 +9,16 @@ import jssPluginPropsSort from "jss-plugin-props-sort";
 import styles from "./styles.js"
 
 function LigandDetailsBox(props){
-  const {dockingConfigurations, selectedDockingConfiguration, selectConfigurationHandler, classes} = props;
+  const {dockingConfigurations, classes} = props;
 
-  /*
-  Formats a docking-configuration index value for viewing
-
-  input:
-    index: an integer in the range (0, 99)
-  output:
-    a string with the given integer 0 padded to 2 places
-  */
-  function formatIndex(index){
-    if(index < 10){
-      return "0" + index.toString()
-    }else{
-      return index.toString()
-    }
-
-  }
   //create a row for the docking ligands table
-  function createDockingConfigRow(docking_configuration, is_selected ){
-    if(is_selected){
-      return(
-        <TableRow 
-          className = {classes.selected}
-          onClick = {(e) => selectConfigurationHandler(null)}
-        >
-          <TableCell children = {formatIndex(docking_configuration[0])}/>
-          <TableCell children = {docking_configuration[1]}/>
-          <TableCell children = {docking_configuration[2]}/>
-        </TableRow>);
-    }else{
-      return(
-        <TableRow 
-          className = {classes.unselected}
-          onClick = {(e) => selectConfigurationHandler(docking_configuration)}
-        >
-          <TableCell children = {formatIndex(docking_configuration[0])}/>
-          <TableCell children = {docking_configuration[1]}/>
-          <TableCell children = {docking_configuration[2]}/>
-        </TableRow>)
-    }
-      
+  function createDockingConfigRow(index, binding_affinity, rmsd ){
+    return(
+      <TableRow>
+        <TableCell children = {index}/>
+        <TableCell children = {binding_affinity}/>
+        <TableCell children = {rmsd}/>
+      </TableRow>);
   }
     
 
@@ -69,12 +37,9 @@ function LigandDetailsBox(props){
           //for every entry in the dockingConfigurations, generate a row in the table
           dockingConfigurations.map(dockingConfiguration => 
             createDockingConfigRow(
-              dockingConfiguration,
-              //compare rmsc to decide if ligand is selected - this is temporary
-              //will not work with real data
-              (selectedDockingConfiguration && 
-                dockingConfiguration[2] == selectedDockingConfiguration[2])
-              ))
+              dockingConfiguration[0],
+              dockingConfiguration[1],
+              dockingConfiguration[2]))
         }
       </TableBody>
     </Table>
@@ -82,8 +47,23 @@ function LigandDetailsBox(props){
 
 }
 
+const fake_docking_data = (
+  [[1,-9.8,0],
+  [2,-9.8,2.232],
+  [3,-9.6, 2.159],
+  [4,-7.3, 2.116],
+  [5,-7.2, 2.126],
+  [6,-7.2, 2.348],
+  [7,-7.1, 22.363],
+  [8,-6.8, 29.022],
+  [9,-6.6, 21.567]]);
+
+const mock_docking_data = (
+  [[1, -3, 1],[2, -2, 5],[3, -1, 10]]
+);
+
 LigandDetailsBox.defaultProps={
-  dockingConfigurations: []
+  dockingConfigurations: mock_docking_data
 }
 
 export default withStyles(styles)(LigandDetailsBox)

@@ -12,12 +12,4 @@ export default{
     fontWeight: 'bold'
   },
 
-  unselected:{
-    cursor: "pointer",
-  },
-  selected: {
-    background: '#b3b3b3',
-    cursor: "pointer",
-  },
-
 }
