@@ -33,6 +33,19 @@ function MoltimateContainer(props) {
   const test_ligands = [
     {name:"ligand1",structure:"C20 H28 N2 O", selected:true, min_affinity: -4.6},
     {name:"ligand2A",structure:"C20 H22 N10 O2 S", selected:false, min_affinity: -8.3}];
+  const fake_docking_data = (
+    [[1,-9.8,0],
+    [2,-9.8,2.232],
+    [3,-9.6, 2.159],
+    [4,-7.3, 2.116],
+    [5,-7.2, 2.126],
+    [6,-7.2, 2.348],
+    [7,-7.1, 22.363],
+    [8,-6.8, 29.022],
+    [9,-6.6, 21.567]]);
+  const fake_docking_data_2 = (
+    [[1, -3, 1],[2, -2, 5],[3, -1, 10]]
+  );
 
   //data on all the ligands the user has uploaded
   const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
@@ -44,6 +57,8 @@ function MoltimateContainer(props) {
   const [dockedLigands, setDockedLigands] = useState(new Set());
   //the ligand selected to be viewed
   const [viewingLigand, setViewingLigand] = useState(null);
+  //the docking configurations available for the viewing ligand
+  const [dockingConfigs, setDockingConfigs] = useState([]);
   //the docking configuration selected to be viewed
   const [selectedDockingConfig, setSelectedDockingConfig] = useState(null);
   //whether the settings are showing or now
@@ -66,6 +81,13 @@ function MoltimateContainer(props) {
     //if docking has already been performed on the selected ligand, select it for viewing
     }else if(dockedLigands.has(selected_ligand)){
       setViewingLigand(selected_ligand)
+      
+      //this is temporary, for demonstration purposes
+      if(selected_ligand.name == "00I"){
+        setDockingConfigs(fake_docking_data)
+      } else{
+        setDockingConfigs(fake_docking_data_2)
+      }
     }
 
     //create a copy of the selectedLigands set for editing
@@ -89,6 +111,11 @@ function MoltimateContainer(props) {
       new_docked_ligands.add(ligand)
     }
     setDockedLigands(new_docked_ligands)
+    
+    //if any new ligands were docked, select the first one for display 
+    if(selectedLigands.length > 0){
+
+    }
 
     setSelectedLigands(new Set())
   }
@@ -100,6 +127,11 @@ function MoltimateContainer(props) {
   function toggleSettingsMenu(){
     if(showSettings) setShowSettings(false)
     else setShowSettings(true)
+  }
+
+  function selectConfig(configSelection){
+    setSelectedDockingConfig(configSelection)
+    console.log("selected config: " + configSelection[1])
   }
 
     return (
@@ -133,7 +165,11 @@ function MoltimateContainer(props) {
           />
           {
             //Only display docking info if there is a viewing ligand selected
-            viewingLigand ? <DockingInfoContainer/>:null
+            viewingLigand ? <DockingInfoContainer
+              dockingConfigurations = {dockingConfigs}
+              selectedDockingConfiguration = {selectedDockingConfig}
+              selectConfigurationHandler = {selectConfig}
+            />:null
           }
           
         </div>
