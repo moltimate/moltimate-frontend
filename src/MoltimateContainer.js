@@ -44,6 +44,8 @@ function MoltimateContainer(props) {
   const [dockedLigands, setDockedLigands] = useState(new Set());
   //the ligand selected to be viewed
   const [viewingLigand, setViewingLigand] = useState(null);
+  //the docking configuration selected to be viewed
+  const [selectedDockingConfig, setSelectedDockingConfig] = useState(null);
   //whether the settings are showing or now
   const [showSettings, setShowSettings] = useState(false)
 

@@ -11,11 +11,27 @@ import styles from "./styles.js"
 function LigandDetailsBox(props){
   const {dockingConfigurations, classes} = props;
 
+  /*
+  Formats a docking-configuration index value for viewing
+
+  input:
+    index: an integer in the range (0, 99)
+  output:
+    a string with the given integer 0 padded to 2 places
+  */
+  function formatIndex(index){
+    if(index < 10){
+      return "0" + index.toString()
+    }else{
+      return index.toString()
+    }
+
+  }
   //create a row for the docking ligands table
   function createDockingConfigRow(index, binding_affinity, rmsd ){
     return(
       <TableRow>
-        <TableCell children = {index}/>
+        <TableCell children = {formatIndex(index)}/>
         <TableCell children = {binding_affinity}/>
         <TableCell children = {rmsd}/>
       </TableRow>);
