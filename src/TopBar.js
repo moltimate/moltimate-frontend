@@ -20,14 +20,14 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 
 function TopBar(props) {
-  const { classes, compare, base } = props;
+  const { classes, toggleSettings, compare, base } = props;
 
   return (
     <AppBar className={classNames(classes.purpleGradient, classes.topLayer)}>
       <Toolbar>
         <Typography className={classes.title}>MOLTIMATE</Typography>
         <div className={classes.wide}>
-          <IconButton className={classes.floatRight} onClick={() => console.log('temp')}>
+          <IconButton className={classes.floatRight} onClick={() => toggleSettings()}>
             <SettingsIcon className={classNames(classes.floatRight, classes.white)}/>
           </IconButton>
           <IconButton className={classes.floatRight} onClick={() => console.log('temp')}>
