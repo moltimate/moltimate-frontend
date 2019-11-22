@@ -29,6 +29,7 @@ const useForm = (callback) => {
 
     const queryURL = currentMode === 'test' ? testQuery : searchQuery;
 
+    console.log(queryURL)
     const form_data = new FormData();
     for ( let key in values ) {
       if ( String(key) === 'activeSiteResidues') {
