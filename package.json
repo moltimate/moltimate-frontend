@@ -1,6 +1,6 @@
 {
-  "name": "Moltimate",
-  "version": "1",
+  "name": "moltimate",
+  "version": "1.0.0",
   "description": "sr project frontend ",
   "main": "index.js",
   "homepage": ".",
