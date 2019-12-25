@@ -31,7 +31,7 @@ To run locally you must download dependencies if it is your first time running t
 yarn install
 ```
 
-After the install
+After installing the project dependencies 
 
 ```
 yarn start
