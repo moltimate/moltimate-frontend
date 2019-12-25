@@ -75,4 +75,4 @@ Great deal of time and resources were spent on making this code reusable and hig
    
 ## License
 
-This project is licensed under ??????? 
+This project is licensed under GPLv2
