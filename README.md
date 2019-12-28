@@ -33,9 +33,14 @@ yarn run test
 
 Custom yarn scripts can be made such as `yarn build` which can be found in the `package.json`
 
-### Unit Tests
+## Testing
 
-Currently this project is not set up with any unit tests. This was done intentionally. Selenium driven integration tests unnecessary  increase developer time and do not provide useful checks for this software. This is built to simply display a protein visualization. Possible unit testable code is the advanced hook logic found in the `util` directory.
+Currently this project is not set up with any unit tests. This was done intentionally. Possible unit testable code is the advanced hook logic found in the `util` directory.
+
+Selenium driven integration tests will be used to validate user workflows, and provide transparent assurances to users and stakeholders. Tests will be automated via Travis-CI.
+
+### Big Thanks
+Cross-browser Testing Platform and Open Source ❤️ provided by [Sauce Labs](https://saucelabs.com)
 
 ## Project Structure
 
@@ -61,7 +66,7 @@ Create React App is quick and easy way to get things setup, however it is incred
 
 ### Resuable Code
 Great deal of time and resources were spent on making this code reusable and high quality with the goal that future development teams would be able to build on this foundation and add more features.
-   
+
 ## License
 
 This project is licensed under GPLv2
