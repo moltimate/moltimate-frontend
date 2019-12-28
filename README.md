@@ -8,20 +8,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Must have Node version greater than 10 
-```
-node -v
-```
-If not installed then use the below command
-```
-brew install node
-```
-Checkout [n](https://github.com/tj/n) for Node version management
+* Node.js - [Download and install Node](https://nodejs.org/en/download/) and the Node Package Manager
+* Yarn - [Download and install](https://yarnpkg.com/en/docs/install) Yarn if you have not used it before
 
-If you have not installed Yarn before:
-```
-brew install yarn
-```
 
 ### Installing
 
