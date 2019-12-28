@@ -48,11 +48,11 @@ Two core sections is the search form flow and the results page. Code is organize
 
 ## Coding Style
 ### General
-Use function based components when you can as they are lighter weight and performant
-Use Hooks and Context API 
-Generalize components as much as possible
-Put strings in the `strings.json` file at the top level of the directory and use throughout the project
-Do NOT use deprecated React Lifecycle methods such as `didComponentMount`
+* Use function based components when you can as they are lighter weight and performant
+* Use Hooks and Context API 
+* Generalize components as much as possible
+* Put strings in the `strings.json` file at the top level of the directory and use throughout the project
+* Do NOT use deprecated React Lifecycle methods such as `didComponentMount`
 If you are new to React take a comprehensive read of the below: 
     Follow the [React Guidelines](https://reactjs.org/docs/hello-world.html) 
     Follow [Hooks Guidelines](https://reactjs.org/docs/hooks-rules.html)
