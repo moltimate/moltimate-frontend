@@ -42,10 +42,6 @@ Selenium driven integration tests will be used to validate user workflows, and p
 ### Big Thanks
 Cross-browser Testing Platform and Open Source ❤️ provided by [Sauce Labs](https://saucelabs.com)
 
-## Project Structure
-
-Two core sections is the search form flow and the results page. Code is organized through actions, reducers, sagas, and components. Components are divided based on views. Containers are linked to the store and components are mostly stateless. 
-
 ## Coding Style
 ### General
 * Use function based components when you can as they are lighter weight and performant
@@ -58,7 +54,6 @@ If you are new to React take a comprehensive read of the below:
     Follow [Hooks Guidelines](https://reactjs.org/docs/hooks-rules.html)
 
 ### Style
-Following suggested linting from Airbnb
 Build small and reusable components. This project is highly generalizable. 
 
 ### Why keep the custom Webpack?
