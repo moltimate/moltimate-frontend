@@ -20,11 +20,12 @@ function FilteredLigandResults(props) {
       <ListItem>
         <ListItemText>
           <TextField 
-            //className = {filter}
+            //represents a text filter, currently non functional (TODO)
             name = "filter" 
             label = "Ligand Filter"
           />
           <Button 
+            //initiates the docking process
             name='dock' 
             className={classes.dockButton}
             onClick = {dockHandler}
@@ -34,6 +35,7 @@ function FilteredLigandResults(props) {
         </ListItemText>
       </ListItem>
       <LigandResultsBox 
+        //Shows the ligands available for docking and viewing
         ligandResults = {temp}
         selectedLigands = {selectedLigands}
         clickLigandHandler = {clickLigandHandler}
