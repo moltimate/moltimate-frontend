@@ -64,8 +64,6 @@ function LigandResultItem(props){
   return(
     item
   );
-  //<ListItemText primary = {ligand.name}/>
-  //<ListItemText primary = {ligand.structure} style={{float: 'right'}}/>
 }
 
 export default withStyles(styles)(LigandResultItem);
