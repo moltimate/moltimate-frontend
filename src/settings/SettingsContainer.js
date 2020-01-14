@@ -35,6 +35,12 @@ function SettingsContainer(props){
             <DisplayMode
               displayMode = {formDisplayMode}
               setDisplayMode = {setFormDisplayMode}
+              title = "Protein Display Mode"
+            />
+            <DisplayMode
+              displayMode = {formDisplayMode}
+              setDisplayMode = {setFormDisplayMode}
+              title = "Ligand Display Mode"
             />
             <div className={classes.settingsBoxFooter}>
               <Button name='apply-settings' className={classes.rounded} onClick={(e) => setDisplayMode(formDisplayMode)}>Apply</Button>

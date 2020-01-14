@@ -20,4 +20,5 @@ ProteinContainer.propTypes = {
   childId: PropTypes.string,
   aligned: PropTypes.array,
   active: PropTypes.array,
+  displayMode: PropTypes.string
 };
