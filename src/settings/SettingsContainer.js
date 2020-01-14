@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import Card from '@material-ui/core/Card';
 import Modal from '@material-ui/core/Modal';
@@ -8,9 +8,11 @@ import {withStyles} from '@material-ui/styles';
 
 import styles from './styles.js';
 import DockingSearchBounds from './DockingSearchBounds.js';
+import DisplayMode from './DisplayMode.js';
 
 function SettingsContainer(props){
-  const {classes, setShowSettings} = props;
+  const {classes, setShowSettings, displayMode, setDisplayMode} = props;
+  const [formDisplayMode, setFormDisplayMode] = useState(displayMode);
 
   var modalCard = 
     <Grid
@@ -22,16 +24,20 @@ function SettingsContainer(props){
       onClick = {() => setShowSettings(false)}
     >
       <Grid 
-        item xs= {3}
+        item xs= {4}
         //prevents a click event on the settings to cause the settings menu to close 
         //(clicks elsewhere on the grid close the modal)
         onClick = {(e)=> e.stopPropagation()}
       >
         <Card children = {
-          <div>
+          <div className = {classes.settingsContainer}>
             <DockingSearchBounds/>
+            <DisplayMode
+              displayMode = {formDisplayMode}
+              setDisplayMode = {setFormDisplayMode}
+            />
             <div className={classes.settingsBoxFooter}>
-              <Button name='apply-settings' className={classes.rounded} onClick={(e) => null}>Apply</Button>
+              <Button name='apply-settings' className={classes.rounded} onClick={(e) => setDisplayMode(formDisplayMode)}>Apply</Button>
             </div>
           </div>}
         />
