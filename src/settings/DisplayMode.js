@@ -26,12 +26,6 @@ function DisplayMode(props){
       >
         <FormControlLabel
           control = {<input type="radio"/>}
-          label = {"Backbone"}
-          labelPlacement = "start"
-          value = "backbone"
-        />
-        <FormControlLabel
-          control = {<input type="radio"/>}
           label = {"Ball and Stick"}
           labelPlacement = "start"
           value = "ball+stick"
