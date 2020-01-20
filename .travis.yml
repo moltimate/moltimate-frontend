@@ -24,5 +24,4 @@ deploy:
   on: 
     branch:
     - dev 
-    - master 
-    - MOL-36_patch
+    - master
