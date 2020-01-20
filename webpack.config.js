@@ -1,5 +1,6 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ArchivePlugin = require("webpack-archive-plugin");
 
 module.exports = {
   module: {
@@ -34,6 +35,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css"
+    }),
+    new ArchivePlugin({
+      format: "tar"
     })
   ]
 };
