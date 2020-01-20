@@ -10,7 +10,7 @@ import Publications from './landing/Publications';
 import MoltimateContainer from './MoltimateContainer';
 
 import theme from './theme';
-import './app.css';
+import './App.css';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
