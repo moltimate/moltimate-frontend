@@ -25,4 +25,4 @@ deploy:
     branch:
     - dev 
     - master 
-    - MOL_36_patch
+    - MOL-36_patch
