@@ -10,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles"
 import styles from "./styles.js";
+//import {useForm} from "../util/request";
 
 /**
  * A Ligand list with a scroll bar, search box, a "Dock" button to begin a docking
@@ -17,8 +18,18 @@ import styles from "./styles.js";
  */
 function FilteredLigandResults(props) {
   const { classes, temp, selectedLigands, dockedLigands, 
-    clickLigandHandler, dockHandler, viewingLigand } = props;
+    clickLigandHandler, dockHandler, viewingLigand, uploadButton } = props;
+    //const { values, result, handleChange, handleClearValues, handleSubmit,
+    //  handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm();
   const [] = useState();
+
+  //Display Upload button when true, display Dock button when false
+  function showUploadButton(){
+    //only show the upload button when the uploadButton prop is true and no ligands
+    //are selected
+    return uploadButton && selectedLigands.size == 0
+  }
+
   return(
     <div>
       <ListItem>
@@ -28,14 +39,28 @@ function FilteredLigandResults(props) {
             name = "filter" 
             label = "Ligand Filter"
           />
-          <Button 
-            //initiates the docking process
-            name='dock' 
-            className={classes.dockButton}
-            onClick = {dockHandler}
-          >
-            Dock
-          </Button>         
+          {
+            showUploadButton() ?
+              <Button 
+                //allows user to upload a ligand
+                name='upload' 
+                className={classes.uploadButton}
+                variant="contained"
+                color='secondary'
+              >
+                Upload
+              </Button>
+              : <Button 
+                //initiates the docking process
+                name='dock' 
+                className={classes.dockButton}
+                onClick = {dockHandler}
+                variant="contained"
+                color='primary'
+              >
+                Dock
+              </Button>
+          }       
         </ListItemText>
       </ListItem>
       <LigandResultsBox 
@@ -81,6 +106,14 @@ FilteredLigandResults.propTypes = {
    *    {name:"00I",structure:"C30 H35 N5 O6 S", min_affinity: -5.2}  
   */
   viewingLigand: propTypes.object,
+  /**
+   * Whether the Ligand Results offer an "upload" button to the user
+   */
+  uploadButton: propTypes.bool,
+};
+
+FilteredLigandResults.defaultProps = {
+  uploadButton: false,
 };
 
 export default withStyles(styles)(FilteredLigandResults);

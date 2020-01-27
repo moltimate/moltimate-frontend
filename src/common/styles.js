@@ -25,13 +25,15 @@ export default {
   },
   dockButton:{
     float: 'right',
-    background: '#5433FF',
     borderRadius: 25,
     padding: '10px 20px',
     color: 'white',
-    '&:hover': {
-      background: '#7f66ff'
-    },
+  },
+  uploadButton:{
+    float: 'right',
+    borderRadius: 25,
+    padding: '10px 20px',
+    color: 'white',
   },
   unselected: {
     cursor: "pointer",

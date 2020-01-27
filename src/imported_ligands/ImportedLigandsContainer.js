@@ -21,6 +21,7 @@ function ImportedLigandsContainer(props){
           clickLigandHandler={clickLigandHandler}
           dockHandler={dockHandler}
           viewingLigand = {viewingLigand}
+          uploadButton = {true}
         />
       }
       childIcon={<AddCircleOutlineIcon />}
