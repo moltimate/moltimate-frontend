@@ -1,6 +1,10 @@
 # Dependency directories
 node_modules/
 
+# Distribution files
+dist/
+dist.tar.gz
+
 # Optional npm cache directory
 .npm
 yarn.lock
