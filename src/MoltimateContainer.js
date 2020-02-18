@@ -44,8 +44,6 @@ function MoltimateContainer(props) {
   //whether the settings are showing or now
   const [showSettings, setShowSettings] = useState(false)
 
-  console.log("test");
-
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
     setNglData({ parentId, childId, active, aligned });
@@ -105,13 +103,95 @@ function MoltimateContainer(props) {
   if the settings menu is hidden, show the settings menu
   */
   function toggleSettingsMenu(){
-    if(showSettings) setShowSettings(false)
-    else setShowSettings(true)
+    if(showSettings) setShowSettings(false);
+    else setShowSettings(true);
+  }
+
+  /**
+   * add uploaded ligands to the list of uploaded ligands
+   */
+  function ligandUploadHandler(e){
+
+    /**
+     * Creates a string formula for a ligand, based on the text extracted from the ligand
+     * file. String is in the following format: 
+     *   [atom 1][number of occurances of atom 1] [atom 2][number of occurances of atom 2] ... [atom n][number of occurances of atom n]
+     * excepting atoms which only occur once, which appear without the number of occurances.
+     * For example, the formular for ligand 0LI in the PDB is C29 H27 F3 N6 O.
+     */
+    function ligandFormula(ligandFileText){
+      var ligandLines = ligandFileText.split('\n');
+
+      //this is where the first atom indicating line is
+      var lineIndex = 5
+
+      //his is the row within a line that the atom name is located
+      var atomIndex = 31
+
+      //a count of each atom in the structure
+      var atomCount = {}
+
+      //Once a shorter line has been found, we have gone beyond the region where atoms
+      //are given
+      while(ligandLines[lineIndex].length >= 32){
+        var atom = ligandLines[lineIndex].charAt(atomIndex);
+        
+        //if the atom has already been found, add to its count
+        if(atomCount.hasOwnProperty(atom)){
+          atomCount[atom] = atomCount[atom] + 1;
+        //if this is the atom's first occurance, set its count to 1
+        } else {
+          atomCount[atom] = 1;
+        }   
+        lineIndex += 1; 
+      }
+      var presentAtoms = Object.getOwnPropertyNames(atomCount);
+      presentAtoms.sort;
+     
+      var ligandFormula = "";
+
+      for(var index in presentAtoms){
+        atom = presentAtoms[index];
+        //if only one instance of the atom appears in the structure, leave off the number
+        if(atomCount[atom] == 1)
+          ligandFormula = ligandFormula + atom + " ";
+        else
+          ligandFormula = ligandFormula + atom + atomCount[atom] + " ";
+      }
+      
+      //removes the last character, which is a superfluous space
+      ligandFormula = ligandFormula.substring(0,ligandFormula.length - 1);
+
+      return ligandFormula;
+    }
+
+    //check to make sure only one file was input
+    if(e.target.files > 1){
+      console.warn("only 1 file should be input - multiple files found");
+    }
+    var ligandFile = e.target.files[0];
+    var reader = new FileReader();
+
+    //extract the file's text
+    reader.readAsText(ligandFile);
+    reader.onload = () => {
+      var ligandText = reader.result;
+      var ligandLines = ligandText.split('\n');
+      var ligandName = ligandLines[0];
+      console.log("ligand name: " + ligandName);
+
+      var ligandFormulaValue = ligandFormula(ligandText);
+
+      //add the new ligand to the list
+      setUploadedLigands(
+        uploadedLigands.concat([{name:ligandName, structure:ligandFormulaValue, selected:false, min_affinity: 1001},])
+      )
+    }
   }
 
   function selectConfig(configSelection){
-    setSelectedDockingConfig(configSelection)
-    console.log("selected config: " + configSelection[1])
+    setSelectedDockingConfig(configSelection);
+    console.log("selected config: " + configSelection[1]);
   }
 
     return (
@@ -142,6 +222,7 @@ function MoltimateContainer(props) {
             dockHandler = {dockLigands}
             viewingLigand = {viewingLigand}
             dockedLigands = {dockedLigands}
+            ligandUploadHandler = {ligandUploadHandler}
           />
           {
             //Only display docking info if there is a viewing ligand selected

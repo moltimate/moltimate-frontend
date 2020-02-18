@@ -79,5 +79,8 @@ export default {
   },
   filter: {
     margin: '0% 10%'
-  }
+  },
+  input: {
+    display: 'none',
+  },
 }

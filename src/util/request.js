@@ -82,7 +82,9 @@ const useForm = (callback) => {
 
   // TODO
   const handleFileUpload = (e) => {
-    setValues(values => ({ ...values, [e.target.name]: Array.from(e.target.files)}));
+    //console.dir(values);
+    console.log("workin' on a building");
+    setValues({ ...values, [e.target.name]: Array.from(e.target.files)});
   }
 
   /* Use this to create alignment objects for active site residue array */

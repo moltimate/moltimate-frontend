@@ -8,9 +8,7 @@ const library_ligands = [
   {name:"00R",structure:"C24 H29 N7 O5 S", selected:false, min_affinity: -4.5},
   {name:"02P",structure:"C21 H26 C1 N4 O2", selected:false, min_affinity: -3.1},];
 
-const test_ligands = [
-  {name:"ligand1",structure:"C20 H28 N2 O", selected:true, min_affinity: -4.6},
-  {name:"ligand2A",structure:"C20 H22 N10 O2 S", selected:false, min_affinity: -8.3}];
+const test_ligands = [];
 
 const fake_docking_data = (
   [[1,-9.8,0],

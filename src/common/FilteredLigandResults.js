@@ -10,18 +10,19 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles"
 import styles from "./styles.js";
-//import {useForm} from "../util/request";
+import UploadLigand from "./UploadLigand";
 
 /**
  * A Ligand list with a scroll bar, search box, a "Dock" button to begin a docking
  * process, and (optionally) an "upload" button to upload ligands
  */
 function FilteredLigandResults(props) {
-  const { classes, temp, selectedLigands, dockedLigands, 
+  const { classes, temp, handleLigandUpload, selectedLigands, dockedLigands, 
     clickLigandHandler, dockHandler, viewingLigand, uploadButton } = props;
-    //const { values, result, handleChange, handleClearValues, handleSubmit,
-    //  handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm();
+
   const [] = useState();
+
+  const test1 = [];
 
   //Display Upload button when true, display Dock button when false
   function showUploadButton(){
@@ -41,15 +42,22 @@ function FilteredLigandResults(props) {
           />
           {
             showUploadButton() ?
-              <Button 
+              /** 
+              <UploadLigand
                 //allows user to upload a ligand
-                name='upload' 
-                className={classes.uploadButton}
-                variant="contained"
-                color='secondary'
-              >
-                Upload
-              </Button>
+                inputName='ligand-file' 
+                handleUpload={handleFileUpload}
+                buttonText='upload'
+                label='uploadLigandFile'
+              />
+              */
+              <UploadLigand
+                handleChange={handleLigandUpload}
+                label=''
+                inputName='customLigand'
+                buttonText='Upload'
+                files={test1}
+              />
               : <Button 
                 //initiates the docking process
                 name='dock' 
