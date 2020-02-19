@@ -35,8 +35,6 @@ function FilteredLigandResults(props) {
   /**
    * given a list of ligands, return a list containing the subset of ligands that 
    * match the filter specified in the textfield
-   * 
-   * @param {*} ligandList 
    */
   function filterLigands(ligandList){
     
@@ -80,7 +78,12 @@ function FilteredLigandResults(props) {
               />
               */
               <UploadLigand
-                handleChange={handleLigandUpload}
+                handleChange={
+                  (e) => {
+                    setFilter("");
+                    handleLigandUpload(e);
+                  }
+                }
                 label=''
                 inputName='customLigand'
                 buttonText='Upload'
