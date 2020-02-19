@@ -20,8 +20,9 @@ function FilteredLigandResults(props) {
   const { classes, temp, handleLigandUpload, selectedLigands, dockedLigands, 
     clickLigandHandler, dockHandler, viewingLigand, uploadButton } = props;
 
-  const [] = useState();
-
+  //a string used as filtering criteria for the list of ligands
+  const [filter, setFilter] = useState("");
+  
   const test1 = [];
 
   //Display Upload button when true, display Dock button when false
@@ -31,14 +32,41 @@ function FilteredLigandResults(props) {
     return uploadButton && selectedLigands.size == 0
   }
 
+  /**
+   * given a list of ligands, return a list containing the subset of ligands that 
+   * match the filter specified in the textfield
+   * 
+   * @param {*} ligandList 
+   */
+  function filterLigands(ligandList){
+    
+    if(filter != ""){
+
+      var filteredLigandList = [];
+
+      var filterRegularExpression = RegExp(filter,'i');
+
+      for(var ligand in ligandList){
+        if(filterRegularExpression.test(ligandList[ligand].name)){
+          filteredLigandList.push(ligandList[ligand]);
+        }
+      }
+      return filteredLigandList;
+    } else {
+      return ligandList;
+    }
+  }
+
   return(
     <div>
       <ListItem>
         <ListItemText>
           <TextField 
             //represents a text filter, currently non functional (TODO)
+            value = {filter}
             name = "filter" 
             label = "Ligand Filter"
+            onChange = {(e) => setFilter(e.target.value)}
           />
           {
             showUploadButton() ?
@@ -73,7 +101,7 @@ function FilteredLigandResults(props) {
       </ListItem>
       <LigandResultsBox 
         //Shows the ligands available for docking and viewing
-        ligandResults = {temp}
+        ligandResults = {filterLigands(temp)}
         selectedLigands = {selectedLigands}
         clickLigandHandler = {clickLigandHandler}
         dockedLigands = {dockedLigands}
