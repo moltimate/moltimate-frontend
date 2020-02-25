@@ -14,7 +14,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
-To run locally you must download dependencies if it is your first time running the project, or anytime there is an addition to the packages. If running the moltimate backend server alongside the moltimate frontend, you must edit the src/util/request.js file to point the testQuery and searchQuery constants to the moltimate frontend, as it will not be running on the same port.
+To run locally you must download dependencies if it is your first time running the project, or anytime there is an addition to the packages.
 
 ```
 yarn install
@@ -24,12 +24,6 @@ After installing the project dependencies
 
 ```
 yarn start
-```
-
-Build the project dist directory
-
-```
-yarn run build
 ```
 
 If there are unit tests available to run:

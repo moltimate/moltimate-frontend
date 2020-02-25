@@ -1,5 +1,9 @@
 import * as NGL from 'ngl';
 
+let stage;
+let _parentId;
+let _childId;
+
 export function init(parentId, childId, aligned, active) {
   // Setup to load data from rawgit
   NGL.DatasourceRegistry.add(
@@ -7,7 +11,11 @@ export function init(parentId, childId, aligned, active) {
   );
 
   // Create NGL Stage object
-  let stage = new NGL.Stage( 'viewport' , {backgroundColor: 'white'});
+  if (parentId != _parentId || childId != _childId) {
+    stage = new NGL.Stage( 'viewport' , {backgroundColor: 'white'});
+  }
+  _parentId = parentId;
+  _childId = childId;
   stage.mouseControls.remove( 'drag-ctrl-right' );
   stage.mouseControls.remove( 'drag-ctrl-left' );
   // Handle window resizing
