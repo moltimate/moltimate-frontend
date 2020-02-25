@@ -53,3 +53,12 @@ export function init(parentId, childId, aligned, active) {
     ol[ 1 ].autoView();
   });
 }
+
+export function loadPDBQT(file) {
+    // Setup to load local file data
+    NGL.DatasourceRegistry.add(
+      'data', new NGL.StaticDatasource( window.location.href + '/data/' )
+    );
+
+
+}
