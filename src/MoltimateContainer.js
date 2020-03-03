@@ -69,7 +69,7 @@ function MoltimateContainer(props) {
         setDockingConfigs(fake_docking_data)
       } else if(selected_ligand.name == "00K") {
         if(dockingData) {
-
+            setDockingConfigs(dockingData.data)
         } else {
             setDockingConfigs(fake_docking_data_2)
         }
@@ -118,8 +118,15 @@ function MoltimateContainer(props) {
   }
 
   function uploadPDBQT( files ) {
+    setDockingData({
+        file: files[0].name.includes('pdbqt') ? files[0] : files[1],
+        data: files[0].name.includes('pdbqt') ? parseBinding( files[1] ) : parseBinding( files[0] )
+    });
+  }
 
-    setDockingData({files});
+  function parseBinding( file ) {
+    // Perform parsing here.
+    return fake_docking_data_2;
   }
 
   function selectConfig(configSelection){
@@ -176,7 +183,7 @@ function MoltimateContainer(props) {
         }
         {
           dockingData ? <DockingContainer
-            file={dockingData.files[0]}
+            file={dockingData.file}
           /> : null
         }
         {
