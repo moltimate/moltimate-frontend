@@ -63,10 +63,19 @@ export function init(parentId, childId, aligned, active) {
 }
 
 export function loadPDBQT(file) {
-    // Setup to load local file data
-    NGL.DatasourceRegistry.add(
-      'data', new NGL.StaticDatasource( window.location.href + '/data/' )
-    );
+    // Create NGL Stage object
+    stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
+    stage.mouseControls.remove( 'drag-ctrl-right' );
+    stage.mouseControls.remove( 'drag-ctrl-left' );
+    // Handle window resizing
+    window.addEventListener( 'resize', function( event ){
+        stage.handleResize();
+    }, false );
 
-
+    // Load file
+    stage.loadFile(file, {ext:"pdb"}).then((o) => {
+        // Should be able to use sele: to select only ligand/protein to display in two different styles. Not implemented yet.
+        o.addRepresentation('ball+stick', { color: '#2AF598' });
+        stage.autoView();
+    });
 }

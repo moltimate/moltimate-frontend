@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button'
 import SearchContainer from './search/SearchContainer';
 import BuilderContainer from './builder/BuilderContainer';
 import ProteinContainer from './protein/ProteinContainer';
+import DockingContainer from './protein/DockingContainer';
 import LigandLibraryContainer from './ligand_library/LigandLibraryContainer';
 import ImportedLigandsContainer from './imported_ligands/ImportedLigandsContainer';
 import DockingInfoContainer from './docking_info/DockingInfoContainer';
@@ -26,6 +27,7 @@ function MoltimateContainer(props) {
   const [expanded, setExpanded] = useState(false);
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
+  const [ dockingData, setDockingData ] = useState(null);
 
   //data on all the ligands the user has uploaded
   const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
@@ -65,7 +67,13 @@ function MoltimateContainer(props) {
       //this is temporary, for demonstration purposes
       if(selected_ligand.name == "00I"){
         setDockingConfigs(fake_docking_data)
-      } else{
+      } else if(selected_ligand.name == "00K") {
+        if(dockingData) {
+
+        } else {
+            setDockingConfigs(fake_docking_data_2)
+        }
+      } else {
         setDockingConfigs(fake_docking_data_2)
       }
     }
@@ -109,6 +117,11 @@ function MoltimateContainer(props) {
     else setShowSettings(true)
   }
 
+  function uploadPDBQT( files ) {
+
+    setDockingData({files});
+  }
+
   function selectConfig(configSelection){
     setSelectedDockingConfig(configSelection)
     console.log("selected config: " + configSelection[1])
@@ -116,7 +129,7 @@ function MoltimateContainer(props) {
 
     return (
       <>
-        <TopBar toggleSettings = {toggleSettingsMenu}/>
+        <TopBar toggleSettings = {toggleSettingsMenu} uploadPDBQT = {uploadPDBQT}/>
         
         <div className={classes.controlPanel}>
           <SearchContainer
@@ -159,6 +172,11 @@ function MoltimateContainer(props) {
             childId={nglData.parentId}
             active={nglData.active}
             aligned={nglData.aligned}
+          /> : null
+        }
+        {
+          dockingData ? <DockingContainer
+            file={dockingData.files[0]}
           /> : null
         }
         {
