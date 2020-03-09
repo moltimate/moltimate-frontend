@@ -3,6 +3,8 @@ import {useState} from "react";
 import propTypes from 'prop-types';
 
 import LigandResultsBox from "./LigandResultsBox";
+import ErrorBar from '../common/ErrorBar';
+import UploadLigand from "./UploadLigand";
 
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -10,7 +12,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles"
 import styles from "./styles.js";
-import UploadLigand from "./UploadLigand";
 
 /**
  * A Ligand list with a scroll bar, search box, a "Dock" button to begin a docking
@@ -22,6 +23,7 @@ function FilteredLigandResults(props) {
 
   //a string used as filtering criteria for the list of ligands
   const [filter, setFilter] = useState("");
+  const [error, setError] = useState(false);
   
   const test1 = [];
 
@@ -66,22 +68,20 @@ function FilteredLigandResults(props) {
             label = "Ligand Filter"
             onChange = {(e) => setFilter(e.target.value)}
           />
+          {error?
+            <ErrorBar
+              open={error}
+              message={error}
+              handleClose={setError}
+            /> : null
+          }
           {
             showUploadButton() ?
-              /** 
-              <UploadLigand
-                //allows user to upload a ligand
-                inputName='ligand-file' 
-                handleUpload={handleFileUpload}
-                buttonText='upload'
-                label='uploadLigandFile'
-              />
-              */
               <UploadLigand
                 handleChange={
                   (e) => {
                     setFilter("");
-                    handleLigandUpload(e);
+                    handleLigandUpload(e, setError);
                   }
                 }
                 label=''
