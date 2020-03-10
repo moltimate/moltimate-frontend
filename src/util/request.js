@@ -5,8 +5,9 @@ import testMakerResponse from './testMakerResponse';
 import testSearchResponse from './testSearchResponse';
 
 // TODO make this a config file
-const testQuery = 'http://localhost:8080/test/motif';
-const searchQuery = 'http://localhost:8080/align/activesite';
+const testQueryURL = 'http://localhost:8080/test/motif';
+const searchQueryURL = 'http://localhost:8080/align/activesite';
+const dockQueryURL = 'http://localhost:8080/dock/dockligand';
 
 const useForm = (callback) => {
   const [values, setValues] = useState({});
@@ -20,6 +21,7 @@ const useForm = (callback) => {
   });
   const [request, setRequest] = useState(null);
   const [formStatus, setFormStatus] = useState(null);
+  const [url, setURL] = useState(searchQueryURL);
 
   const handleSubmit = (e) => {
     if (e) {
@@ -27,7 +29,7 @@ const useForm = (callback) => {
     }
     e.persist();
 
-    const queryURL = currentMode === 'test' ? testQuery : searchQuery;
+    const queryURL = currentMode === 'test' ? testQueryURL : url;
 
     console.log(queryURL)
     const form_data = new FormData();
@@ -36,6 +38,10 @@ const useForm = (callback) => {
         form_data.append(key, values.activeSiteResidues.map(a => {
           return `${a.residueName} ${a.residueChainName} ${a.residueId}`
         }));
+      //uploaded_ligand attributes are files, and need special treatment
+      } else if(String(key) === 'uploaded_ligand'){
+        //here we can expect the value to be a File object
+        form_data.append(key, values[key], values[key].name)
       } else {
         form_data.append(key, values[key]);
       }
@@ -75,6 +81,11 @@ const useForm = (callback) => {
     setValues(values => ({ ...values, [e.target.name]: e.target.value }));
   };
 
+  /* add an attribute-value pair to the values object*/
+  const setValue = (attribute, attribute_value) => {
+    setValues(values => ({ ...values, [attribute]: attribute_value }));
+  }
+
   /* Chipinput API only returns the value, not a full event */
   const handleChipInput = (e, key) => {
     setValues(values => ({ ...values, [key]: e}))
@@ -83,7 +94,6 @@ const useForm = (callback) => {
   // TODO
   const handleFileUpload = (e) => {
     //console.dir(values);
-    console.log("workin' on a building");
     setValues({ ...values, [e.target.name]: Array.from(e.target.files)});
   }
 
@@ -121,6 +131,10 @@ const useForm = (callback) => {
     setValues(values => ({ ...values, [key]: copy}));
   }
 
+  const setQueryURL = (newURL) => {
+    setURL(newURL) 
+  }
+
   return {
     handleChange,
     handleSubmit,
@@ -129,9 +143,11 @@ const useForm = (callback) => {
     handleResidues,
     handleClearValues,
     handleFileDelete,
+    setValue,
     values,
     handleSetMode,
     result,
+    setQueryURL,
   }
 };
 
