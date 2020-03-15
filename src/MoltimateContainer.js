@@ -5,7 +5,8 @@ import axios from "axios";
 import {library_ligands, 
   test_ligands, 
   fake_docking_data, 
-  fake_docking_data_2} from './DummyData'
+  fake_docking_data_2,
+  test_sites} from './DummyData'
 
 import TopBar from './TopBar';
 import Button from '@material-ui/core/Button'
@@ -33,6 +34,8 @@ function MoltimateContainer(props) {
   const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
   //autopopulating data on ligands
   const [ libraryLigands, setLibraryLigands ] = useState(library_ligands);
+  //Active site data for 1a0j
+  const [ testSites, setTestSites ] = useState(test_sites);
   //ligands selected for docking
   const [selectedLigands, setSelectedLigands] = useState(new Set());
   //ligands which have been docked
@@ -45,8 +48,6 @@ function MoltimateContainer(props) {
   const [selectedDockingConfig, setSelectedDockingConfig] = useState(null);
   //whether the settings are showing or now
   const [showSettings, setShowSettings] = useState(false)
-
-  console.log("test");
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
@@ -119,8 +120,9 @@ function MoltimateContainer(props) {
 
   function uploadPDBQT( files ) {
     setDockingData({
-        file: files[0].name.includes('pdbqt') ? files[0] : files[1],
-        data: files[0].name.includes('pdbqt') ? parseBinding( files[1] ) : parseBinding( files[0] )
+        file: files[0],
+        active_sites: test_sites,
+        ligand_model: 1
     });
   }
 
@@ -184,6 +186,8 @@ function MoltimateContainer(props) {
         {
           dockingData ? <DockingContainer
             file={dockingData.file}
+            ligand_model={dockingData.ligand_model}
+            active_sites={dockingData.active_sites}
           /> : null
         }
         {

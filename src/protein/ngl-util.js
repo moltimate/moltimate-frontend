@@ -62,7 +62,18 @@ export function init(parentId, childId, aligned, active) {
   });
 }
 
-export function loadPDBQT(file) {
+/**
+ * Loads a docked pdb file. File should include protein as the first model, and all ligand orientations after.
+ *
+ * @param file - pdb file to load.
+ * @param model - Number of ligand model within pdb file. This should be 1 indexed, as model 0 is the protein.
+ * @param active_sites - List of active sites in the selected protein.
+ */
+export function loadDocked(file, model, active_sites) {
+    NGL.DatasourceRegistry.add(
+        'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
+    );
+
     // Create NGL Stage object
     stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
     stage.mouseControls.remove( 'drag-ctrl-right' );
@@ -72,10 +83,34 @@ export function loadPDBQT(file) {
         stage.handleResize();
     }, false );
 
+    let select1 = '';
+    let select2 = '/0';
+
+    // Create a select query for the active sites and one for everything except the active sites.
+    active_sites.forEach((r) => {
+        select1 = select1.concat(
+            `${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0 or `
+        );
+        select2 = select2.concat(
+            ` and not ${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0`
+        );
+    });
+
+    select1 = select1.substring(0, select1.length - 4);
+
     // Load file
     stage.loadFile(file, {ext:"pdb"}).then((o) => {
-        // Should be able to use sele: to select only ligand/protein to display in two different styles. Not implemented yet.
-        o.addRepresentation('ball+stick', { color: '#2AF598' });
-        stage.autoView();
+        // Load ligand, grab only the selected orientation
+        o.addRepresentation('ball+stick', { sele: `/${model}` });
+
+        // Load Protein
+
+        // Load active sites as a ball+stick format
+        o.addRepresentation('ball+stick', { color: '#2AF598', sele: select1 });
+        // Load rest of protein as cartoon
+        o.addRepresentation('cartoon', { color: '#20BDFF', sele: select2 });
+
+        // Center camera
+        o.autoView();
     });
 }
