@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { loadPDBQT } from './ngl-util';
+import { loadDocked } from './ngl-util';
 
 export default function ProteinContainer(props) {
-  const { file } = props;
+  const { file, ligand_model, active_sites } = props;
   const key = `${file.name}`;
 
   useEffect(() => {
-    loadPDBQT(file);
+    loadDocked(file, ligand_model, active_sites);
   });
 
   return (
@@ -17,4 +17,6 @@ export default function ProteinContainer(props) {
 
 ProteinContainer.propTypes = {
   file: PropTypes.instanceOf(File),
+  ligand_model: PropTypes.number,
+  active_sites: PropTypes.array
 };
