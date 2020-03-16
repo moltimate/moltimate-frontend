@@ -16,10 +16,6 @@ import styles from './styles';
 function UploadLigand(props) {
   const { classes, label, buttonText, inputName, handleChange} = props;
 
-  function changeHandler(e){
-  //  console.log("and its a holy ghost building")
-  }
-
   return (
     <>
       <input
