@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import Card from '@material-ui/core/Card';
 import Modal from '@material-ui/core/Modal';
@@ -10,7 +10,10 @@ import styles from './styles.js';
 import DockingSearchBounds from './DockingSearchBounds.js';
 
 function SettingsContainer(props){
-  const {classes, setShowSettings} = props;
+  const {classes, setShowSettings, dockingSearchCenter, setDockingSearchCenter, 
+    dockingSearchRange, setDockingSearchRange} = props;
+  const [temporaryDockingCenter, setTemporaryDockingCenter] = useState(dockingSearchCenter);
+  const [temporaryDockingRange, setTemporaryDockingRange] = useState(dockingSearchRange);
 
   var modalCard = 
     <Grid
@@ -29,7 +32,12 @@ function SettingsContainer(props){
       >
         <Card children = {
           <div>
-            <DockingSearchBounds/>
+            <DockingSearchBounds
+              dockingSearchCenter = {temporaryDockingCenter}
+              setDockingSearchCenter = {setTemporaryDockingCenter}
+              dockingSearchRange = {temporaryDockingRange}
+              setDockingSearchRange = {setTemporaryDockingRange}
+            />
             <div className={classes.settingsBoxFooter}>
               <Button name='apply-settings' className={classes.rounded} onClick={(e) => null}>Apply</Button>
             </div>

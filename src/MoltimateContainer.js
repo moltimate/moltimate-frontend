@@ -42,11 +42,31 @@ function MoltimateContainer(props) {
   //the docking configuration selected to be viewed
   const [selectedDockingConfig, setSelectedDockingConfig] = useState(null);
   //whether the settings are showing or now
-  const [showSettings, setShowSettings] = useState(false)
+  const [showSettings, setShowSettings] = useState(false);
+  //the id of the macromolecule to use for docking
+  const [dockingProteinID, setDockingProteinId] = useState(null);
+  //the center coordinate of the docking search region, represented as a 3 element array
+  const [dockingCenter, setDockingCenter] = useState([0,0,0]);
+  //the range in each dimension of the docking search region, represented as a 3 element 
+  //array
+  const [dockingRange, setDockingRange] = useState([100,100,100]);
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
     setNglData({ parentId, childId, active, aligned });
+    //this value is used for docking
+    setDockingProteinId(parentId);
+  }
+
+  //Used to submit a ligand-protein pair for docking
+  function handleDocking(callback){
+    if(!dockingProteinID){
+      console.log("Must have docking protein ID");
+    }
+    uploadedLigands = Array.from(selectedLigands)
+    if(uploadedLigands.length == 0){
+      console.log("Must have at least one ligand");
+    }
   }
 
   //Used to toggle the selection of different ligands for docking and viewing
@@ -199,13 +219,10 @@ function MoltimateContainer(props) {
 
         //add the new ligand to the list
         setUploadedLigands(
-          uploadedLigands.concat([{name:ligandName, structure:ligandFormulaValue, selected:false, min_affinity: 1001},])
+          uploadedLigands.concat([{name:ligandName, structure:ligandFormulaValue, selected:false, min_affinity: 1001, file: e.target.files[0]},])
         )
       }
-
     }
-
-    
   }
 
   function selectConfig(configSelection){
@@ -263,7 +280,12 @@ function MoltimateContainer(props) {
         }
         {
           //Only display the settings modal when showSettings is true
-          showSettings ? <SettingsContainer setShowSettings = {setShowSettings}/>:null
+          showSettings ? <SettingsContainer setShowSettings = {setShowSettings}
+            dockingSearchCenter = {dockingCenter}
+            setDockingSearchCenter = {setDockingCenter}
+            dockingSearchRange = {dockingRange}
+            setDockingSearchRange = {setDockingRange}
+          />:null
         }
       </>
     );
