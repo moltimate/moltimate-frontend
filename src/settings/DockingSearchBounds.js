@@ -27,7 +27,7 @@ function DockingSearchBounds(props){
    * @param {*} newValue - the new value to be entered into the array
    */
   function setSingleCoordinate(coordinateValue, coordinateSetter, coordinateIndex, newValue){
-    var newCoordinateValue = coordinateValue;
+    var newCoordinateValue = [... coordinateValue];
     newCoordinateValue[coordinateIndex] = newValue;
     coordinateSetter(newCoordinateValue);
   }
@@ -37,7 +37,7 @@ function DockingSearchBounds(props){
     This FormGroup is not functional, is not tied to any state.
 
     @param {string} coordinateName - the name of the coordinate to offer input for.
-    @param {int} coordinateIndex - the index which represents the selected coordinate in
+    @param {int} coordinateIndex - the index representing the selected coordinate in
       the dockingSearchCenter and dockingBoundaries state objects.
     @returns {React.Component}
   */
@@ -69,7 +69,7 @@ function DockingSearchBounds(props){
               setDockingSearchRange, 
               coordinateIndex, 
               e.target.value)
-          }}
+        }}
           value = {dockingSearchRange[coordinateIndex].toString()}
         />
       </FormGroup>
