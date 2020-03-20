@@ -132,6 +132,8 @@ function MoltimateContainer(props) {
    */
   function ligandUploadHandler(e, errorSetter){
 
+    var files = e.target.files;
+
     /**
      * Creates a string formula for a ligand, based on the text extracted from the ligand
      * file. String is in the following format: 
@@ -194,10 +196,10 @@ function MoltimateContainer(props) {
     }
 
     //check to make sure only one file was input
-    if(e.target.files > 1){
+    if(files > 1){
       console.warn("only 1 file should be input - multiple files found");
     }
-    var ligandFile = e.target.files[0];
+    var ligandFile = files[0];
 
     if(!validateLigand(ligandFile)){
       console.log("invalid ligand");
@@ -213,13 +215,13 @@ function MoltimateContainer(props) {
         var ligandText = reader.result;
         var ligandLines = ligandText.split('\n');
         var ligandName = ligandLines[0];
-        console.log("ligand name: " + ligandName);
 
         var ligandFormulaValue = ligandFormula(ligandText);
 
         //add the new ligand to the list
         setUploadedLigands(
-          uploadedLigands.concat([{name:ligandName, structure:ligandFormulaValue, selected:false, min_affinity: 1001, file: e.target.files[0]},])
+          uploadedLigands.concat([{name:ligandName, structure:ligandFormulaValue, 
+            selected:false, min_affinity: 1001, file: files[0]},])
         )
       }
     }
