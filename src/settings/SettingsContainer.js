@@ -15,6 +15,11 @@ function SettingsContainer(props){
   const [temporaryDockingCenter, setTemporaryDockingCenter] = useState(dockingSearchCenter);
   const [temporaryDockingRange, setTemporaryDockingRange] = useState(dockingSearchRange);
 
+  function ApplySettings(){
+    setDockingSearchCenter(temporaryDockingCenter);
+    setDockingSearchRange(temporaryDockingRange)
+  }
+
   var modalCard = 
     <Grid
       container
@@ -39,7 +44,11 @@ function SettingsContainer(props){
               setDockingSearchRange = {setTemporaryDockingRange}
             />
             <div className={classes.settingsBoxFooter}>
-              <Button name='apply-settings' className={classes.rounded} onClick={(e) => null}>Apply</Button>
+              <Button name='apply-settings' 
+                className={classes.rounded} 
+                onClick={(e) => {ApplySettings()}}>
+                  Apply
+                </Button>
             </div>
           </div>}
         />

@@ -18,17 +18,17 @@ import useForm from "./util/request"
  *      y: size of y dimension of zone
  *      z: size of z dimension of zone
  */
-const dockLigands = (macromolecule, ligands, center, boundaries, callback) =>{
+const dockLigands = (macromolecule, ligands, center, boundaries, callback = ()=>{}) =>{
 
   const dockQueryURL = 'http://localhost:8080/dock/dockligand';
 
   const {handleSubmit, setValue, setQueryURL} = useForm();
-  setValue("center_x", center.x);
-  setValue("center_y", center.y);
-  setValue("center_z", center.z);
-  setValue("size_x", boundaries.x);
-  setValue("size_y", boundaries.y);
-  setValue("size_z", boundaries.z);
+  setValue("center_x", center[0]);
+  setValue("center_y", center[1]);
+  setValue("center_z", center[2]);
+  setValue("size_x", boundaries[0]);
+  setValue("size_y", boundaries[1]);
+  setValue("size_z", boundaries[2]);
   setQueryURL(dockQueryURL);
 
   setValue("macromolecule",macromolecule);
@@ -40,5 +40,18 @@ const dockLigands = (macromolecule, ligands, center, boundaries, callback) =>{
     handleSubmit();
   }
 
+  pollDockingResults();
+
   callback;
+}
+
+const pollDockingResults = () =>{
+
+  //if timeout, return timeout
+
+  //submit req
+
+  //if sucess, return success
+
+  //if failure, poll again
 }
