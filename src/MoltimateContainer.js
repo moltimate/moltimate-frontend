@@ -17,6 +17,7 @@ import LigandLibraryContainer from './ligand_library/LigandLibraryContainer';
 import ImportedLigandsContainer from './imported_ligands/ImportedLigandsContainer';
 import DockingInfoContainer from './docking_info/DockingInfoContainer';
 import SettingsContainer from './settings/SettingsContainer';
+import useForm from './util/request';
 
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
@@ -51,6 +52,8 @@ function MoltimateContainer(props) {
   //array
   const [dockingRange, setDockingRange] = useState([100,100,100]);
 
+  const {handleSubmit, setValue, setQueryURL} = useForm();
+
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
     setNglData({ parentId, childId, active, aligned });
@@ -58,14 +61,80 @@ function MoltimateContainer(props) {
     setDockingProteinId(parentId);
   }
 
-  //Used to submit a ligand-protein pair for docking
-  function handleDocking(callback){
+  /** 
+   *  @param {string} macromolecule the ID of the protein to dock
+   *  @param {Array} ligands an array of objects representing ligands with the following 
+   *    attributes:
+   *      name: name of ligand
+   *      file: the file representing the ligand
+   *  @param {object} center an object representing the center of the docking search zone
+   *    with the following attributes:
+   *      x: x coordinate of center
+   *      y: y coordinate of center
+   *      z: z coordinate of center
+   *  @param {object} boundaries an object representing the size of the docking search zone with
+   *    the following attributes:
+   *      x: size of x dimension of zone
+   *      y: size of y dimension of zone
+   *      z: size of z dimension of zone
+   */
+  function dockLigands (macromolecule, ligands, center, boundaries, callback){
+
+    
+    
+    console.log("Docking Request Sent");
+    const dockQueryURL = 'http://localhost:8080/dock/dockligand';
+    setValue("center_x", center[0]);
+    setValue("center_y", center[1]);
+    setValue("center_z", center[2]);
+    setValue("size_x", boundaries[0]);
+    setValue("size_y", boundaries[1]);
+    setValue("size_z", boundaries[2]);
+    setQueryURL(dockQueryURL);
+
+    setValue("macromolecule",macromolecule);
+
+    for(let ligand in ligands){
+      setValue("uploaded_ligand", ligand.file);
+      handleSubmit();
+    }
+
+    pollDockingResults();
+
+    callback;
+  }
+
+  const pollDockingResults = () =>{
+
+    //if timeout, return timeout
+
+    //submit req
+
+    //if sucess, return success
+
+    //if failure, poll again
+  }
+
+  /**
+   * Used to submit a ligand-protein pair for docking
+   * 
+   * @param {Function} callback Callback function to be called on the completion or 
+   *  failure of the docking operation. The callback function includes 2 parameters: a
+   *  number and an (optional) message. 
+   */
+  function sendDockingRequest(callback){
     if(!dockingProteinID){
       console.log("Must have docking protein ID");
+      return -1;
     }
-    uploadedLigands = Array.from(selectedLigands)
-    if(uploadedLigands.length == 0){
+    var dockingLigands = Array.from(selectedLigands)
+    if(dockingLigands.length == 0){
       console.log("Must have at least one ligand");
+      return -1;
+    } else {
+      dockLigands(dockingProteinID, selectedLigands, dockingCenter, dockingRange, 
+        callback);
+      console.log("dockLigands here")
     }
   }
 
@@ -103,19 +172,13 @@ function MoltimateContainer(props) {
     setSelectedLigands(new_selected_ligands)
   }
 
-  function dockLigands(){
+  function ligandDockingHandler(){
     var new_docked_ligands =  new Set(selectedLigands)
     for(let ligand of dockedLigands){
       new_docked_ligands.add(ligand)
     }
-    setDockedLigands(new_docked_ligands)
     
-    //if any new ligands were docked, select the first one for display 
-    if(selectedLigands.length > 0){
-
-    }
-
-    setSelectedLigands(new Set())
+    sendDockingRequest(()=>{});
   }
 
   /*
@@ -249,7 +312,7 @@ function MoltimateContainer(props) {
             library = {libraryLigands}
             selectedLigands = {selectedLigands}
             clickLigandHandler = {handleSelectedLigand}
-            dockHandler = {dockLigands}
+            dockHandler = {ligandDockingHandler}
             viewingLigand = {viewingLigand}
             dockedLigands = {dockedLigands}
           />
@@ -257,7 +320,7 @@ function MoltimateContainer(props) {
             importedLigands = {uploadedLigands}
             selectedLigands = {selectedLigands}
             clickLigandHandler = {handleSelectedLigand}
-            dockHandler = {dockLigands}
+            dockHandler = {ligandDockingHandler}
             viewingLigand = {viewingLigand}
             dockedLigands = {dockedLigands}
             ligandUploadHandler = {ligandUploadHandler}
