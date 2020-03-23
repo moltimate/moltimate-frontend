@@ -57,6 +57,11 @@ function FilteredLigandResults(props) {
     }
   }
 
+  var open = false;
+  if(error && error.length > 0){
+    open = true;
+  }
+
   return(
     <div>
       <ListItem>
@@ -70,7 +75,7 @@ function FilteredLigandResults(props) {
           />
           {error?
             <ErrorBar
-              open={error}
+              open={open}
               message={error}
               handleClose={setError}
             /> : null
@@ -93,7 +98,7 @@ function FilteredLigandResults(props) {
                 //initiates the docking process
                 name='dock' 
                 className={classes.dockButton}
-                onClick = {dockHandler}
+                onClick = {() => {dockHandler(setError)}}
                 variant="contained"
                 color='primary'
               >

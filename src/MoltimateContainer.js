@@ -124,18 +124,21 @@ function MoltimateContainer(props) {
    */
   function sendDockingRequest(callback){
     if(!dockingProteinID){
-      console.log("Must have docking protein ID");
-      return -1;
+      console.log("Must select a docking protein");
+      return "Must select a protein from the search results to dock a ligand";
     }
     var dockingLigands = Array.from(selectedLigands)
     if(dockingLigands.length == 0){
-      console.log("Must have at least one ligand");
-      return -1;
+      console.log("Must select at least one ligand");
+      return "Must have at least one ligand selected to dock a ligand";
+
     } else {
       dockLigands(dockingProteinID, selectedLigands, dockingCenter, dockingRange, 
         callback);
       console.log("dockLigands here")
     }
+    //this means there was no issue with the docking procedure
+    return 0;
   }
 
   //Used to toggle the selection of different ligands for docking and viewing
@@ -172,13 +175,24 @@ function MoltimateContainer(props) {
     setSelectedLigands(new_selected_ligands)
   }
 
-  function ligandDockingHandler(){
+  /**
+   * Sends a docking request with the relevant information to the backend.
+   * 
+   * @param {Function} setError sets an error message, notifying the client component that something went 
+   *  wrong with the docking
+   */
+  function ligandDockingHandler(setError){
     var new_docked_ligands =  new Set(selectedLigands)
     for(let ligand of dockedLigands){
       new_docked_ligands.add(ligand)
     }
     
-    sendDockingRequest(()=>{});
+    var errorMessage = sendDockingRequest(()=>{});
+    
+    if(errorMessage){
+      setError(errorMessage);
+    }
+
   }
 
   /*
