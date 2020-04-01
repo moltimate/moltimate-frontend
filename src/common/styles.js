@@ -23,6 +23,31 @@ export default {
     color: 'white',
     padding: '10px 20px',
   },
+  dockButton:{
+    float: 'right',
+    background: '#5433FF',
+    borderRadius: 25,
+    padding: '10px 20px',
+    color: 'white',
+    '&:hover': {
+      background: '#7f66ff'
+    },
+  },
+  unselected: {
+    cursor: "pointer",
+  },
+  selected: {
+    background: '#856eff',
+    cursor: "pointer",
+  },
+  dockedSelected: {
+    background: '#b3b3b3',
+    cursor: "pointer",
+  },
+  dockedUnselected: {
+    background: '#e6e6e6',
+    cursor: "pointer",
+  },
   cancelButton: {
     borderRadius: 25,
     color: 'rgba(0, 0, 0, 0.54)',
@@ -50,6 +75,7 @@ export default {
   builderContainer: {
     margin: '5% 10%'
   },
-
-
+  filter: {
+    margin: '0% 10%'
+  }
 }
