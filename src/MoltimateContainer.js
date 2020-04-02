@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import axios from "axios";
 
-import {library_ligands, 
-  test_ligands, 
-  fake_docking_data, 
+import {library_ligands,
+  test_ligands,
+  fake_docking_data,
   fake_docking_data_2,
   test_sites} from './DummyData'
 
@@ -64,7 +64,7 @@ function MoltimateContainer(props) {
     //if docking has already been performed on the selected ligand, select it for viewing
     }else if(dockedLigands.has(selected_ligand)){
       setViewingLigand(selected_ligand)
-      
+
       //this is temporary, for demonstration purposes
       if(selected_ligand.name == "00I"){
         setDockingConfigs(fake_docking_data)
@@ -90,7 +90,7 @@ function MoltimateContainer(props) {
     } else if(!dockedLigands.has(selected_ligand)){
       new_selected_ligands.add(selected_ligand)
     }
-    
+
     setSelectedLigands(new_selected_ligands)
   }
 
@@ -100,8 +100,8 @@ function MoltimateContainer(props) {
       new_docked_ligands.add(ligand)
     }
     setDockedLigands(new_docked_ligands)
-    
-    //if any new ligands were docked, select the first one for display 
+
+    //if any new ligands were docked, select the first one for display
     if(selectedLigands.length > 0){
 
     }
@@ -139,7 +139,7 @@ function MoltimateContainer(props) {
     return (
       <>
         <TopBar toggleSettings = {toggleSettingsMenu} uploadPDBQT = {uploadPDBQT}/>
-        
+
         <div className={classes.controlPanel}>
           <SearchContainer
             handleSelectedResult={handleSelectedResult}
@@ -157,7 +157,7 @@ function MoltimateContainer(props) {
             viewingLigand = {viewingLigand}
             dockedLigands = {dockedLigands}
           />
-          <ImportedLigandsContainer 
+          <ImportedLigandsContainer
             importedLigands = {uploadedLigands}
             selectedLigands = {selectedLigands}
             clickLigandHandler = {handleSelectedLigand}
@@ -173,7 +173,7 @@ function MoltimateContainer(props) {
               selectConfigurationHandler = {selectConfig}
             />:null
           }
-          
+
         </div>
         {
           nglData ? <ProteinContainer
