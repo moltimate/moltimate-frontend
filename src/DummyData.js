@@ -29,19 +29,64 @@ const fake_docking_data_2 = (
 
 const test_sites = [
     {
-        residueId: 66,
-        residueChainName: 'A',
-        residueAltLoc: ''
+        residueId: 57,
+        residueChainName: "A",
+        residueAltLoc: ""
     },
     {
-        residueId: 70,
-        residueChainName: 'A',
-        residueAltLoc: ''
+        residueId: 57,
+        residueChainName: "B",
+        residueAltLoc: ""
     },
     {
-        residueId: 214,
-        residueChainName: 'A',
-        residueAltLoc: ''
+        residueId: 57,
+        residueChainName: "C",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 57,
+        residueChainName: "D",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 102,
+        residueChainName: "A",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 102,
+        residueChainName: "B",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 102,
+        residueChainName: "C",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 102,
+        residueChainName: "D",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 195,
+        residueChainName: "A",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 195,
+        residueChainName: "B",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 195,
+        residueChainName: "C",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 195,
+        residueChainName: "D",
+        residueAltLoc: ""
     }
 ]
 
