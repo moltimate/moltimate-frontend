@@ -1,6 +1,9 @@
 import * as NGL from 'ngl';
 
 let stage;
+let docking_stage;
+let _file;
+let _model;
 let _parentId;
 let _childId;
 
@@ -75,9 +78,13 @@ export function loadDocked(file, model, active_sites) {
     );
 
     // Create NGL Stage object
-    stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
-    stage.mouseControls.remove( 'drag-ctrl-right' );
-    stage.mouseControls.remove( 'drag-ctrl-left' );
+    if (file.name != _file || model != _model) {
+        docking_stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
+    }
+    _file = file.name;
+    _model = model;
+    docking_stage.mouseControls.remove( 'drag-ctrl-right' );
+    docking_stage.mouseControls.remove( 'drag-ctrl-left' );
     // Handle window resizing
     window.addEventListener( 'resize', function( event ){
         stage.handleResize();
@@ -99,7 +106,7 @@ export function loadDocked(file, model, active_sites) {
     select1 = select1.substring(0, select1.length - 4);
 
     // Load file
-    stage.loadFile(file, {ext:"pdb"}).then((o) => {
+    docking_stage.loadFile(file, {ext:"pdb"}).then((o) => {
         // Load ligand, grab only the selected orientation
         o.addRepresentation('ball+stick', { sele: `/${model}` });
 
