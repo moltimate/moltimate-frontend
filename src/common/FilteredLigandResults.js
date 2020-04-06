@@ -19,7 +19,7 @@ import styles from "./styles.js";
  */
 function FilteredLigandResults(props) {
   const { classes, temp, handleLigandUpload, selectedLigands, dockedLigands, 
-    clickLigandHandler, dockHandler, viewingLigand, uploadButton } = props;
+    clickLigandHandler, dockHandler, viewingLigand, uploadButton, midDocking } = props;
 
   //a string used as filtering criteria for the list of ligands
   const [filter, setFilter] = useState("");
@@ -97,10 +97,11 @@ function FilteredLigandResults(props) {
               : <Button 
                 //initiates the docking process
                 name='dock' 
-                className={classes.dockButton}
-                onClick = {() => {dockHandler(setError)}}
-                variant="contained"
-                color='primary'
+                className= {classes.dockButton}
+                onClick= {() => {dockHandler(setError)}}
+                variant= "contained"
+                color= 'primary'
+                disabled= {midDocking}
               >
                 Dock
               </Button>
@@ -114,6 +115,7 @@ function FilteredLigandResults(props) {
         clickLigandHandler = {clickLigandHandler}
         dockedLigands = {dockedLigands}
         viewingLigand = {viewingLigand}
+        midDocking = {midDocking}
       />
     </div>
   );
@@ -148,12 +150,16 @@ FilteredLigandResults.propTypes = {
   /** An object representing a ligand selected to be viewed 
    *  Example of object:
    *    {name:"00I",structure:"C30 H35 N5 O6 S", min_affinity: -5.2}  
-  */
+   */
   viewingLigand: propTypes.object,
   /**
    * Whether the Ligand Results offer an "upload" button to the user
    */
   uploadButton: propTypes.bool,
+  /**
+   * True when the selected ligands are in the docking process
+   */
+  midDocking: propTypes.bool,
 };
 
 FilteredLigandResults.defaultProps = {

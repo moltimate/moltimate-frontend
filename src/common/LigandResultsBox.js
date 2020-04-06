@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { List, ListItem, ListItemText } from '@material-ui/core';
 import LigandResultItem from './LigandResultItem';
 
 export default function LigandResultsBox(props) {
-  const {ligandResults, selectedLigands, dockedLigands, viewingLigand, clickLigandHandler} = props;
+  const {ligandResults, selectedLigands, dockedLigands, viewingLigand, clickLigandHandler, midDocking} = props;
   const box_list = ligandResults.map(current_ligand => <LigandResultItem ligand={current_ligand}/>);
 
   return(
@@ -15,6 +15,7 @@ export default function LigandResultsBox(props) {
           ligand={ligand} 
           isSelected = {selectedLigands.has(ligand)} 
           isDocked = {dockedLigands.has(ligand)}
+          midDocking = {selectedLigands.has(ligand) && midDocking}
           clickHandler={clickLigandHandler} 
           isViewingLigand = {ligand == viewingLigand}
         />))
@@ -24,7 +25,10 @@ export default function LigandResultsBox(props) {
 }
 
 LigandResultsBox.propTypes = {
-  ligandResults: propTypes.array,
-  selectedLigands: propTypes.instanceOf(Set)
+  ligandResults: PropTypes.array,
+  /** ligands selected for docking */
+  selectedLigands: PropTypes.instanceOf(Set),
+  /** true if the selected ligands are undergoing docking */
+  midDocking: PropTypes.bool,
 };
 

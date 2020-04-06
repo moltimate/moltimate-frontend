@@ -50,6 +50,10 @@ export default {
     background: '#e6e6e6',
     cursor: "pointer",
   },
+  midDocking: {
+    color: '#f2f2f2',
+    opacity: 0.5,
+  },
   cancelButton: {
     borderRadius: 25,
     color: 'rgba(0, 0, 0, 0.54)',

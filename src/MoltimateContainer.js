@@ -64,21 +64,34 @@ function MoltimateContainer(props) {
     console.log(`Result: ${result.data}`);
     for(let field in result.data)
       console.log(`${field}: ${result.data[field]}`);
+    if(!result.error){
+
+      let requestURL = `${dockRequestURL}?storage_hash=${result.data.jobId}`;
+      let retryFrequency = 20;
+      let timeout = 900;
+      pollDockingResults(requestURL, retryFrequency, timeout)
+    }
   }
 
-  const { handleSubmit, setValue, setQueryURL, values } = useForm(dockRequestURL,defaultRequestValues,responseFunction);
+  const { handleSubmit, setValue, setQueryURL, values, result } = useForm(dockRequestURL,defaultRequestValues,responseFunction);
 
   /**
    * Mutate selectedLigands and the relevant form value
    */
  function setSelectedLigands(newLigands){
-    var ligandArray = Array.from(newLigands)
-    console.log(`ligand array length: ${ligandArray.length}`)
-    console.log(`first ligand:`)
-    for(let property in ligandArray[0]){
-      console.log(`${property}: ${ligandArray[0][property]}`)
+    //if there are ligands, add the first of them to the docking req
+    if(newLigands.size > 0){
+      var ligandArray = Array.from(newLigands)
+      console.log(`ligand array length: ${ligandArray.length}`)
+      console.log(`first ligand:`)
+      for(let property in ligandArray[0]){
+        console.log(`${property}: ${ligandArray[0][property]}`)
+      }
+      setValue("ligand", ligandArray[0].file);
+    } else {
+      setValue("ligand", null);
     }
-    setValue("ligand", ligandArray[0].file);
+    //if there are no ligands, there will be none in the docking request
     setSelectedLigandsInner(newLigands);
   }
 
@@ -164,21 +177,37 @@ function MoltimateContainer(props) {
     console.log("Docking Request Sent");
 
     handleSubmit();
-
-    pollDockingResults();
-
-    callback;
   }
 
-  const pollDockingResults = () =>{
+  /**
+   * Polls the backend until it receives the result of a docking job or times out
+   * 
+   * @param {string} requestURL - the url to be polled
+   * @param {int} retryFrequency - number of seconds between retry attempts
+   * @param {int} timeout - number of seconds to retry before giving up
+   */
+  function pollDockingResults(requestURL, retryFrequency, timeoutTime){
 
-    //if timeout, return timeout
+    let startTime = Math.floor(Date.now() / 1000)
+      
+    function sendRequest(){
+      //send request
+      axios.get(requestURL).then( (response) =>{
+        console.log(`Polling Response: ${response.data}`);
+      }).catch((error) => {
+        console.log(`Polling Error: ${error}`);
+      });
 
-    //submit req
+      if((Math.floor(Date.now() / 1000) - startTime) > timeoutTime){
+        console.log("Polling Timeout")
+        return 0;
 
-    //if sucess, return success
+      }
 
-    //if failure, poll again
+      setTimeout(sendRequest,retryFrequency * 1000)
+    }
+    
+    sendRequest()
   }
 
   /**
@@ -403,6 +432,7 @@ function MoltimateContainer(props) {
             viewingLigand = {viewingLigand}
             dockedLigands = {dockedLigands}
             ligandUploadHandler = {ligandUploadHandler}
+            dockingResults = {result}
           />
           {
             //Only display docking info if there is a viewing ligand selected
