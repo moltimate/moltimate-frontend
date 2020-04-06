@@ -17,7 +17,7 @@ import LigandLibraryContainer from './ligand_library/LigandLibraryContainer';
 import ImportedLigandsContainer from './imported_ligands/ImportedLigandsContainer';
 import DockingInfoContainer from './docking_info/DockingInfoContainer';
 import SettingsContainer from './settings/SettingsContainer';
-import useForm from './util/request';
+import useForm, {dockRequestURL} from './util/request';
 
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
@@ -32,8 +32,9 @@ function MoltimateContainer(props) {
   const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
   //autopopulating data on ligands
   const [ libraryLigands, setLibraryLigands ] = useState(library_ligands);
-  //ligands selected for docking
-  const [selectedLigands, setSelectedLigands] = useState(new Set());
+  //ligands selected for docking. Do not pass this setter (instead use the 
+  //"setSelectedLigands" function)
+  const [selectedLigands, setSelectedLigandsInner] = useState(new Set());
   //ligands which have been docked
   const [dockedLigands, setDockedLigands] = useState(new Set());
   //the ligand selected to be viewed
@@ -44,15 +45,112 @@ function MoltimateContainer(props) {
   const [selectedDockingConfig, setSelectedDockingConfig] = useState(null);
   //whether the settings are showing or now
   const [showSettings, setShowSettings] = useState(false);
-  //the id of the macromolecule to use for docking
-  const [dockingProteinID, setDockingProteinId] = useState(null);
-  //the center coordinate of the docking search region, represented as a 3 element array
-  const [dockingCenter, setDockingCenter] = useState([0,0,0]);
-  //the range in each dimension of the docking search region, represented as a 3 element 
-  //array
-  const [dockingRange, setDockingRange] = useState([100,100,100]);
+  
+  //the id of the macromolecule to use for docking. Do not pass this setter (instead use the 
+  //"setDockingProteinId" function)
+  const [dockingProteinID, setDockingProteinIdInner] = useState(null);
 
-  const {handleSubmit, setValue, setQueryURL} = useForm();
+  //this form is used to make docking requests
+  const defaultRequestValues = {
+    center_x: 0,
+    center_y: 0,
+    center_z: 0,
+    size_x: 100,
+    size_y: 100,
+    size_z: 100
+  }
+
+  var responseFunction = (result)=>{
+    console.log(`Result: ${result.data}`);
+    for(let field in result.data)
+      console.log(`${field}: ${result.data[field]}`);
+  }
+
+  const { handleSubmit, setValue, setQueryURL, values } = useForm(dockRequestURL,defaultRequestValues,responseFunction);
+
+  /**
+   * Mutate selectedLigands and the relevant form value
+   */
+ function setSelectedLigands(newLigands){
+    var ligandArray = Array.from(newLigands)
+    console.log(`ligand array length: ${ligandArray.length}`)
+    console.log(`first ligand:`)
+    for(let property in ligandArray[0]){
+      console.log(`${property}: ${ligandArray[0][property]}`)
+    }
+    setValue("ligand", ligandArray[0].file);
+    setSelectedLigandsInner(newLigands);
+  }
+
+  /**
+   * Mutate dockingProteinId and the relevant form value
+   * 
+   * @param {String} newID the PDB ID of the protein to use for docking 
+   */
+  function setDockingProteinId(newID){
+    setValue("macromoleculeID", newID);
+    setDockingProteinIdInner(newID);
+  }
+
+  /**
+   * Mutate the dockingCenter virtual attribute
+   * 
+   * @param newCenter the new center of the docking search area.
+   */
+  function setDockingCenter(newCenter){
+    setValue("center_x", newCenter[0]);
+    setValue("center_y", newCenter[1]);
+    setValue("center_z", newCenter[2]);
+  }
+
+  /**
+   * Access the dockingCenter virtual attribute
+   * 
+   * @returns An array of the the x, y, and z values of the center of the docking search area. If these have
+   *  not been set, they default to 0.
+   */
+  function getDockingCenter(){
+    var x, y, z;
+    ("center_x" in values) ? x = values.center_x : x = 0;
+    ("center_y" in values) ? y = values.center_y : y = 0;
+    ("center_z" in values) ? x = values.center_z : z = 0;
+      
+    return [x,y,z]
+  }
+
+  /**
+   * Mutate the dockingRange virtual attribute
+   * 
+   * @param newRange the new range of the docking search area.
+   */
+  function setDockingRange(newRange){
+    setValue("size_x", newRange[0]);
+    setValue("size_y", newRange[1]);
+    setValue("size_z", newRange[2]);
+  }
+
+  /**
+   * Access the dockinRange virtual attribute
+   * 
+   * @returns An array of the the x, y, and z dimensions of the docking range. If these have not been set, 
+   * they default to 100.
+   */
+  function getDockingRange(){
+    var x, y, z;
+    ("size_x" in values) ? x = values.size_x : x = 100;
+    ("size_y" in values) ? y = values.size_y : y = 100;
+    ("size_z" in values) ? x = values.size_z : z = 100;
+      
+    return [x,y,z]
+  }
+
+  const handleDockingResponse = (result) => {
+    if(result.data){
+      console.log("response received: \n" + result.data)
+    } else {
+      console.log("error received: \n" + result.error)
+    }  
+  }
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
@@ -61,43 +159,11 @@ function MoltimateContainer(props) {
     setDockingProteinId(parentId);
   }
 
-  /** 
-   *  @param {string} macromolecule the ID of the protein to dock
-   *  @param {Array} ligands an array of objects representing ligands with the following 
-   *    attributes:
-   *      name: name of ligand
-   *      file: the file representing the ligand
-   *  @param {object} center an object representing the center of the docking search zone
-   *    with the following attributes:
-   *      x: x coordinate of center
-   *      y: y coordinate of center
-   *      z: z coordinate of center
-   *  @param {object} boundaries an object representing the size of the docking search zone with
-   *    the following attributes:
-   *      x: size of x dimension of zone
-   *      y: size of y dimension of zone
-   *      z: size of z dimension of zone
-   */
-  function dockLigands (macromolecule, ligands, center, boundaries, callback){
+  const dockLigands = (callback) =>{
 
-    
-    
     console.log("Docking Request Sent");
-    const dockQueryURL = 'http://localhost:8080/dock/dockligand';
-    setValue("center_x", center[0]);
-    setValue("center_y", center[1]);
-    setValue("center_z", center[2]);
-    setValue("size_x", boundaries[0]);
-    setValue("size_y", boundaries[1]);
-    setValue("size_z", boundaries[2]);
-    setQueryURL(dockQueryURL);
 
-    setValue("macromolecule",macromolecule);
-
-    for(let ligand in ligands){
-      setValue("uploaded_ligand", ligand.file);
-      handleSubmit();
-    }
+    handleSubmit();
 
     pollDockingResults();
 
@@ -132,10 +198,9 @@ function MoltimateContainer(props) {
       console.log("Must select at least one ligand");
       return "Must have at least one ligand selected to dock a ligand";
 
-    } else {
-      dockLigands(dockingProteinID, selectedLigands, dockingCenter, dockingRange, 
-        callback);
-      console.log("dockLigands here")
+    } else{
+
+      dockLigands(callback);
     }
     //this means there was no issue with the docking procedure
     return 0;
@@ -187,7 +252,7 @@ function MoltimateContainer(props) {
       new_docked_ligands.add(ligand)
     }
     
-    var errorMessage = sendDockingRequest(()=>{});
+    var errorMessage = sendDockingRequest(()=>{console.log("Request Sent")});
     
     if(errorMessage){
       setError(errorMessage);
@@ -360,9 +425,9 @@ function MoltimateContainer(props) {
         {
           //Only display the settings modal when showSettings is true
           showSettings ? <SettingsContainer setShowSettings = {setShowSettings}
-            dockingSearchCenter = {dockingCenter}
+            dockingSearchCenter = {getDockingCenter}
             setDockingSearchCenter = {setDockingCenter}
-            dockingSearchRange = {dockingRange}
+            dockingSearchRange = {getDockingRange}
             setDockingSearchRange = {setDockingRange}
           />:null
         }

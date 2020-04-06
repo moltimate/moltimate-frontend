@@ -12,8 +12,8 @@ import DockingSearchBounds from './DockingSearchBounds.js';
 function SettingsContainer(props){
   const {classes, setShowSettings, dockingSearchCenter, setDockingSearchCenter, 
     dockingSearchRange, setDockingSearchRange} = props;
-  const [temporaryDockingCenter, setTemporaryDockingCenter] = useState(dockingSearchCenter);
-  const [temporaryDockingRange, setTemporaryDockingRange] = useState(dockingSearchRange);
+  const [temporaryDockingCenter, setTemporaryDockingCenter] = useState(dockingSearchCenter());
+  const [temporaryDockingRange, setTemporaryDockingRange] = useState(dockingSearchRange());
 
   function ApplySettings(){
     setDockingSearchCenter(temporaryDockingCenter);

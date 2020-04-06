@@ -7,10 +7,10 @@ import testSearchResponse from './testSearchResponse';
 // TODO make this a config file
 const testQueryURL = 'http://localhost:8080/test/motif';
 const searchQueryURL = 'http://localhost:8080/align/activesite';
-const dockQueryURL = 'http://localhost:8080/dock/dockligand';
+const dockRequestURL = 'http://localhost:8080/dock/dockligand';
 
-const useForm = (callback) => {
-  const [values, setValues] = useState({});
+const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
+  const [values, setValues] = useState(defaultValues);
   const [currentMode, setCurrentMode] = useState('');
   const [result, setResult] = useState({
     data: null,
@@ -21,27 +21,33 @@ const useForm = (callback) => {
   });
   const [request, setRequest] = useState(null);
   const [formStatus, setFormStatus] = useState(null);
-  const [url, setURL] = useState(searchQueryURL);
+  const [url, setURL] = useState(defaultURL);
 
   const handleSubmit = (e) => {
     if (e) {
       e.preventDefault();
+      e.persist();
     }
-    e.persist();
+    
+    console.log("submit following values:");
+    for(let property in values){
+      console.log(`  ${property}: ${values[property]}`)
+    }
 
-    const queryURL = currentMode === 'test' ? testQueryURL : url;
+    var queryURL = currentMode === 'test' ? testQueryURL : url;
 
-    console.log(queryURL)
+    console.log("url: " + queryURL);
     const form_data = new FormData();
     for ( let key in values ) {
       if ( String(key) === 'activeSiteResidues') {
         form_data.append(key, values.activeSiteResidues.map(a => {
           return `${a.residueName} ${a.residueChainName} ${a.residueId}`
         }));
-      //uploaded_ligand attributes are files, and need special treatment
-      } else if(String(key) === 'uploaded_ligand'){
+      //ligand and molecule attributes are files, and need special treatment
+      } else if(String(key) === 'ligand' || String(key).startsWith('molecule')){
         //here we can expect the value to be a File object
         form_data.append(key, values[key], values[key].name)
+
       } else {
         form_data.append(key, values[key]);
       }
@@ -55,8 +61,10 @@ const useForm = (callback) => {
       mode: currentMode,
     });
 
+    console.log("posting query now")
+
     axios.post(queryURL, form_data)
-      .then(result =>
+      .then(result =>{
         setResult({
           data: result.data,
           pending: false,
@@ -64,15 +72,16 @@ const useForm = (callback) => {
           complete: true,
           mode: currentMode,
         })
-      ).catch((error) =>
-          setResult({
-            data: null,
-            pending: false,
-            error: error,
-            complete: true,
-            mode: currentMode,
-          })
-        );
+        callback(result);
+      }).catch((error) =>
+        setResult({
+          data: null,
+          pending: false,
+          error: error,
+          complete: true,
+          mode: currentMode,
+        })
+      );   
   };
 
   /* Generic input handleChange */
@@ -82,8 +91,16 @@ const useForm = (callback) => {
   };
 
   /* add an attribute-value pair to the values object*/
-  const setValue = (attribute, attribute_value) => {
-    setValues(values => ({ ...values, [attribute]: attribute_value }));
+  const 
+  
+  setValue = (attribute, attributeValue) => {
+    setValues(values => ({ ...values, [attribute]: attributeValue }));
+    console.log(`attribute ${attribute} set to ${attributeValue}`)
+    console.log("saved following values:");
+    for(let property in values){
+      console.log(`  ${property}: ${values[property]}`)
+    }
+
   }
 
   /* Chipinput API only returns the value, not a full event */
@@ -131,8 +148,8 @@ const useForm = (callback) => {
     setValues(values => ({ ...values, [key]: copy}));
   }
 
-  const setQueryURL = (newURL) => {
-    setURL(newURL) 
+  const setQueryURL = (newURL) =>{
+    setURL(newURL);
   }
 
   return {
@@ -152,3 +169,4 @@ const useForm = (callback) => {
 };
 
 export default useForm;
+export { dockRequestURL, searchQueryURL };
