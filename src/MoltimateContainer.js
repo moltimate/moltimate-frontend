@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import axios from "axios";
 
-import {library_ligands, 
-  test_ligands, 
-  fake_docking_data, 
-  fake_docking_data_2} from './DummyData'
+import {library_ligands,
+  test_ligands,
+  fake_docking_data,
+  fake_docking_data_2,
+  test_sites} from './DummyData'
 
 import TopBar from './TopBar';
 import Button from '@material-ui/core/Button'
@@ -13,6 +14,7 @@ import Button from '@material-ui/core/Button'
 import SearchContainer from './search/SearchContainer';
 import BuilderContainer from './builder/BuilderContainer';
 import ProteinContainer from './protein/ProteinContainer';
+import DockingContainer from './protein/DockingContainer';
 import LigandLibraryContainer from './ligand_library/LigandLibraryContainer';
 import ImportedLigandsContainer from './imported_ligands/ImportedLigandsContainer';
 import DockingInfoContainer from './docking_info/DockingInfoContainer';
@@ -26,11 +28,14 @@ function MoltimateContainer(props) {
   const [expanded, setExpanded] = useState(false);
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
+  const [ dockingData, setDockingData ] = useState(null);
 
   //data on all the ligands the user has uploaded
   const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
   //autopopulating data on ligands
   const [ libraryLigands, setLibraryLigands ] = useState(library_ligands);
+  //Active site data for 1a0j
+  const [ testSites, setTestSites ] = useState(test_sites);
   //ligands selected for docking
   const [selectedLigands, setSelectedLigands] = useState(new Set());
   //ligands which have been docked
@@ -43,8 +48,6 @@ function MoltimateContainer(props) {
   const [selectedDockingConfig, setSelectedDockingConfig] = useState(null);
   //whether the settings are showing or now
   const [showSettings, setShowSettings] = useState(false)
-
-  console.log("test");
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
@@ -61,11 +64,17 @@ function MoltimateContainer(props) {
     //if docking has already been performed on the selected ligand, select it for viewing
     }else if(dockedLigands.has(selected_ligand)){
       setViewingLigand(selected_ligand)
-      
+
       //this is temporary, for demonstration purposes
       if(selected_ligand.name == "00I"){
         setDockingConfigs(fake_docking_data)
-      } else{
+      } else if(selected_ligand.name == "00K") {
+        if(dockingData) {
+            setDockingConfigs(dockingData.data)
+        } else {
+            setDockingConfigs(fake_docking_data_2)
+        }
+      } else {
         setDockingConfigs(fake_docking_data_2)
       }
     }
@@ -81,7 +90,7 @@ function MoltimateContainer(props) {
     } else if(!dockedLigands.has(selected_ligand)){
       new_selected_ligands.add(selected_ligand)
     }
-    
+
     setSelectedLigands(new_selected_ligands)
   }
 
@@ -91,8 +100,8 @@ function MoltimateContainer(props) {
       new_docked_ligands.add(ligand)
     }
     setDockedLigands(new_docked_ligands)
-    
-    //if any new ligands were docked, select the first one for display 
+
+    //if any new ligands were docked, select the first one for display
     if(selectedLigands.length > 0){
 
     }
@@ -109,6 +118,19 @@ function MoltimateContainer(props) {
     else setShowSettings(true)
   }
 
+  function uploadPDBQT( files ) {
+    setDockingData({
+        file: files[0],
+        active_sites: test_sites,
+        ligand_model: 1
+    });
+  }
+
+  function parseBinding( file ) {
+    // Perform parsing here.
+    return fake_docking_data_2;
+  }
+
   function selectConfig(configSelection){
     setSelectedDockingConfig(configSelection)
     console.log("selected config: " + configSelection[1])
@@ -116,8 +138,8 @@ function MoltimateContainer(props) {
 
     return (
       <>
-        <TopBar toggleSettings = {toggleSettingsMenu}/>
-        
+        <TopBar toggleSettings = {toggleSettingsMenu} uploadPDBQT = {uploadPDBQT}/>
+
         <div className={classes.controlPanel}>
           <SearchContainer
             handleSelectedResult={handleSelectedResult}
@@ -135,7 +157,7 @@ function MoltimateContainer(props) {
             viewingLigand = {viewingLigand}
             dockedLigands = {dockedLigands}
           />
-          <ImportedLigandsContainer 
+          <ImportedLigandsContainer
             importedLigands = {uploadedLigands}
             selectedLigands = {selectedLigands}
             clickLigandHandler = {handleSelectedLigand}
@@ -151,7 +173,7 @@ function MoltimateContainer(props) {
               selectConfigurationHandler = {selectConfig}
             />:null
           }
-          
+
         </div>
         {
           nglData ? <ProteinContainer
@@ -159,6 +181,13 @@ function MoltimateContainer(props) {
             childId={nglData.parentId}
             active={nglData.active}
             aligned={nglData.aligned}
+          /> : null
+        }
+        {
+          dockingData ? <DockingContainer
+            file={dockingData.file}
+            ligand_model={dockingData.ligand_model}
+            active_sites={dockingData.active_sites}
           /> : null
         }
         {
