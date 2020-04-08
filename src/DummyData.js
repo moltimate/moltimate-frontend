@@ -27,10 +27,73 @@ const fake_docking_data_2 = (
   [[1, -3, 1],[2, -2, 5],[3, -1, 10]]
 );
 
+const test_sites = [
+    {
+        residueId: 57,
+        residueChainName: "A",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 57,
+        residueChainName: "B",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 57,
+        residueChainName: "C",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 57,
+        residueChainName: "D",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 102,
+        residueChainName: "A",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 102,
+        residueChainName: "B",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 102,
+        residueChainName: "C",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 102,
+        residueChainName: "D",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 195,
+        residueChainName: "A",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 195,
+        residueChainName: "B",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 195,
+        residueChainName: "C",
+        residueAltLoc: ""
+    },
+    {
+        residueId: 195,
+        residueChainName: "D",
+        residueAltLoc: ""
+    }
+]
+
 module.exports = {
   library_ligands: library_ligands,
   test_ligands: test_ligands,
   fake_docking_data: fake_docking_data,
-  fake_docking_data_2: fake_docking_data_2
-
+  fake_docking_data_2: fake_docking_data_2,
+  test_sites: test_sites
 };

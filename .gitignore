@@ -15,3 +15,6 @@ C:Develnodejsnpm-cache
 
 .DS_Store
 package-lock.json
+
+# IntelliJ Files
+.idea
