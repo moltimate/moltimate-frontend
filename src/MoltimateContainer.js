@@ -45,10 +45,18 @@ function MoltimateContainer(props) {
   const [selectedDockingConfig, setSelectedDockingConfig] = useState(null);
   //whether the settings are showing or now
   const [showSettings, setShowSettings] = useState(false);
+  //true if any ligands are currently being docked
+  const [dockingInProgress, setDockingInProgress] = useState(false);
   
   //the id of the macromolecule to use for docking. Do not pass this setter (instead use the 
   //"setDockingProteinId" function)
   const [dockingProteinID, setDockingProteinIdInner] = useState(null);
+
+  useEffect(() => {
+    if(dockingInProgress){
+      handleSubmit()
+    }
+  },[dockingInProgress]);
 
   //this form is used to make docking requests
   const defaultRequestValues = {
@@ -60,7 +68,13 @@ function MoltimateContainer(props) {
     size_z: 100
   }
 
-  var responseFunction = (result)=>{
+  /**
+   * parses and responds to the results from the initial docking request
+   * 
+   * @param {Object} result - the response from the docking request sent to the backend
+   * @param {Object} result.data - the body of the response from the docking request
+   */
+  function handleDockingResponse(result){
     console.log(`Result: ${result.data}`);
     for(let field in result.data)
       console.log(`${field}: ${result.data[field]}`);
@@ -69,16 +83,18 @@ function MoltimateContainer(props) {
       let requestURL = `${dockRequestURL}?storage_hash=${result.data.jobId}`;
       let retryFrequency = 20;
       let timeout = 900;
+      console.log(`docking in progress (lvl1)?: ${dockingInProgress}`)
+      console.log(`docking in progress defined? (lvl1)?: ${!(dockingInProgress === undefined)}`)
       pollDockingResults(requestURL, retryFrequency, timeout)
     }
   }
 
-  const { handleSubmit, setValue, setQueryURL, values, result } = useForm(dockRequestURL,defaultRequestValues,responseFunction);
+  const { handleSubmit, setValue, values, result } = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
 
   /**
    * Mutate selectedLigands and the relevant form value
    */
- function setSelectedLigands(newLigands){
+  function setSelectedLigands(newLigands){
     //if there are ligands, add the first of them to the docking req
     if(newLigands.size > 0){
       var ligandArray = Array.from(newLigands)
@@ -157,14 +173,6 @@ function MoltimateContainer(props) {
     return [x,y,z]
   }
 
-  const handleDockingResponse = (result) => {
-    if(result.data){
-      console.log("response received: \n" + result.data)
-    } else {
-      console.log("error received: \n" + result.error)
-    }  
-  }
-
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
     setNglData({ parentId, childId, active, aligned });
@@ -172,11 +180,11 @@ function MoltimateContainer(props) {
     setDockingProteinId(parentId);
   }
 
-  const dockLigands = (callback) =>{
+  function dockLigands(callback){
 
     console.log("Docking Request Sent");
-
-    handleSubmit();
+    setDockingInProgress(true);
+    
   }
 
   /**
@@ -188,23 +196,38 @@ function MoltimateContainer(props) {
    */
   function pollDockingResults(requestURL, retryFrequency, timeoutTime){
 
-    let startTime = Math.floor(Date.now() / 1000)
+    console.log(`docking in progress (lvl2)?: ${dockingInProgress}`)
+    console.log(`docking in progress defined? (lvl2)?: ${!(dockingInProgress === undefined)}`)
+
+    let startTime = Math.floor(Date.now() / 1000);
       
     function sendRequest(){
+      console.log(`docking in progress (lvl3)?: ${dockingInProgress}`)
+      console.log(`docking in progress defined? (lvl3)?: ${!(dockingInProgress === undefined)}`)
       //send request
       axios.get(requestURL).then( (response) =>{
         console.log(`Polling Response: ${response.data}`);
+        console.log(`status: ${response.status}`);
+
+        if(response.status == 200){
+          setDockingInProgress(false);
+        }
       }).catch((error) => {
         console.log(`Polling Error: ${error}`);
+        setDockingInProgress(false);
       });
 
-      if((Math.floor(Date.now() / 1000) - startTime) > timeoutTime){
-        console.log("Polling Timeout")
-        return 0;
+      console.log(`docking in progress?: ${dockingInProgress}`)
+      if((timestamp = (Math.floor(Date.now() / 1000) - startTime))> timeoutTime){
 
+        console.log(`Polling Timeout: ${timestamp} > ${timeoutTime}`)
+        setDockingInProgress(false);
+        return;
+
+        //if the timeout hasn't occurred, keep polling
+      }else if(dockingInProgress){
+        setTimeout(sendRequest,retryFrequency * 1000)
       }
-
-      setTimeout(sendRequest,retryFrequency * 1000)
     }
     
     sendRequest()
@@ -432,7 +455,7 @@ function MoltimateContainer(props) {
             viewingLigand = {viewingLigand}
             dockedLigands = {dockedLigands}
             ligandUploadHandler = {ligandUploadHandler}
-            dockingResults = {result}
+            dockingInProgress = {dockingInProgress}
           />
           {
             //Only display docking info if there is a viewing ligand selected

@@ -15,7 +15,7 @@ export default function LigandResultsBox(props) {
           ligand={ligand} 
           isSelected = {selectedLigands.has(ligand)} 
           isDocked = {dockedLigands.has(ligand)}
-          midDocking = {selectedLigands.has(ligand) && midDocking}
+          midDocking = {midDocking}
           clickHandler={clickLigandHandler} 
           isViewingLigand = {ligand == viewingLigand}
         />))

@@ -6,15 +6,10 @@ import PropTypes from 'prop-types';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-/**
- * 
- * @param {Props} props
- * @param {Object} props.dockingResults
- * @param {string} props.dockingResults.
- */
+
 function ImportedLigandsContainer(props){
   const {importedLigands, selectedLigands, dockedLigands, viewingLigand, 
-    clickLigandHandler, dockHandler, ligandUploadHandler, dockingResults} = props;
+    clickLigandHandler, dockHandler, ligandUploadHandler, dockingInProgress} = props;
   const [expandImportedLigands, setExpandImportedLigands] = useState(false);
 
   return(
@@ -32,20 +27,18 @@ function ImportedLigandsContainer(props){
           dockHandler = {dockHandler}
           viewingLigand = {viewingLigand}
           uploadButton = {true}
-          midDocking = { !!dockingResults.pending }
+          midDocking = { dockingInProgress }
         />
       }
       //Shows a rotating progress icon if request is still in progress
-      childIcon={dockingResults.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/>:<AddCircleOutlineIcon />}
+      childIcon={dockingInProgress ? <CircularProgress variant="indeterminate" size={24} thickness={4}/>:<AddCircleOutlineIcon />}
     />
   );
 }
 
 ImportedLigandsContainer.propTypes = {
-  /**
-   * The results of a docking operation. 
-   */
-  dockingResults: PropTypes.object,
+  /** true if any ligands are undergoing docking */
+  dockingInProgress: PropTypes.bool,
   /** 
    * Is called whenever a a ligand is to be uploaded. accepts an event and an error message (string) 
    * mutator function
