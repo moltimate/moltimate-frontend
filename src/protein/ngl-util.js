@@ -7,11 +7,14 @@ let _model;
 let _parentId;
 let _childId;
 
-export function init(parentId, childId, aligned, active) {
+export function init(parentId, childId, aligned, active, display_mode) {
   // Setup to load data from rawgit
   NGL.DatasourceRegistry.add(
     'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
   );
+
+  let surfaceRep = display_mode.split("-")[1];
+  display_mode = display_mode.split("-")[0];
 
   // Create NGL Stage object
   if (parentId != _parentId || childId != _childId) {
@@ -46,13 +49,13 @@ export function init(parentId, childId, aligned, active) {
 
   Promise.all([
     stage.loadFile(`rcsb://${parentId}`).then((o) => {
-      o.addRepresentation('ball+stick', { sele: select1, color: '#2AF598'});
+      o.addRepresentation(display_mode, { sele: select1, color: '#2AF598', surfaceType: surfaceRep });
       o.autoView();
       return o;
     }),
 
     stage.loadFile(`rcsb://${childId}`).then((o) => {
-      o.addRepresentation('ball+stick', { sele: select2, color: '#20BDFF' });
+      o.addRepresentation(display_mode, { sele: select2, color: '#20BDFF', surfaceType: surfaceRep });
       o.autoView();
       return o;
     })
