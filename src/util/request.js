@@ -5,8 +5,8 @@ import testMakerResponse from './testMakerResponse';
 import testSearchResponse from './testSearchResponse';
 
 // TODO make this a config file
-const testQuery = '/test/motif';
-const searchQuery = '/align/activesite';
+const testQuery = 'http://localhost:8080/test/motif';
+const searchQuery = 'http://localhost:8080/align/activesite';
 
 const useForm = (callback) => {
   const [values, setValues] = useState({});

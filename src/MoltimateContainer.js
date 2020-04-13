@@ -49,7 +49,8 @@ function MoltimateContainer(props) {
   //whether the settings are showing or now
   const [showSettings, setShowSettings] = useState(false)
   //the display mode to use for molecules
-  const [displayMode, setDisplayMode] = useState("ball+stick");
+  const [displayMode1, setDisplayMode1] = useState("ball+stick");
+  const [displayMode2, setDisplayMode2] = useState("ball+stick");
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
@@ -183,7 +184,8 @@ function MoltimateContainer(props) {
             childId={nglData.parentId}
             active={nglData.active}
             aligned={nglData.aligned}
-            displayMode={displayMode}
+            displayMode1={displayMode1}
+            displayMode2={displayMode2}
           /> : null
         }
         {
@@ -196,8 +198,10 @@ function MoltimateContainer(props) {
         {
           //Only display the settings modal when showSettings is true
           showSettings ? <SettingsContainer setShowSettings = {setShowSettings}
-            displayMode = {displayMode}
-            setDisplayMode = {setDisplayMode}
+            displayMode1 = {displayMode1}
+            displayMode2 = {displayMode2}
+            setDisplayMode1 = {setDisplayMode1}
+            setDisplayMode2 = {setDisplayMode2}
           />:null
         }
       </>

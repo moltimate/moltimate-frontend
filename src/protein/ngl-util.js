@@ -7,14 +7,16 @@ let _model;
 let _parentId;
 let _childId;
 
-export function init(parentId, childId, aligned, active, display_mode) {
+export function init(parentId, childId, aligned, active, display_mode_1, display_mode_2) {
   // Setup to load data from rawgit
   NGL.DatasourceRegistry.add(
     'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
   );
 
-  let surfaceRep = display_mode.split("-")[1];
-  display_mode = display_mode.split("-")[0];
+  let surfaceRep1 = display_mode_1.split("-")[1];
+  display_mode_1 = display_mode_1.split("-")[0];
+  let surfaceRep2 = display_mode_2.split("-")[1];
+  display_mode_2 = display_mode_2.split("-")[0];
 
   // Create NGL Stage object
   if (parentId != _parentId || childId != _childId) {
@@ -24,6 +26,7 @@ export function init(parentId, childId, aligned, active, display_mode) {
   _childId = childId;
   stage.mouseControls.remove( 'drag-ctrl-right' );
   stage.mouseControls.remove( 'drag-ctrl-left' );
+  stage.removeAllComponents();
   // Handle window resizing
   window.addEventListener( 'resize', function( event ){
     stage.handleResize();
@@ -49,13 +52,13 @@ export function init(parentId, childId, aligned, active, display_mode) {
 
   Promise.all([
     stage.loadFile(`rcsb://${parentId}`).then((o) => {
-      o.addRepresentation(display_mode, { sele: select1, color: '#2AF598', surfaceType: surfaceRep });
+      o.addRepresentation(display_mode_1, { sele: select1, color: '#2AF598', surfaceType: surfaceRep1 });
       o.autoView();
       return o;
     }),
 
     stage.loadFile(`rcsb://${childId}`).then((o) => {
-      o.addRepresentation(display_mode, { sele: select2, color: '#20BDFF', surfaceType: surfaceRep });
+      o.addRepresentation(display_mode_2, { sele: select2, color: '#20BDFF', surfaceType: surfaceRep2 });
       o.autoView();
       return o;
     })

@@ -11,8 +11,9 @@ import DockingSearchBounds from './DockingSearchBounds.js';
 import DisplayMode from './DisplayMode.js';
 
 function SettingsContainer(props){
-  const {classes, setShowSettings, displayMode, setDisplayMode} = props;
-  const [formDisplayMode, setFormDisplayMode] = useState(displayMode);
+  const {classes, setShowSettings, displayMode1, setDisplayMode1, displayMode2, setDisplayMode2} = props;
+  const [formDisplayMode1, setFormDisplayMode1] = useState(displayMode1);
+  const [formDisplayMode2, setFormDisplayMode2] = useState(displayMode2);
 
   var modalCard = 
     <Grid
@@ -24,7 +25,7 @@ function SettingsContainer(props){
       onClick = {() => setShowSettings(false)}
     >
       <Grid 
-        item xs= {4}
+        item xs= {5}
         //prevents a click event on the settings to cause the settings menu to close 
         //(clicks elsewhere on the grid close the modal)
         onClick = {(e)=> e.stopPropagation()}
@@ -33,17 +34,20 @@ function SettingsContainer(props){
           <div className = {classes.settingsContainer}>
             <DockingSearchBounds/>
             <DisplayMode
-              displayMode = {formDisplayMode}
-              setDisplayMode = {setFormDisplayMode}
-              title = "Protein Display Mode"
+              displayMode = {formDisplayMode1}
+              setDisplayMode = {setFormDisplayMode1}
+              title = "Query Protein Display Mode"
             />
             <DisplayMode
-              displayMode = {formDisplayMode}
-              setDisplayMode = {setFormDisplayMode}
-              title = "Ligand Display Mode"
+              displayMode = {formDisplayMode2}
+              setDisplayMode = {setFormDisplayMode2}
+              title = "Motif Protein Display Mode"
             />
             <div className={classes.settingsBoxFooter}>
-              <Button name='apply-settings' className={classes.rounded} onClick={(e) => setDisplayMode(formDisplayMode)}>Apply</Button>
+              <Button name='apply-settings' className={classes.rounded} onClick={(e) => {
+                setDisplayMode1(formDisplayMode1);
+                setDisplayMode2(formDisplayMode2);
+              }}>Apply</Button>
             </div>
           </div>}
         />
