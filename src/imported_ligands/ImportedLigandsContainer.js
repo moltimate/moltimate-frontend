@@ -9,7 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 function ImportedLigandsContainer(props){
   const {importedLigands, selectedLigands, dockedLigands, viewingLigand, 
-    clickLigandHandler, dockHandler, ligandUploadHandler, dockingInProgress} = props;
+    clickLigandHandler, dockHandler, ligandUploadHandler, dockingInProgress, dockingError, setDockingError} = props;
   const [expandImportedLigands, setExpandImportedLigands] = useState(false);
 
   return(
@@ -28,6 +28,8 @@ function ImportedLigandsContainer(props){
           viewingLigand = {viewingLigand}
           uploadButton = {true}
           midDocking = { dockingInProgress }
+          dockingError = {dockingError}
+          setDockingError = {setDockingError}
         />
       }
       //Shows a rotating progress icon if request is still in progress

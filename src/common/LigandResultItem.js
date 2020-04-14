@@ -21,7 +21,7 @@ function LigandResultItem(props){
   const contents_docked = 
     <>
       <ListItemText>{ligand.name}</ListItemText>
-      <ListItemText secondary = {"Min BA: " + ligand.min_affinity.toString()} />
+      <ListItemText secondary = {"BA: " + ligand.min_affinity.toString()} />
       <ListItemText secondary = {ligand.structure} style={{float: 'right', textAlign: 'right'}}/>
     </>;
 

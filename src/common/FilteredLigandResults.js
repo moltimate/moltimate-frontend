@@ -19,7 +19,7 @@ import styles from "./styles.js";
  */
 function FilteredLigandResults(props) {
   const { classes, temp, handleLigandUpload, selectedLigands, dockedLigands, 
-    clickLigandHandler, dockHandler, viewingLigand, uploadButton, midDocking } = props;
+    clickLigandHandler, dockHandler, viewingLigand, uploadButton, midDocking, dockingError, setDockingError } = props;
 
   //a string used as filtering criteria for the list of ligands
   const [filter, setFilter] = useState("");
@@ -62,6 +62,11 @@ function FilteredLigandResults(props) {
     open = true;
   }
 
+  var openDocking = false;
+  if(dockingError && dockingError.length > 0){
+    openDocking = true;
+  }
+
   return(
     <div>
       <ListItem>
@@ -73,11 +78,18 @@ function FilteredLigandResults(props) {
             label = "Ligand Filter"
             onChange = {(e) => setFilter(e.target.value)}
           />
-          {error?
+          { error ?
             <ErrorBar
               open={open}
               message={error}
               handleClose={setError}
+            /> : null
+          }
+          { dockingError ?
+            <ErrorBar
+              open={openDocking}
+              message={error}
+              handleClose={setDockingError}
             /> : null
           }
           {

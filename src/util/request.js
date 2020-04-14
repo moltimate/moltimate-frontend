@@ -72,7 +72,7 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
           complete: true,
           mode: currentMode,
         })
-        callback(result);
+        callback(values,result);
       }).catch((error) =>
         setResult({
           data: null,

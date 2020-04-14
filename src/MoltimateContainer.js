@@ -47,7 +47,12 @@ function MoltimateContainer(props) {
   const [showSettings, setShowSettings] = useState(false);
   //true if any ligands are currently being docked
   const [dockingInProgress, setDockingInProgress] = useState(false);
-  
+  //Text telling if there is a docking error
+  const [dockingError, setDockingError] = useState(false);
+  //Each object represnts the results of one docking job
+  //each object contains a ligand, a macromoleculeID, and data
+  const [dockingResults, setDockingResults] = useState(new Array());
+
   //the id of the macromolecule to use for docking. Do not pass this setter (instead use the 
   //"setDockingProteinId" function)
   const [dockingProteinID, setDockingProteinIdInner] = useState(null);
@@ -55,8 +60,41 @@ function MoltimateContainer(props) {
   useEffect(() => {
     if(dockingInProgress){
       handleSubmit()
+    } else {
+      var newDockedLigands = new Set(dockedLigands);
+      //add each of the selected ligands to the new docked ligands set
+      for(let ligand of selectedLigands.values()){
+        newDockedLigands.add(ligand);
+      }
+      setDockedLigands(newDockedLigands);
+      //empty the selected ligands set
+      setSelectedLigands(new Set());
     }
-  },[dockingInProgress]);
+
+    if(dockingResults[0]){
+      //only handle one at a time
+      let dockingResult = dockingResults[0];
+      
+      let newUploadedLigands = new Set(uploadedLigands);
+      
+      let dockedLigand = dockingResult.ligand;
+      newUploadedLigands.delete(dockedLigand);
+      
+      let newDockedLigand = Object.assign({},dockedLigand);
+      Object.assign(newDockedLigand,dockingResult.data);
+    
+      newUploadedLigands.add(newDockedLigand);
+      setUploadedLigands(newUploadedLigands);
+
+      setDockingResults(dockingResults.slice(1));
+      console.log("UploadedLigands contents")
+      for(let ligand of newUploadedLigands.keys()){
+        console.log(ligand);
+      }
+    }
+
+
+  },[dockingInProgress, dockingResults]);
 
   //this form is used to make docking requests
   const defaultRequestValues = {
@@ -71,22 +109,42 @@ function MoltimateContainer(props) {
   /**
    * parses and responds to the results from the initial docking request
    * 
+   * @param {Object} values - the values of the form data in the initial docking request
    * @param {Object} result - the response from the docking request sent to the backend
    * @param {Object} result.data - the body of the response from the docking request
    */
-  function handleDockingResponse(result){
-    console.log(`Result: ${result.data}`);
+  function handleDockingResponse(values, result){
+    console.log(`Result Data: ${result.data}`);
     for(let field in result.data)
-      console.log(`${field}: ${result.data[field]}`);
+      console.log(`  ${field}: ${result.data[field]}`);
+    console.log(`Result Error: ${result.error}`);
     if(!result.error){
+      console.log("point 1")
+      if(!values["macromoleculeID"]){
+        console.log("point 2")
 
-      let requestURL = `${dockRequestURL}?storage_hash=${result.data.jobId}`;
-      let retryFrequency = 20;
-      let timeout = 900;
+        console.error("macromoleculeID was absent from docking request");
+
+        return -1
+      }
+      console.log("point 3")
+      let requestURL = `${dockRequestURL}?jobId=${result.data.jobId}&pdbId=${values.macromoleculeID}`;
+      let retryFrequency = 20;//seconds
+      let timeout = 900;//seconds
       console.log(`docking in progress (lvl1)?: ${dockingInProgress}`)
-      console.log(`docking in progress defined? (lvl1)?: ${!(dockingInProgress === undefined)}`)
-      pollDockingResults(requestURL, retryFrequency, timeout)
+      console.log(`RequestURL: ${requestURL}`)
+
+      //We assume there is only one selected ligand for now - this may be changed at a later time
+      let selectedLigandArray = Array.from(selectedLigands)
+      let selectedLigand = selectedLigandArray[0]
+
+      pollDockingResults(requestURL, retryFrequency, timeout, selectedLigand, values.macromoleculeID)
+    }else{
+      console.log("point 4")
+      console.error(`Error: ${result.error}`);
     }
+
+    console.log("point 5")
   }
 
   const { handleSubmit, setValue, values, result } = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
@@ -193,44 +251,51 @@ function MoltimateContainer(props) {
    * @param {string} requestURL - the url to be polled
    * @param {int} retryFrequency - number of seconds between retry attempts
    * @param {int} timeout - number of seconds to retry before giving up
+   * @param {Object} ligand - the ligand being docked
+   * @param {string} macromoleculeID - the ID of the macromolecule involved in docking
    */
-  function pollDockingResults(requestURL, retryFrequency, timeoutTime){
+  function pollDockingResults(requestURL, retryFrequency, timeoutTime, ligand, macromoleculeID){
 
     console.log(`docking in progress (lvl2)?: ${dockingInProgress}`)
     console.log(`docking in progress defined? (lvl2)?: ${!(dockingInProgress === undefined)}`)
-
-    let startTime = Math.floor(Date.now() / 1000);
       
-    function sendRequest(){
+    var pollingTimer; 
+
+    function checkDockingResults(){
       console.log(`docking in progress (lvl3)?: ${dockingInProgress}`)
-      console.log(`docking in progress defined? (lvl3)?: ${!(dockingInProgress === undefined)}`)
-      //send request
       axios.get(requestURL).then( (response) =>{
         console.log(`Polling Response: ${response.data}`);
         console.log(`status: ${response.status}`);
 
         if(response.status == 200){
+          //stop polling
+          clearInterval(pollingTimer);
+
+          //save the results
+          var newDockingResults = new Array(dockingResults);
+          newDockingResults.push({
+            ligand: ligand,
+            macromoleculeID: macromoleculeID,
+            data: response.data
+          });
+          setDockingResults(newDockingResults);
+
+          //indicate docking is complete
           setDockingInProgress(false);
+          
         }
       }).catch((error) => {
         console.log(`Polling Error: ${error}`);
         setDockingInProgress(false);
+        clearInterval(pollingTimer)
+        setDockingError("Error Retrieving Docking Data")
       });
-
-      console.log(`docking in progress?: ${dockingInProgress}`)
-      if((timestamp = (Math.floor(Date.now() / 1000) - startTime))> timeoutTime){
-
-        console.log(`Polling Timeout: ${timestamp} > ${timeoutTime}`)
-        setDockingInProgress(false);
-        return;
-
-        //if the timeout hasn't occurred, keep polling
-      }else if(dockingInProgress){
-        setTimeout(sendRequest,retryFrequency * 1000)
-      }
     }
+
+    pollingTimer = setInterval(checkDockingResults, retryFrequency*1000);
+
+    setTimeout(()=>{clearInterval(pollingTimer)},timeoutTime*1000)
     
-    sendRequest()
   }
 
   /**
@@ -284,7 +349,7 @@ function MoltimateContainer(props) {
     if (new_selected_ligands.has(selected_ligand)){
       new_selected_ligands.delete(selected_ligand)
 
-    //if the ligand is not selected for docking, select the ligand
+    //if the ligand is not selected for docking, and there is no selected ligand, select the ligand
     } else if(!dockedLigands.has(selected_ligand)){
       new_selected_ligands.add(selected_ligand)
     }
@@ -456,6 +521,8 @@ function MoltimateContainer(props) {
             dockedLigands = {dockedLigands}
             ligandUploadHandler = {ligandUploadHandler}
             dockingInProgress = {dockingInProgress}
+            dockingError = {dockingError}
+            setDockingError = {setDockingError}
           />
           {
             //Only display docking info if there is a viewing ligand selected
