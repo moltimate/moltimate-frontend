@@ -7,7 +7,7 @@ export default function ProteinContainer(props) {
   const key = `${file.name}`;
 
   useEffect(() => {
-    loadDocked(file, ligand_model, active_sites);
+    loadDocked(file, ligand_model, active_sites, proteinMode, activeSitesMode, ligandMode);
   });
 
   return (

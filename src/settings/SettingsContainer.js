@@ -28,8 +28,7 @@ function SettingsContainer(props){
       //when the grid (which overlaps the background of the settings modal) is clicked, close the settings menu
       onClick = {() => setShowSettings(false)}
     >
-      <Grid 
-        item xs= {5}
+      <Grid
         //prevents a click event on the settings to cause the settings menu to close 
         //(clicks elsewhere on the grid close the modal)
         onClick = {(e)=> e.stopPropagation()}
@@ -40,13 +39,13 @@ function SettingsContainer(props){
             <DisplayMode
               displayMode = {formQueryProteinMode}
               setDisplayMode = {setFormQueryProteinMode}
-              title = "Query Protein Display Mode"
+              title = "Alignment Query Protein Display Mode"
               cartoonMode = 'false'
             />
             <DisplayMode
               displayMode = {formMotifProteinMode}
               setDisplayMode = {setFormMotifProteinMode}
-              title = "Motif Protein Display Mode"
+              title = "Alignment Motif Protein Display Mode"
               cartoonMode = 'false'
             />
             <DisplayMode
@@ -57,7 +56,7 @@ function SettingsContainer(props){
             />
             <DisplayMode
               displayMode = {formActiveSitesMode}
-              setDisplayMode = {setFormMotifProteinMode}
+              setDisplayMode = {setFormActiveSitesMode}
               title = "Docking Active Sites Display Mode"
               cartoonMode = 'false'
             />
@@ -71,6 +70,9 @@ function SettingsContainer(props){
               <Button name='apply-settings' className={classes.rounded} onClick={(e) => {
                 setQueryProteinMode(formQueryProteinMode);
                 setMotifProteinMode(formMotifProteinMode);
+                setDockingProteinMode(formDockingProteinMode);
+                setActiveSitesMode(formActiveSitesMode);
+                setLigandMode(formLigandMode);
               }}>Apply</Button>
             </div>
           </div>}
