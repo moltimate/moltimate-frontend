@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { loadDocked } from './ngl-util';
 
 export default function ProteinContainer(props) {
-  const { file, ligand_model, active_sites } = props;
+  const { file, ligand_model, active_sites, proteinMode, activeSitesMode, ligandMode } = props;
   const key = `${file.name}`;
 
   useEffect(() => {
-    loadDocked(file, ligand_model, active_sites);
+    loadDocked(file, ligand_model, active_sites, proteinMode, activeSitesMode, ligandMode);
   });
 
   return (

@@ -48,6 +48,12 @@ function MoltimateContainer(props) {
   const [selectedDockingConfig, setSelectedDockingConfig] = useState(null);
   //whether the settings are showing or now
   const [showSettings, setShowSettings] = useState(false)
+  //the display mode to use for molecules
+  const [queryProteinMode, setQueryProteinMode] = useState("ball+stick");
+  const [motifProteinMode, setMotifProteinMode] = useState("ball+stick");
+  const [dockingProteinMode, setDockingProteinMode] = useState("cartoon");
+  const [activeSitesMode, setActiveSitesMode] = useState("ball+stick");
+  const [ligandMode, setLigandMode] = useState("ball+stick");
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
@@ -181,6 +187,8 @@ function MoltimateContainer(props) {
             childId={nglData.parentId}
             active={nglData.active}
             aligned={nglData.aligned}
+            queryProteinMode={queryProteinMode}
+            motifProteinMode={motifProteinMode}
           /> : null
         }
         {
@@ -188,11 +196,25 @@ function MoltimateContainer(props) {
             file={dockingData.file}
             ligand_model={dockingData.ligand_model}
             active_sites={dockingData.active_sites}
+            proteinMode={dockingProteinMode}
+            activeSitesMode={activeSitesMode}
+            ligandMode={ligandMode}
           /> : null
         }
         {
           //Only display the settings modal when showSettings is true
-          showSettings ? <SettingsContainer setShowSettings = {setShowSettings}/>:null
+          showSettings ? <SettingsContainer setShowSettings = {setShowSettings}
+            queryProteinMode = {queryProteinMode}
+            motifProteinMode = {motifProteinMode}
+            dockingProteinMode = {dockingProteinMode}
+            activeSitesMode = {activeSitesMode}
+            ligandMode = {ligandMode}
+            setQueryProteinMode = {setQueryProteinMode}
+            setMotifProteinMode = {setMotifProteinMode}
+            setDockingProteinMode = {setDockingProteinMode}
+            setActiveSitesMode = {setActiveSitesMode}
+            setLigandMode = {setLigandMode}
+          />:null
         }
       </>
     );
