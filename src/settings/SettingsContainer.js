@@ -11,9 +11,13 @@ import DockingSearchBounds from './DockingSearchBounds.js';
 import DisplayMode from './DisplayMode.js';
 
 function SettingsContainer(props){
-  const {classes, setShowSettings, displayMode1, setDisplayMode1, displayMode2, setDisplayMode2} = props;
-  const [formDisplayMode1, setFormDisplayMode1] = useState(displayMode1);
-  const [formDisplayMode2, setFormDisplayMode2] = useState(displayMode2);
+  const {classes, setShowSettings, queryProteinMode, setQueryProteinMode, motifProteinMode, setMotifProteinMode,
+    dockingProteinMode, setDockingProteinMode, activeSitesMode, setActiveSitesMode, ligandMode, setLigandMode} = props;
+  const [formQueryProteinMode, setFormQueryProteinMode] = useState(queryProteinMode);
+  const [formMotifProteinMode, setFormMotifProteinMode] = useState(motifProteinMode);
+  const [formDockingProteinMode, setFormDockingProteinMode] = useState(dockingProteinMode);
+  const [formActiveSitesMode, setFormActiveSitesMode] = useState(activeSitesMode);
+  const [formLigandMode, setFormLigandMode] = useState(ligandMode);
 
   var modalCard = 
     <Grid
@@ -34,19 +38,39 @@ function SettingsContainer(props){
           <div className = {classes.settingsContainer}>
             <DockingSearchBounds/>
             <DisplayMode
-              displayMode = {formDisplayMode1}
-              setDisplayMode = {setFormDisplayMode1}
+              displayMode = {formQueryProteinMode}
+              setDisplayMode = {setFormQueryProteinMode}
               title = "Query Protein Display Mode"
+              cartoonMode = 'false'
             />
             <DisplayMode
-              displayMode = {formDisplayMode2}
-              setDisplayMode = {setFormDisplayMode2}
+              displayMode = {formMotifProteinMode}
+              setDisplayMode = {setFormMotifProteinMode}
               title = "Motif Protein Display Mode"
+              cartoonMode = 'false'
+            />
+            <DisplayMode
+              displayMode = {formDockingProteinMode}
+              setDisplayMode = {setFormDockingProteinMode}
+              title = "Docking Protein Display Mode"
+              cartoonMode = 'true'
+            />
+            <DisplayMode
+              displayMode = {formActiveSitesMode}
+              setDisplayMode = {setFormMotifProteinMode}
+              title = "Docking Active Sites Display Mode"
+              cartoonMode = 'false'
+            />
+            <DisplayMode
+              displayMode = {formLigandMode}
+              setDisplayMode = {setFormLigandMode}
+              title = "Docking Ligand Display Mode"
+              cartoonMode = 'false'
             />
             <div className={classes.settingsBoxFooter}>
               <Button name='apply-settings' className={classes.rounded} onClick={(e) => {
-                setDisplayMode1(formDisplayMode1);
-                setDisplayMode2(formDisplayMode2);
+                setQueryProteinMode(formQueryProteinMode);
+                setMotifProteinMode(formMotifProteinMode);
               }}>Apply</Button>
             </div>
           </div>}

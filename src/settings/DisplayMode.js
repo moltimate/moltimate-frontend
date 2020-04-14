@@ -9,7 +9,7 @@ import styles from './styles.js'
 import { FormLabel } from '@material-ui/core';
 
 function DisplayMode(props){
-  const {displayMode, setDisplayMode, title, classes} = props;
+  const {displayMode, setDisplayMode, title, cartoonMode, classes} = props;
   //internal state of the form. Only gets applied if the user selects apply
 
 
@@ -29,24 +29,35 @@ function DisplayMode(props){
           label = {"Ball and Stick"}
           labelPlacement = "start"
           value = "ball+stick"
+          className={classes.displayModeRadio}
         />
+        {cartoonMode == 'true' ? <FormControlLabel
+          control = {<input type="radio"/>}
+          label = {"Cartoon"}
+          labelPlacement = "start"
+          value = "cartoon"
+          className={classes.displayModeRadio}
+        />:null}
         <FormControlLabel
           control = {<input type="radio"/>}
           label = {"Surface"}
           labelPlacement = "start"
           value = "surface-av"
+          className={classes.displayModeRadio}
         />
         <FormControlLabel
           control = {<input type="radio"/>}
           label = {"Van Der Waals"}
           labelPlacement = "start"
           value = "surface-vws"
+          className={classes.displayModeRadio}
         />
         <FormControlLabel
           control = {<input type="radio"/>}
           label = {"Wireframe"}
           labelPlacement = "start"
           value = "line"
+          className={classes.displayModeRadio}
         />
       </RadioGroup>
     </div>

@@ -44,6 +44,10 @@ export default{
 
   },
 
+  displayModeRadio:{
+    paddingRight: '10px',
+  },
+
   centerContents:{
     textAlign: "center",
   },

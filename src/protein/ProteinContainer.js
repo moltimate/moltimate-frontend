@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { init } from './ngl-util';
 
 export default function ProteinContainer(props) {
-  const { parentId, childId, aligned, active, displayMode1, displayMode2 } = props;
+  const { parentId, childId, aligned, active, queryProteinMode, motifProteinMode } = props;
   const key = `${parentId} ${childId}`;
 
   useEffect(() => {
-    init(parentId, childId, aligned, active, displayMode1, displayMode2);
+    init(parentId, childId, aligned, active, queryProteinMode, motifProteinMode);
   });
 
   return (
