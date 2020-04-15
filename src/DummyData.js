@@ -1,12 +1,12 @@
 const library_ligands = [
-  {name:"00I",structure:"C30 H35 N5 O6 S", selected:false, min_affinity: -5.2},
-  {name:"00K",structure:"C28 H44 N6 O4", selected:false, min_affinity: -6.1},
-  {name:"00L",structure:"C30 H42 N8 O4", selected:false, min_affinity: -3.2},
-  {name:"00N",structure:"C24 H34 N8 O3 S", selected:false, min_affinity: -4.4},
-  {name:"00P",structure:"C22 H29 N5 O5 S", selected:false, min_affinity: -9.8},
-  {name:"00Q",structure:"C27 H35 N7 O3 S", selected:false, min_affinity: -7.5},
-  {name:"00R",structure:"C24 H29 N7 O5 S", selected:false, min_affinity: -4.5},
-  {name:"02P",structure:"C21 H26 C1 N4 O2", selected:false, min_affinity: -3.1},];
+  {name:"00I",structure:"C30 H35 N5 O6 S", selected:false, min_affinity: -5.2, macromolecule: false},
+  {name:"00K",structure:"C28 H44 N6 O4", selected:false, min_affinity: -6.1, macromolecule: false},
+  {name:"00L",structure:"C30 H42 N8 O4", selected:false, min_affinity: -3.2, macromolecule: false},
+  {name:"00N",structure:"C24 H34 N8 O3 S", selected:false, min_affinity: -4.4, macromolecule: false},
+  {name:"00P",structure:"C22 H29 N5 O5 S", selected:false, min_affinity: -9.8, macromolecule: false},
+  {name:"00Q",structure:"C27 H35 N7 O3 S", selected:false, min_affinity: -7.5, macromolecule: false},
+  {name:"00R",structure:"C24 H29 N7 O5 S", selected:false, min_affinity: -4.5, macromolecule: false},
+  {name:"02P",structure:"C21 H26 C1 N4 O2", selected:false, min_affinity: -3.1, macromolecule: false},];
 
 const test_ligands = [];
 

@@ -44,24 +44,44 @@ function MoltimateContainer(props) {
   //whether the settings are showing or now
   const [showSettings, setShowSettings] = useState(false)
 
+  function Ligand(name, structure){
+    this.name = name;
+    this.structure = structure;
+    this.selected = false;
+    this.min_affinity = 0;
+    this.macromolecule = false;
+    
+    function uniqueID(){
+      return this.name.toString() + this.macromolecule.toString();
+    }
+    
+    this.uniqueID = uniqueID;
+  }
+
+
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
     setNglData({ parentId, childId, active, aligned });
   }
 
-  //Used to toggle the selection of different ligands for docking and viewing
-  function handleSelectedLigand(selected_ligand){
+  /**
+   * Used to toggle the selection of different ligands for docking and viewing 
+   * @param {*} selectedLigand 
+   * @param {*} availableLigands 
+   * @param {*} setAvailableLigands 
+   */
+  function handleSelectedLigand(selectedLigand, availableLigands, setAvailableLigands){
 
     //if the ligand is already selected for viewing, deselect it
-    if(viewingLigand == selected_ligand){
+    if(viewingLigand == selectedLigand){
       setViewingLigand(null)
 
     //if docking has already been performed on the selected ligand, select it for viewing
-    }else if(dockedLigands.has(selected_ligand)){
-      setViewingLigand(selected_ligand)
+    }else if(dockedLigands.has(selectedLigand)){
+      setViewingLigand(selectedLigand)
       
       //this is temporary, for demonstration purposes
-      if(selected_ligand.name == "00I"){
+      if(selectedLigand.name == "00I"){
         setDockingConfigs(fake_docking_data)
       } else{
         setDockingConfigs(fake_docking_data_2)
@@ -72,12 +92,12 @@ function MoltimateContainer(props) {
     var new_selected_ligands = new Set(selectedLigands)
 
     //if the ligand is in already selected for docking, deselect the ligand
-    if (new_selected_ligands.has(selected_ligand)){
-      new_selected_ligands.delete(selected_ligand)
+    if (new_selected_ligands.has(selectedLigand)){
+      new_selected_ligands.delete(selectedLigand)
 
     //if the ligand is not selected for docking, select the ligand
-    } else if(!dockedLigands.has(selected_ligand)){
-      new_selected_ligands.add(selected_ligand)
+    } else if(!dockedLigands.has(selectedLigand)){
+      new_selected_ligands.add(selectedLigand)
     }
     
     setSelectedLigands(new_selected_ligands)
@@ -201,7 +221,7 @@ function MoltimateContainer(props) {
 
         //add the new ligand to the list
         setAvailableLigands(
-          availableLigands.concat([{name:ligandName, structure:ligandFormulaValue, selected:false, min_affinity: 1001},])
+          availableLigands.concat([new Ligand(ligandName, ligandFormulaValue),])
         )
       }
 
