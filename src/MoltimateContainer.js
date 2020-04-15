@@ -108,9 +108,11 @@ function MoltimateContainer(props) {
   }
 
   /**
-   * add uploaded ligands to the list of uploaded ligands
+   * add uploaded ligands to the list of uploaded ligands.
+   * @param {Set} availableLigands - the set of ligands available to the application
+   * @param {Function} setAvailableLigands - setter for the available ligands
    */
-  function ligandUploadHandler(e, errorSetter){
+  function ligandUploadHandler(e, errorSetter, availableLigands, setAvailableLigands){
 
     /**
      * Creates a string formula for a ligand, based on the text extracted from the ligand
@@ -198,8 +200,8 @@ function MoltimateContainer(props) {
         var ligandFormulaValue = ligandFormula(ligandText);
 
         //add the new ligand to the list
-        setUploadedLigands(
-          uploadedLigands.concat([{name:ligandName, structure:ligandFormulaValue, selected:false, min_affinity: 1001},])
+        setAvailableLigands(
+          availableLigands.concat([{name:ligandName, structure:ligandFormulaValue, selected:false, min_affinity: 1001},])
         )
       }
 
@@ -236,6 +238,7 @@ function MoltimateContainer(props) {
           />
           <ImportedLigandsContainer 
             importedLigands = {uploadedLigands}
+            setImportedLigands = {setUploadedLigands}
             selectedLigands = {selectedLigands}
             clickLigandHandler = {handleSelectedLigand}
             dockHandler = {dockLigands}
