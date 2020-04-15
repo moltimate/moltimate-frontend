@@ -35,10 +35,10 @@ function FilteredLigandResults(props) {
   }
 
   /**
-   * given a list of ligands, return a list containing the subset of ligands that 
+   * given an object containing ligands, return a list containing the subset of ligands that 
    * match the filter specified in the textfield
    */
-  function filterLigands(ligandList){
+  function filterLigands(ligandLibrary){
     
     if(filter != ""){
 
@@ -46,14 +46,14 @@ function FilteredLigandResults(props) {
 
       var filterRegularExpression = RegExp(filter,'i');
 
-      for(var ligand in ligandList){
-        if(filterRegularExpression.test(ligandList[ligand].name)){
-          filteredLigandList.push(ligandList[ligand]);
+      for(var ligand of Object.values(ligandLibrary)){
+        if(filterRegularExpression.test(ligand.name)){
+          filteredLigandList.push(ligand);
         }
       }
       return filteredLigandList;
     } else {
-      return ligandList;
+      return Object.values(ligandLibrary);
     }
   }
 
@@ -116,15 +116,15 @@ function FilteredLigandResults(props) {
 FilteredLigandResults.propTypes = {
   classes: propTypes.object,
   /** 
-   * An array of objects representing ligands available for docking operations.
-   * Example of object inside array: 
-   *   {name:"00I",structure:"C30 H35 N5 O6 S"}  
+   * An object whose properties are objects representing ligands available for docking operations.
+   * Example of an inner object: 
+   *   {name:"00I", structure:"C30 H35 N5 O6 S", }  
    */
-  temp: propTypes.array,
+  temp: propTypes.object,
   /** 
    * A Set of objects representing ligands selected for docking operations.
    * Example of object inside the Set: 
-   *   {name:"00I",structure:"C30 H35 N5 O6 S"}  
+   *   {name:"00I", structure:"C30 H35 N5 O6 S", selected:false, min_affinity:0, macromolecule:false;}  
    */
   selectedLigands: propTypes.object,
   /** 

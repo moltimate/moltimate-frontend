@@ -220,9 +220,10 @@ function MoltimateContainer(props) {
         var ligandFormulaValue = ligandFormula(ligandText);
 
         //add the new ligand to the list
-        setAvailableLigands(
-          availableLigands.concat([new Ligand(ligandName, ligandFormulaValue),])
-        )
+        var newLigand = new Ligand(ligandName, ligandFormulaValue)
+        var newAvailableLigands = Object.assign({},availableLigands)
+        newAvailableLigands[newLigand.uniqueID()] = newLigand
+        setAvailableLigands(newAvailableLigands);
       }
 
     }
