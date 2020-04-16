@@ -11,7 +11,7 @@ export default function LigandResultsBox(props) {
     <List>
       {ligandResults.map( ligand => (
         <LigandResultItem
-          key={ligand.name}
+          key={ligand.uniqueID()}
           ligand={ligand} 
           isSelected = {selectedLigands.has(ligand)} 
           isDocked = {dockedLigands.has(ligand)}

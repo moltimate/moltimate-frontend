@@ -5,6 +5,7 @@ import TableRow from "@material-ui/core/TableRow"
 import TableHead from "@material-ui/core/TableHead"
 import { withStyles, TableBody } from "@material-ui/core";
 import jssPluginPropsSort from "jss-plugin-props-sort";
+import PropTypes from 'prop-types';
 
 import styles from "./styles.js"
 
@@ -35,7 +36,7 @@ function LigandDetailsBox(props){
           className = {classes.selected}
           onClick = {(e) => selectConfigurationHandler(null)}
         >
-          <TableCell children = {formatIndex(docking_configuration[0])}/>
+          <TableCell children = {"SEL"}/>
           <TableCell children = {docking_configuration[1]}/>
           <TableCell children = {docking_configuration[2]}/>
         </TableRow>);
@@ -67,14 +68,15 @@ function LigandDetailsBox(props){
       <TableBody>
         {
           //for every entry in the dockingConfigurations, generate a row in the table
-          dockingConfigurations.map(dockingConfiguration => 
-            createDockingConfigRow(
+          dockingConfigurations.map(dockingConfiguration =>{
+
+            console.log(`${dockingConfiguration[0]} == ${selectedDockingConfiguration}: ${dockingConfiguration[0] == selectedDockingConfiguration}`)
+            return createDockingConfigRow(
               dockingConfiguration,
-              //compare rmsc to decide if ligand is selected - this is temporary
-              //will not work with real data
+              //compare indices to see if this is the selected docking configuration
               (selectedDockingConfiguration && 
-                dockingConfiguration[2] == selectedDockingConfiguration[2])
-              ))
+                dockingConfiguration[0] == selectedDockingConfiguration)
+              )})
         }
       </TableBody>
     </Table>
@@ -84,6 +86,14 @@ function LigandDetailsBox(props){
 
 LigandDetailsBox.defaultProps={
   dockingConfigurations: []
+}
+
+LigandDetailsBox.propTypes={
+  /**
+   * An array of docking configuration arrays. Each of its elements have the following contents:
+   * [index, affinity, rmsd upper, rmsd lower]
+   */
+  dockingConfigurations: PropTypes.array
 }
 
 export default withStyles(styles)(LigandDetailsBox)

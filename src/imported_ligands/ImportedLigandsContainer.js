@@ -8,7 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 function ImportedLigandsContainer(props){
-  const {importedLigands, selectedLigands, dockedLigands, viewingLigand, 
+  const {importedLigands, setImportedLigands, selectedLigands, dockedLigands, viewingLigand, 
     clickLigandHandler, dockHandler, ligandUploadHandler, dockingInProgress, dockingError, setDockingError} = props;
   const [expandImportedLigands, setExpandImportedLigands] = useState(false);
 
@@ -20,7 +20,8 @@ function ImportedLigandsContainer(props){
       cardChild={
         <FilteredLigandResults 
           temp={importedLigands}
-          handleLigandUpload={ligandUploadHandler} 
+          handleLigandUpload={(e, errorSetter) => 
+            ligandUploadHandler(e,errorSetter,importedLigands,setImportedLigands)} 
           selectedLigands={selectedLigands}
           dockedLigands = {dockedLigands}
           clickLigandHandler={clickLigandHandler}

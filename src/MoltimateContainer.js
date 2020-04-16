@@ -23,6 +23,7 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function MoltimateContainer(props) {
+
   const { classes } = props;
   const [expanded, setExpanded] = useState(false);
   const [ selectedResult, setSelectedResult ] = useState(null);
@@ -53,6 +54,22 @@ function MoltimateContainer(props) {
   //each object contains a ligand, a macromoleculeID, and data
   const [dockingResults, setDockingResults] = useState(new Array());
 
+  function Ligand(name, structure){
+    this.name = name;
+    this.structure = structure;
+    this.selected = false;
+    this.min_affinity = 0;
+    this.macromolecule = false;
+    this.library = "";
+    
+    function uniqueID(){
+      return this.name.toString() + this.macromolecule.toString() + this.library.toString();
+    }
+    
+    this.uniqueID = uniqueID;
+  }
+
+
   //the id of the macromolecule to use for docking. Do not pass this setter (instead use the 
   //"setDockingProteinId" function)
   const [dockingProteinID, setDockingProteinIdInner] = useState(null);
@@ -71,30 +88,49 @@ function MoltimateContainer(props) {
       setSelectedLigands(new Set());
     }
 
+    //if there are any docking results
     if(dockingResults[0]){
       //only handle one at a time
       let dockingResult = dockingResults[0];
-      
-      let newUploadedLigands = new Set(uploadedLigands);
-      
-      let dockedLigand = dockingResult.ligand;
-      newUploadedLigands.delete(dockedLigand);
-      
-      let newDockedLigand = Object.assign({},dockedLigand);
-      Object.assign(newDockedLigand,dockingResult.data);
-    
-      newUploadedLigands.add(newDockedLigand);
-      setUploadedLigands(newUploadedLigands);
 
-      setDockingResults(dockingResults.slice(1));
-      console.log("UploadedLigands contents")
-      for(let ligand of newUploadedLigands.keys()){
-        console.log(ligand);
+      let ligandID = dockingResult.ligandID;
+
+      var dockedLigand;
+
+      console.log(dockingResults);
+      console.log(uploadedLigands)
+      if(uploadedLigands[ligandID]){
+        dockedLigand = Object.assign({},uploadedLigands[ligandID])
+      }else if(libraryLigands[ligandID]){
+        dockedLigand = Object.assign({},ligandLibrary[ligandID])
+      }else{
+        console.error("docked ligand cannot be found in any library");
+        dockedLigand = {};
       }
+
+      dockedLigand.macromolecule = dockingResult.macromoleculeID;
+      Object.assign(dockedLigand, dockingResult.data);
+      console.log(dockingResult.data);
+
+      if(uploadedLigands[ligandID]){
+        uploadedLigands[ligandID] = dockedLigand;
+      }else if(libraryLigands[ligandID]){
+        libraryLigands[ligandID] = dockedLigand;
+      }
+      console.log(dockedLigand)
+      setViewingLigand(dockedLigand);
+    }
+  },[dockingInProgress, dockingResults]);
+
+  useEffect(() => {
+
+    if(viewingLigand){
+      setDockingConfigs(viewingLigand.dockingData);
+      setSelectedDockingConfig(1);
     }
 
+  },[viewingLigand])
 
-  },[dockingInProgress, dockingResults]);
 
   //this form is used to make docking requests
   const defaultRequestValues = {
@@ -137,7 +173,7 @@ function MoltimateContainer(props) {
       //We assume there is only one selected ligand for now - this may be changed at a later time
       let selectedLigandArray = Array.from(selectedLigands)
       let selectedLigand = selectedLigandArray[0]
-
+      console.log(selectedLigand);
       pollDockingResults(requestURL, retryFrequency, timeout, selectedLigand, values.macromoleculeID)
     }else{
       console.log("point 4")
@@ -272,14 +308,17 @@ function MoltimateContainer(props) {
           clearInterval(pollingTimer);
 
           //save the results
-          var newDockingResults = new Array(dockingResults);
+          var newDockingResults = new Array().concat(dockingResults);
+          console.log(ligand);
+          console.log(ligand.uniqueID())
           newDockingResults.push({
-            ligand: ligand,
+            ligandID: ligand.uniqueID(),
             macromoleculeID: macromoleculeID,
             data: response.data
           });
+          console.log(newDockingResults)
           setDockingResults(newDockingResults);
-
+          
           //indicate docking is complete
           setDockingInProgress(false);
           
@@ -324,18 +363,18 @@ function MoltimateContainer(props) {
   }
 
   //Used to toggle the selection of different ligands for docking and viewing
-  function handleSelectedLigand(selected_ligand){
+  function handleSelectedLigand(selectedLigand){
 
     //if the ligand is already selected for viewing, deselect it
-    if(viewingLigand == selected_ligand){
+    if(viewingLigand == selectedLigand){
       setViewingLigand(null)
 
     //if docking has already been performed on the selected ligand, select it for viewing
-    }else if(dockedLigands.has(selected_ligand)){
-      setViewingLigand(selected_ligand)
+    }else if(dockedLigands.has(selectedLigand)){
+      setViewingLigand(selectedLigand)
       
       //this is temporary, for demonstration purposes
-      if(selected_ligand.name == "00I"){
+      if(selectedLigand.name == "00I"){
         setDockingConfigs(fake_docking_data)
       } else{
         setDockingConfigs(fake_docking_data_2)
@@ -346,12 +385,12 @@ function MoltimateContainer(props) {
     var new_selected_ligands = new Set(selectedLigands)
 
     //if the ligand is in already selected for docking, deselect the ligand
-    if (new_selected_ligands.has(selected_ligand)){
-      new_selected_ligands.delete(selected_ligand)
+    if (new_selected_ligands.has(selectedLigand)){
+      new_selected_ligands.delete(selectedLigand)
 
     //if the ligand is not selected for docking, and there is no selected ligand, select the ligand
-    } else if(!dockedLigands.has(selected_ligand)){
-      new_selected_ligands.add(selected_ligand)
+    } else if(!dockedLigands.has(selectedLigand)){
+      new_selected_ligands.add(selectedLigand)
     }
     
     setSelectedLigands(new_selected_ligands)
@@ -387,9 +426,11 @@ function MoltimateContainer(props) {
   }
 
   /**
-   * add uploaded ligands to the list of uploaded ligands
+   * add uploaded ligands to the list of uploaded ligands.
+   * @param {Set} availableLigands - the set of ligands available to the application
+   * @param {Function} setAvailableLigands - setter for the available ligands
    */
-  function ligandUploadHandler(e, errorSetter){
+  function ligandUploadHandler(e, errorSetter, availableLigands, setAvailableLigands){
 
     var files = e.target.files;
 
@@ -478,17 +519,23 @@ function MoltimateContainer(props) {
         var ligandFormulaValue = ligandFormula(ligandText);
 
         //add the new ligand to the list
-        setUploadedLigands(
-          uploadedLigands.concat([{name:ligandName, structure:ligandFormulaValue, 
-            selected:false, min_affinity: 1001, file: files[0]},])
-        )
+        var newLigand = new Ligand(ligandName, ligandFormulaValue)
+        newLigand["file"] = files[0]
+        if(availableLigands == uploadedLigands){
+          newLigand["library"] = "uploaded"
+        } else {
+          newLigand["library"] = "other"
+        }
+        var newAvailableLigands = Object.assign({},availableLigands)
+        newAvailableLigands[newLigand.uniqueID()] = newLigand
+        setAvailableLigands(newAvailableLigands);
       }
     }
   }
 
   function selectConfig(configSelection){
-    setSelectedDockingConfig(configSelection);
-    console.log("selected config: " + configSelection[1]);
+    setSelectedDockingConfig(configSelection[0]);
+    console.log("selected config: " + configSelection[0]);
   }
 
     return (
@@ -514,6 +561,7 @@ function MoltimateContainer(props) {
           />
           <ImportedLigandsContainer 
             importedLigands = {uploadedLigands}
+            setImportedLigands = {setUploadedLigands}
             selectedLigands = {selectedLigands}
             clickLigandHandler = {handleSelectedLigand}
             dockHandler = {ligandDockingHandler}
@@ -528,7 +576,7 @@ function MoltimateContainer(props) {
             //Only display docking info if there is a viewing ligand selected
             viewingLigand ? <DockingInfoContainer
               dockingConfigurations = {dockingConfigs}
-              selectedDockingConfiguration = {selectedDockingConfig}
+              selectedDockingConfig = {selectedDockingConfig}
               selectConfigurationHandler = {selectConfig}
             />:null
           }
