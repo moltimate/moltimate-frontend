@@ -13,14 +13,12 @@ import Button from '@material-ui/core/Button'
 import SearchContainer from './search/SearchContainer';
 import BuilderContainer from './builder/BuilderContainer';
 import ProteinContainer from './protein/ProteinContainer';
-import LigandLibraryContainer from './ligand_library/LigandLibraryContainer';
-import ImportedLigandsContainer from './imported_ligands/ImportedLigandsContainer';
-import DockingInfoContainer from './docking_info/DockingInfoContainer';
 import SettingsContainer from './settings/SettingsContainer';
 import useForm, {dockRequestURL} from './util/request';
 
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
+import DockingContainer from "./docking/DockingContainer";
 
 function MoltimateContainer(props) {
 
@@ -551,15 +549,8 @@ function MoltimateContainer(props) {
             handleSelectedResult={handleSelectedResult}
             selectedResult={selectedResult}
           />
-          <LigandLibraryContainer
+          <DockingContainer
             library = {libraryLigands}
-            selectedLigands = {selectedLigands}
-            clickLigandHandler = {handleSelectedLigand}
-            dockHandler = {ligandDockingHandler}
-            viewingLigand = {viewingLigand}
-            dockedLigands = {dockedLigands}
-          />
-          <ImportedLigandsContainer 
             importedLigands = {uploadedLigands}
             setImportedLigands = {setUploadedLigands}
             selectedLigands = {selectedLigands}
@@ -571,15 +562,10 @@ function MoltimateContainer(props) {
             dockingInProgress = {dockingInProgress}
             dockingError = {dockingError}
             setDockingError = {setDockingError}
+            dockingConfigurations = {dockingConfigs}
+            selectedDockingConfig = {selectedDockingConfig}
+            selectConfigurationHandler = {selectConfig}
           />
-          {
-            //Only display docking info if there is a viewing ligand selected
-            viewingLigand ? <DockingInfoContainer
-              dockingConfigurations = {dockingConfigs}
-              selectedDockingConfig = {selectedDockingConfig}
-              selectConfigurationHandler = {selectConfig}
-            />:null
-          }
           
         </div>
         {
