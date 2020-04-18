@@ -91,9 +91,7 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
   };
 
   /* add an attribute-value pair to the values object*/
-  const 
-  
-  setValue = (attribute, attributeValue) => {
+  const setFormValue = (attribute, attributeValue) => {
     setValues(values => ({ ...values, [attribute]: attributeValue }));
     console.log(`attribute ${attribute} set to ${attributeValue}`)
     console.log("saved following values:");
@@ -160,7 +158,7 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
     handleResidues,
     handleClearValues,
     handleFileDelete,
-    setValue,
+    setFormValue,
     values,
     handleSetMode,
     result,
