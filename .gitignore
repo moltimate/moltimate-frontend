@@ -1,6 +1,10 @@
 # Dependency directories
 node_modules/
 
+# Distribution files
+dist/
+dist.tar.gz
+
 # Optional npm cache directory
 .npm
 yarn.lock
@@ -11,3 +15,6 @@ C:Develnodejsnpm-cache
 
 .DS_Store
 package-lock.json
+
+# IntelliJ Files
+.idea

@@ -7,7 +7,7 @@ import testSearchResponse from './testSearchResponse';
 // TODO make this a config file
 const testQueryURL = 'http://localhost:8080/test/motif';
 const searchQueryURL = 'http://localhost:8080/align/activesite';
-const dockRequestURL = 'http://localhost:8083/dock/dockligand';
+const dockRequestURL = 'http://localhost:8080/dock/dockligand';
 
 const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
   const [values, setValues] = useState(defaultValues);
