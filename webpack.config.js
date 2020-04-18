@@ -4,6 +4,10 @@ const ArchivePlugin = require("webpack-archive-plugin");
 require("file-loader");
 
 module.exports = {
+  watchOptions: {
+    poll: true,
+    ignored: /node_modules/
+  },
   module: {
     rules: [
       {

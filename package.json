@@ -23,7 +23,7 @@
     "eslint-plugin-import": "^2.16.0",
     "webpack": "^4.29.6",
     "webpack-archive-plugin": "^3.0.0",
-    "webpack-cli": "^3.3.0"
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "@babel/core": "^7.4.0",
