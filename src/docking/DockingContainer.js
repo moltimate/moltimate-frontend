@@ -11,7 +11,8 @@ import {library_ligands,
   fake_docking_data_2} from '../DummyData'
 
 function DockingContainer(props){
-  const { selectedMacromolecule, dockingCenter, dockingRange} = props;
+  const { selectedMacromolecule, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration, 
+    setDisplayedActiveSites } = props;
 
   //ligands selected for docking. Do not pass this setter (instead use the 
   //"setSelectedLigands" function)
@@ -198,6 +199,10 @@ function DockingContainer(props){
     if(viewingLigand){
       setDockingConfigs(viewingLigand.dockingData);
       setSelectedDockingConfig(1);
+      setDisplayedConfiguration(1);
+      //todo
+      setDisplayedFile(null);
+      setDisplayedActiveSites(viewingLigand.activeSites)
     }
 
   },[viewingLigand]);
@@ -273,13 +278,6 @@ function DockingContainer(props){
     //if docking has already been performed on the selected ligand, select it for viewing
     }else if(dockedLigands.has(selectedLigand)){
       setViewingLigand(selectedLigand)
-      
-      //this is temporary, for demonstration purposes
-      if(selectedLigand.name == "00I"){
-        setDockingConfigs(fake_docking_data)
-      } else{
-        setDockingConfigs(fake_docking_data_2)
-      }
     }
 
     //create a copy of the selectedLigands set for editing

@@ -7,11 +7,13 @@ import SearchContainer from './search/SearchContainer';
 import BuilderContainer from './builder/BuilderContainer';
 import ProteinContainer from './protein/ProteinContainer';
 import SettingsContainer from './settings/SettingsContainer';
-import useForm, {dockRequestURL} from './util/request';
+
+import {test_sites} from './DummyData'
 
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 import DockingContainer from "./docking/DockingContainer";
+import DockingProteinContainer from "./protein/DockingProteinContainer";
 
 function MoltimateContainer(props) {
 
@@ -19,7 +21,7 @@ function MoltimateContainer(props) {
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
 
-  //whether the settings are showing or now
+  //whether the settings are showing or not
   const [showSettings, setShowSettings] = useState(false);
   //the id of the macromolecule to use for docking. Do not pass this setter (instead use the 
   //"setDockingProteinId" function)
@@ -28,6 +30,21 @@ function MoltimateContainer(props) {
   const [dockingCenter, setDockingCenter] = useState([0,0,0]);
   //the range setting for the center of a docking operation
   const [dockingRange, setDockingRange] = useState([100,100,100]);
+  //file with docked molecule
+  const [ dockingDisplayFile, setDockingDisplayFile ] = useState(null);
+  //index of the viewed docking configuration
+  const [ dockingDisplayConfiguration, setDockingDisplayConfiguration ] = useState(null);
+  //active sites to show in the docking visual
+  const [ dockingDisplayActiveSites, setDockingDisplayActiveSites ] = useState(null);
+
+
+  //TEMPORARY START
+  function uploadPDBQT( files ) {
+    setDockingDisplayFile(files[0])
+    setDockingDisplayActiveSites(test_sites)
+    setDockingDisplayConfiguration(1)
+  }
+  //TEMPORARY END
 
   /**
    * Access the dockingCenter virtual attribute
@@ -67,7 +84,7 @@ function MoltimateContainer(props) {
 
   return (
     <>
-      <TopBar toggleSettings = {toggleSettingsMenu}/>
+      <TopBar toggleSettings = {toggleSettingsMenu} uploadPDBQT = {uploadPDBQT}/>
       
       <div className={classes.controlPanel}>
         <SearchContainer
@@ -82,6 +99,9 @@ function MoltimateContainer(props) {
           selectedMacromolecule = {dockingProteinID}
           dockingCenter = {dockingCenter}
           dockingRange = {dockingRange}
+          setDisplayedFile = {()=>{}}
+          setDisplayedConfiguration = {()=>{}}
+          setDisplayedActiveSites = {()=>{}}
         />  
       </div>
       {
@@ -90,6 +110,13 @@ function MoltimateContainer(props) {
           childId={nglData.parentId}
           active={nglData.active}
           aligned={nglData.aligned}
+        /> : null
+      }
+      {
+        (dockingDisplayFile && dockingDisplayConfiguration && dockingDisplayActiveSites)? <DockingProteinContainer
+          file={dockingDisplayFile}
+          ligand_model={dockingDisplayConfiguration}
+          active_sites={dockingDisplayActiveSites}
         /> : null
       }
       {
