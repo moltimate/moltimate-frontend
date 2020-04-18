@@ -99,9 +99,15 @@ function MoltimateContainer(props) {
           selectedMacromolecule = {dockingProteinID}
           dockingCenter = {dockingCenter}
           dockingRange = {dockingRange}
-          setDisplayedFile = {()=>{}}
-          setDisplayedConfiguration = {()=>{}}
-          setDisplayedActiveSites = {()=>{}}
+          setDisplayedFile = {(x) =>{
+            console.log(`display file: ${x}`)
+            setDockingDisplayFile(x)}}
+          setDisplayedConfiguration = {(x) =>{
+            console.log(`display configuration: ${x}`)
+            setDockingDisplayConfiguration(x)}}
+          setDisplayedActiveSites = {(x) =>{
+            console.log(`display active sites: ${x}`)
+            setDockingDisplayActiveSites(x)}}
         />  
       </div>
       {

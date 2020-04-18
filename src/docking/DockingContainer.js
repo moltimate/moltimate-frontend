@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import LigandLibraryContainer from "../ligand_library/LigandLibraryContainer";
 import ImportedLigandsContainer from "../imported_ligands/ImportedLigandsContainer";
 import DockingInfoContainer from "../docking_info/DockingInfoContainer";
-import useForm, {dockRequestURL} from "../util/request"
+import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL} from "../util/request"
 import axios from "axios";
 
 import {library_ligands, 
@@ -200,8 +200,8 @@ function DockingContainer(props){
       setDockingConfigs(viewingLigand.dockingData);
       setSelectedDockingConfig(1);
       setDisplayedConfiguration(1);
-      //todo
-      setDisplayedFile(null);
+      //sets the displayed file based on the viewing ligand
+      retrieveDockedMoleculeFile(viewingLigand,setDisplayedFile)
       setDisplayedActiveSites(viewingLigand.activeSites)
     }
 
@@ -246,6 +246,32 @@ function DockingContainer(props){
     }
     
     this.uniqueID = uniqueID;
+  }
+
+  /**
+   * Given a docked ligand object, retrieve the relevant molecule file
+   * 
+   * @param {Ligand} ligand a ligand object
+   * @param {Function} fileSetter the setter function that will receive the docked molecule
+   */
+  function retrieveDockedMoleculeFile(ligand, fileSetter){
+
+    if(!ligand.babelJobId){
+      console.error("no babel job ID found attached to ligand");
+    }
+
+    //this is the ID value that is used to specify which file to retrieve
+    let babelJobId = ligand.babelJobId;
+
+    let fileRequestURL = `${dockingMoleculeFileRetrievalURL}?babelJobId=${babelJobId}`;
+
+    axios.get(fileRequestURL).then((response)=>{
+      let data = response.data;
+      let dataBlob = new Blob([data],{ type: 'text/plain' })
+      let moleculeFile = new File([dataBlob],"dockedMolecule.pdb",{ type: 'text/plain' });
+      fileSetter(moleculeFile);
+      
+    });
   }
 
   /**
