@@ -12,7 +12,7 @@ import {library_ligands,
 
 function DockingContainer(props){
   const { selectedMacromolecules, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration, 
-    setDisplayedActiveSites } = props;
+    setDisplayedActiveSites, viewingLigand, setViewingLigand } = props;
 
   //ligands selected for docking. Do not pass this setter (instead use the 
   //"setSelectedLigands" function)
@@ -23,8 +23,6 @@ function DockingContainer(props){
   const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
   //ligands which have been docked (These are all ligandID strings)
   const [dockedLigands, setDockedLigands] = useState(new Set());
-  //the ligand selected to be viewed
-  const [viewingLigand, setViewingLigand] = useState(null);
   //the docking configurations available for the viewing ligand
   const [dockingConfigs, setDockingConfigs] = useState([]);
   //the docking configuration selected to be viewed
@@ -180,7 +178,7 @@ function DockingContainer(props){
 
     if(viewingLigand){
       console.log("new viewing ligand:");
-      console.log(viewingLigand)
+      console.log(viewingLigand);
       setDockingConfigs(viewingLigand.dockingData);
       
       setSelectedDockingConfig(1);
@@ -192,6 +190,8 @@ function DockingContainer(props){
       setTimeout(()=>retrieveDockedMoleculeFile(viewingLigand,setDisplayedFile),2000)
       setDisplayedActiveSites(viewingLigand.activeSites)
       
+    } else{
+      setDockingConfigs([]);
     }
 
   },[viewingLigand]);

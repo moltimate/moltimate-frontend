@@ -36,6 +36,8 @@ function MoltimateContainer(props) {
   const [ dockingDisplayConfiguration, setDockingDisplayConfiguration ] = useState(null);
   //active sites to show in the docking visual
   const [ dockingDisplayActiveSites, setDockingDisplayActiveSites ] = useState(null);
+  //the ligand selected to be viewed
+  const [viewingLigand, setViewingLigand] = useState(null);
 
 
   //TEMPORARY START
@@ -71,6 +73,7 @@ function MoltimateContainer(props) {
     setNglData({ parentId, childId, active, aligned });
     //this should be the search value - it is used as the ID of the docking molecule
     setDockingDisplayConfiguration(null);
+    setViewingLigand(null);
   }
 
   /*
@@ -127,6 +130,8 @@ function MoltimateContainer(props) {
             console.log("Docking Display Active Sites is as follows:")
             console.log(dockingDisplayActiveSites)
             setDockingDisplayActiveSites(x)}}
+            viewingLigand = {viewingLigand}
+            setViewingLigand = {setViewingLigand} 
         />  
       </div>
        
