@@ -6,26 +6,26 @@ import TopBar from './TopBar';
 import SearchContainer from './search/SearchContainer';
 import BuilderContainer from './builder/BuilderContainer';
 import ProteinContainer from './protein/ProteinContainer';
+import DockingProteinContainer from "./protein/DockingProteinContainer";
+import ProteinLoading from './protein/ProteinLoading'
 import SettingsContainer from './settings/SettingsContainer';
+import DockingContainer from "./docking/DockingContainer";
 
 import {test_sites} from './DummyData'
 
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
-import DockingContainer from "./docking/DockingContainer";
-import DockingProteinContainer from "./protein/DockingProteinContainer";
+
 
 function MoltimateContainer(props) {
 
   const { classes } = props;
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
-
+  //the protein ID entered in the search box
+  const [searchedProteinIDs, setSearchedProteinIDs] = useState([])
   //whether the settings are showing or not
   const [showSettings, setShowSettings] = useState(false);
-  //the id of the macromolecule to use for docking. Do not pass this setter (instead use the 
-  //"setDockingProteinId" function)
-  const [dockingProteinID, setDockingProteinId] = useState(null);
   //the coordinates setting for the center of a docking operation
   const [dockingCenter, setDockingCenter] = useState([0,0,0]);
   //the range setting for the center of a docking operation
@@ -69,8 +69,8 @@ function MoltimateContainer(props) {
   function handleSelectedResult(e, parentId, childId, active, aligned) {
     setSelectedResult({ parentId, childId, active, aligned });
     setNglData({ parentId, childId, active, aligned });
-    //this value is used for docking
-    setDockingProteinId(parentId);
+    //this should be the search value - it is used as the ID of the docking molecule
+    setDockingDisplayConfiguration(null);
   }
 
   /*
@@ -82,6 +82,19 @@ function MoltimateContainer(props) {
     else setShowSettings(true);
   }
 
+  function dockingDisplay(){
+
+    if(dockingDisplayFile){
+      return (<DockingProteinContainer
+        file={dockingDisplayFile}
+        ligand_model={dockingDisplayConfiguration}
+        active_sites={dockingDisplayActiveSites}
+      />);
+    } else {
+      return (<ProteinLoading/>);
+    }
+  }
+
   return (
     <>
       <TopBar toggleSettings = {toggleSettingsMenu} uploadPDBQT = {uploadPDBQT}/>
@@ -90,26 +103,33 @@ function MoltimateContainer(props) {
         <SearchContainer
           handleSelectedResult={handleSelectedResult}
           selectedResult={selectedResult}
+          setSearchedProteins = {setSearchedProteinIDs}
         />
         <BuilderContainer
           handleSelectedResult={handleSelectedResult}
           selectedResult={selectedResult}
         />
         <DockingContainer
-          selectedMacromolecule = {dockingProteinID}
+          selectedMacromolecules = {searchedProteinIDs}
           dockingCenter = {dockingCenter}
           dockingRange = {dockingRange}
           setDisplayedFile = {(x) =>{
-            console.log(`display file: ${x}`)
+            console.log("Docking Display File is as follows:")
+            console.log(dockingDisplayFile)
             setDockingDisplayFile(x)}}
           setDisplayedConfiguration = {(x) =>{
-            console.log(`display configuration: ${x}`)
-            setDockingDisplayConfiguration(x)}}
+            console.log("Docking Display configuration is as follows:")
+            console.log(dockingDisplayConfiguration)
+            setDockingDisplayConfiguration(x)
+            setNglData(null);}
+          } 
           setDisplayedActiveSites = {(x) =>{
-            console.log(`display active sites: ${x}`)
+            console.log("Docking Display Active Sites is as follows:")
+            console.log(dockingDisplayActiveSites)
             setDockingDisplayActiveSites(x)}}
         />  
       </div>
+       
       {
         nglData ? <ProteinContainer
           parentId={nglData.childId}
@@ -119,11 +139,8 @@ function MoltimateContainer(props) {
         /> : null
       }
       {
-        (dockingDisplayFile && dockingDisplayConfiguration && dockingDisplayActiveSites)? <DockingProteinContainer
-          file={dockingDisplayFile}
-          ligand_model={dockingDisplayConfiguration}
-          active_sites={dockingDisplayActiveSites}
-        /> : null
+        (dockingDisplayActiveSites && dockingDisplayConfiguration) ? dockingDisplay(): null
+        
       }
       {
         //Only display the settings modal when showSettings is true

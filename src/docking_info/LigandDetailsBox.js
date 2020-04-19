@@ -31,14 +31,18 @@ function LigandDetailsBox(props){
   //create a row for the docking ligands table
   function createDockingConfigRow(docking_configuration, is_selected ){
     if(is_selected){
+
+      let formattedIndex = formatIndex(docking_configuration[0])
       return(
         <TableRow 
           className = {classes.selected}
           onClick = {(e) => selectConfigurationHandler(null)}
+          key = {formattedIndex}
         >
-          <TableCell children = {formatIndex(docking_configuration[0])}/>
-          <TableCell children = {docking_configuration[1]}/>
-          <TableCell children = {docking_configuration[2]}/>
+          <TableCell children = {formattedIndex} key = {formattedIndex + '0'}/>
+          <TableCell children = {docking_configuration[1]} key = {formattedIndex + '1'}/>
+          <TableCell children = {docking_configuration[2]} key = {formattedIndex + '2'}/>
+          <TableCell children = {docking_configuration[3]} key = {formattedIndex + '3'}/>
         </TableRow>);
     }else{
       return(
@@ -49,6 +53,7 @@ function LigandDetailsBox(props){
           <TableCell children = {formatIndex(docking_configuration[0])}/>
           <TableCell children = {docking_configuration[1]}/>
           <TableCell children = {docking_configuration[2]}/>
+          <TableCell children = {docking_configuration[3]}/>
         </TableRow>)
     }
       
@@ -62,15 +67,14 @@ function LigandDetailsBox(props){
         <TableRow>
           <TableCell children = "ID"/>
           <TableCell children = "Binding Affinity"/>
-          <TableCell children = "RMSD"/>
+          <TableCell children = "min RMSD"/>
+          <TableCell children = "max RMSD"/>
         </TableRow>
       </TableHead>
       <TableBody>
         {
           //for every entry in the dockingConfigurations, generate a row in the table
           dockingConfigurations.map(dockingConfiguration =>{
-
-            console.log(`${dockingConfiguration[0]} == ${selectedDockingConfiguration}: ${dockingConfiguration[0] == selectedDockingConfiguration}`)
             return createDockingConfigRow(
               dockingConfiguration,
               //compare indices to see if this is the selected docking configuration

@@ -26,7 +26,7 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function SearchContainer(props) {
-  const { classes, selectedResult, handleSelectedResult } = props;
+  const { classes, selectedResult, handleSelectedResult, setSearchedProteins } = props;
   const { values, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
 
@@ -59,6 +59,7 @@ function SearchContainer(props) {
         break;
       case 1:
         handleChipInput(e, extra);
+        setSearchedProteins(e);
         break;
       case 2:
         handleResidues(e);

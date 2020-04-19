@@ -11,7 +11,7 @@ import {library_ligands,
   fake_docking_data_2} from '../DummyData'
 
 function DockingContainer(props){
-  const { selectedMacromolecule, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration, 
+  const { selectedMacromolecules, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration, 
     setDisplayedActiveSites } = props;
 
   //ligands selected for docking. Do not pass this setter (instead use the 
@@ -21,7 +21,7 @@ function DockingContainer(props){
   const [ libraryLigands, setLibraryLigands ] = useState(library_ligands);
   //data on all the ligands the user has uploaded
   const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
-  //ligands which have been docked
+  //ligands which have been docked (These are all ligandID strings)
   const [dockedLigands, setDockedLigands] = useState(new Set());
   //the ligand selected to be viewed
   const [viewingLigand, setViewingLigand] = useState(null);
@@ -57,17 +57,10 @@ function DockingContainer(props){
    * @param {string} macromoleculeID - the ID of the macromolecule involved in docking
    */
   function pollDockingResults(requestURL, retryFrequency, timeoutTime, ligand, macromoleculeID){
-
-    console.log(`docking in progress (lvl2)?: ${dockingInProgress}`)
-    console.log(`docking in progress defined? (lvl2)?: ${!(dockingInProgress === undefined)}`)
-      
     var pollingTimer; 
 
     function checkDockingResults(){
-      console.log(`docking in progress (lvl3)?: ${dockingInProgress}`)
       axios.get(requestURL).then( (response) =>{
-        console.log(`Polling Response: ${response.data}`);
-        console.log(`status: ${response.status}`);
 
         if(response.status == 200){
           //stop polling
@@ -75,14 +68,11 @@ function DockingContainer(props){
 
           //save the results
           var newDockingResults = new Array().concat(dockingResults);
-          console.log(ligand);
-          console.log(ligand.uniqueID())
           newDockingResults.push({
             ligandID: ligand.uniqueID(),
             macromoleculeID: macromoleculeID,
             data: response.data
           });
-          console.log(newDockingResults)
           setDockingResults(newDockingResults);
           
           //indicate docking is complete
@@ -90,7 +80,6 @@ function DockingContainer(props){
           
         }
       }).catch((error) => {
-        console.log(`Polling Error: ${error}`);
         setDockingInProgress(false);
         clearInterval(pollingTimer)
         setDockingError("Error Retrieving Docking Data")
@@ -110,37 +99,24 @@ function DockingContainer(props){
    * @param {Object} result.data - the body of the response from the docking request
    */
   function handleDockingResponse(values, result){
-    console.log(`Result Data: ${result.data}`);
-    for(let field in result.data)
-      console.log(`  ${field}: ${result.data[field]}`);
-    console.log(`Result Error: ${result.error}`);
     if(!result.error){
-      console.log("point 1")
       if(!values["macromoleculeID"]){
-        console.log("point 2")
 
         console.error("macromoleculeID was absent from docking request");
 
         return -1
       }
-      console.log("point 3")
       let requestURL = `${dockRequestURL}?jobId=${result.data.jobId}&pdbId=${values.macromoleculeID}`;
       let retryFrequency = 20;//seconds
       let timeout = 900;//seconds
-      console.log(`docking in progress (lvl1)?: ${dockingInProgress}`)
-      console.log(`RequestURL: ${requestURL}`)
 
       //We assume there is only one selected ligand for now - this may be changed at a later time
       let selectedLigandArray = Array.from(selectedLigands)
       let selectedLigand = selectedLigandArray[0]
-      console.log(selectedLigand);
       pollDockingResults(requestURL, retryFrequency, timeout, selectedLigand, values.macromoleculeID)
     }else{
-      console.log("point 4")
       console.error(`Error: ${result.error}`);
     }
-
-    console.log("point 5")
   }
 
   const {handleSubmit, setFormValue} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
@@ -149,28 +125,27 @@ function DockingContainer(props){
     
     if(dockingInProgress){
       handleSubmit()
-    } else {
-      var newDockedLigands = new Set(dockedLigands);
-      //add each of the selected ligands to the new docked ligands set
-      for(let ligand of selectedLigands.values()){
-        newDockedLigands.add(ligand);
-      }
-      setDockedLigands(newDockedLigands);
-      //empty the selected ligands set
-      setSelectedLigands(new Set());
-    }
+    } 
+  },[dockingInProgress]);
 
+  useEffect(() => {
     //if there are any docking results
     if(dockingResults[0]){
       //only handle one at a time
-      let dockingResult = dockingResults[0];
+      let dockingResult = dockingResults.shift();
 
       let ligandID = dockingResult.ligandID;
 
-      var dockedLigand;
+      //add this ligand to the "dockedLigands" set
+      let newDockedLigands = new Set(dockedLigands);
+      newDockedLigands.add(ligandID);
+      setDockedLigands(newDockedLigands);
 
-      console.log(dockingResults);
-      console.log(uploadedLigands)
+      //empty the selected ligands set
+      setSelectedLigands(new Set());
+
+      //create a copy of the ligand as it exists in uploadedLigands or ligandLibrary
+      let dockedLigand;
       if(uploadedLigands[ligandID]){
         dockedLigand = Object.assign({},uploadedLigands[ligandID])
       }else if(libraryLigands[ligandID]){
@@ -182,21 +157,30 @@ function DockingContainer(props){
 
       dockedLigand.macromolecule = dockingResult.macromoleculeID;
       Object.assign(dockedLigand, dockingResult.data);
-      console.log(dockingResult.data);
 
+      //add the modified ligand back to its appropriate library with its new properties
+      let modifiedLigandLibrary = {}
       if(uploadedLigands[ligandID]){
-        uploadedLigands[ligandID] = dockedLigand;
+        modifiedLigandLibrary = Object.assign({},uploadedLigands)
+        modifiedLigandLibrary[ligandID] = dockedLigand;
+        setUploadedLigands(modifiedLigandLibrary);
       }else if(libraryLigands[ligandID]){
-        libraryLigands[ligandID] = dockedLigand;
+        modifiedLigandLibrary = Object.assign({},libraryLigands)
+        modifiedLigandLibrary[ligandID] = dockedLigand;
+        setLibraryLigands(modifiedLigandLibrary);
       }
-      console.log(dockedLigand)
+      
+
+      
       setViewingLigand(dockedLigand);
     }
-  },[dockingInProgress, dockingResults]);
+  },[dockingResults]);
 
   useEffect(() => {
 
     if(viewingLigand){
+      console.log("new viewing ligand:");
+      console.log(viewingLigand)
       setDockingConfigs(viewingLigand.dockingData);
       
       setSelectedDockingConfig(1);
@@ -204,8 +188,8 @@ function DockingContainer(props){
       //clear the previous value
       setDisplayedFile(null);
       setDisplayedConfiguration(1);
-      //sets the displayed file based on the viewing ligand
-      retrieveDockedMoleculeFile(viewingLigand,setDisplayedFile)
+      //sets the displayed file based on the viewing ligand.
+      setTimeout(()=>retrieveDockedMoleculeFile(viewingLigand,setDisplayedFile),2000)
       setDisplayedActiveSites(viewingLigand.activeSites)
       
     }
@@ -213,8 +197,10 @@ function DockingContainer(props){
   },[viewingLigand]);
 
   useEffect(() => {
-    setFormValue("macromoleculeID",selectedMacromolecule)
-  },[selectedMacromolecule]);
+    //use the first macromolecule if there is one. 
+    if(selectedMacromolecules[0])setFormValue("macromoleculeID",selectedMacromolecules[0]);
+    else setFormValue("macromoleculeID",null);
+  },[selectedMacromolecules]);
 
   useEffect(() => {
     if(dockingCenter){
@@ -245,9 +231,11 @@ function DockingContainer(props){
     this.min_affinity = 0;
     this.macromolecule = false;
     this.library = "";
+    this.timeOfCreation = Date.now()
     
     function uniqueID(){
-      return this.name.toString() + this.macromolecule.toString() + this.library.toString();
+      //return this.name.toString() + this.macromolecule.toString() + this.library.toString();
+      return this.name.toString() + this.timeOfCreation.toString();
     }
     
     this.uniqueID = uniqueID;
@@ -273,7 +261,7 @@ function DockingContainer(props){
     axios.get(fileRequestURL).then((response)=>{
       let data = response.data;
       let dataBlob = new Blob([data],{ type: 'text/plain' })
-      let moleculeFile = new File([dataBlob],"dockedMolecule.pdb",{ type: 'text/plain' });
+      let moleculeFile = new File([dataBlob],`${babelJobId}.pdb`,{ type: 'text/plain' });
       fileSetter(moleculeFile);
       
     });
@@ -291,7 +279,7 @@ function DockingContainer(props){
       new_docked_ligands.add(ligand)
     }
     
-    var errorMessage = sendDockingRequest(()=>{console.log("Request Sent")});
+    var errorMessage = sendDockingRequest(()=>{});
     
     if(errorMessage){
       setError(errorMessage);
@@ -303,11 +291,11 @@ function DockingContainer(props){
   function handleSelectedLigand(selectedLigand){
 
     //if the ligand is already selected for viewing, deselect it
-    if(viewingLigand == selectedLigand){
+    if(viewingLigand && viewingLigand.uniqueID() == selectedLigand.uniqueID()){
       setViewingLigand(null)
 
     //if docking has already been performed on the selected ligand, select it for viewing
-    }else if(dockedLigands.has(selectedLigand)){
+    }else if(dockedLigands.has(selectedLigand.uniqueID())){
       setViewingLigand(selectedLigand)
     }
 
@@ -319,7 +307,7 @@ function DockingContainer(props){
       new_selected_ligands.delete(selectedLigand)
 
     //if the ligand is not selected for docking, and there is no selected ligand, select the ligand
-    } else if(!dockedLigands.has(selectedLigand)){
+    } else if(!dockedLigands.has(selectedLigand.uniqueID())){
       new_selected_ligands.add(selectedLigand)
     }
     
@@ -403,7 +391,6 @@ function DockingContainer(props){
     var ligandFile = files[0];
 
     if(!validateLigand(ligandFile)){
-      console.log("invalid ligand");
       errorSetter("Ligand file must be of type .sdf");
       
     //only add the ligand file to the list if it is valid
@@ -437,11 +424,9 @@ function DockingContainer(props){
   function selectConfig(configSelection){
     setSelectedDockingConfig(configSelection[0]);
     setDisplayedConfiguration(configSelection[0]);
-    console.log("selected config: " + configSelection[0]);
   }
 
   function dockLigands(callback){
-    console.log("Docking Request Sent");
     setDockingInProgress(true);
   }
 
@@ -453,14 +438,24 @@ function DockingContainer(props){
    *  number and an (optional) message. 
    */
   function sendDockingRequest(callback){
-    if(!selectedMacromolecule){
-      console.log("Must select a docking protein");
-      return "Must select a protein from the search results to dock a ligand";
+    let errorMessage = "Docking request rejected for uncertain reason";
+    if(!selectedMacromolecules || selectedMacromolecules.length == 0){
+      errorMessage = "Must select a docking protein to send docking request. Please enter an enzyme PDB ID in the " +
+        "search bar to continue"
+      console.error(errorMessage);
+      return errorMessage;
+    }
+    if(selectedMacromolecules.length > 1){
+      errorMessage = `${selectedMacromolecules.length} proteins selected, but Multi-protein docking is not ` + 
+      `supported. Please remove search IDs until 1 remains.`
+      console.error(errorMessage);
+      return errorMessage;
     }
     var dockingLigands = Array.from(selectedLigands)
     if(dockingLigands.length == 0){
-      console.log("Must select at least one ligand");
-      return "Must have at least one ligand selected to dock a ligand";
+      errorMessage = "Must select a ligand to send docking request"
+      console.error(errorMessage);
+      return errorMessage;
 
     } else{
 
@@ -477,14 +472,9 @@ function DockingContainer(props){
     //if there are ligands, add the first of them to the docking req
     if(newLigands.size > 0){
       var ligandArray = Array.from(newLigands)
-      console.log(`ligand array length: ${ligandArray.length}`)
-      console.log(`first ligand:`)
-      for(let property in ligandArray[0]){
-        console.log(`${property}: ${ligandArray[0][property]}`)
-      }
+
       setFormValue("ligand", ligandArray[0].file);
     } else {
-      console.log(setFormValue)
       setFormValue("ligand", null);
     }
     //if there are no ligands, there will be none in the docking request

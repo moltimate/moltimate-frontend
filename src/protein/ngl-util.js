@@ -14,11 +14,21 @@ export function init(parentId, childId, aligned, active) {
   );
 
   // Create NGL Stage object
-  if (parentId != _parentId || childId != _childId) {
+  if (parentId != _parentId || childId != _childId) {//parentId != _parentId || childId != _childId
     stage = new NGL.Stage( 'viewport' , {backgroundColor: 'white'});
   }
+  //prevents components from building up if the same stage is being used more than once
+  stage.removeAllComponents();
+
+  //This is done so the loadDocked function knows it has to load a new stage when switching back to the most
+  //recently viewed docking config after a motif file is viewed
+  clearCurrentDockingData()
+
   _parentId = parentId;
   _childId = childId;
+
+
+
   stage.mouseControls.remove( 'drag-ctrl-right' );
   stage.mouseControls.remove( 'drag-ctrl-left' );
   // Handle window resizing
@@ -73,55 +83,68 @@ export function init(parentId, childId, aligned, active) {
  * @param active_sites - List of active sites in the selected protein.
  */
 export function loadDocked(file, model, active_sites) {
-    NGL.DatasourceRegistry.add(
-        'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
-    );
+  NGL.DatasourceRegistry.add(
+      'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
+  );
+  console.log(file)
+  // Create NGL Stage object
+  if (file.name != _file) {//file.name != _file
+    docking_stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
+  }
+  //prevents components from building up if the same stage is being used more than once
+  docking_stage.removeAllComponents();
 
-    // Create NGL Stage object
-    if (file.name != _file) {
-      docking_stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
-    }
-    docking_stage.removeAllComponents();
-    console.log(docking_stage.compList);
-    //if(docking_stage) docking_stage.removeAllComponents(); //cleanup the old docking stage
-    //if(docking_stage) docking_stage.dispose(); //cleanup the old docking stage
-    _file = file.name;
-    _model = model;
-    docking_stage.mouseControls.remove( 'drag-ctrl-right' );
-    docking_stage.mouseControls.remove( 'drag-ctrl-left' );
-    // Handle window resizing
-    window.addEventListener( 'resize', function( event ){
-        stage.handleResize();
-    }, false );
+  //This is done so the init function knows it has to load a new stage when switching back to the most
+  //recently viewed motif file after a docked ligand viewing
+  clearCurrentMotifData();
+  _file = file.name;
+  _model = model;
+  docking_stage.mouseControls.remove( 'drag-ctrl-right' );
+  docking_stage.mouseControls.remove( 'drag-ctrl-left' );
+  // Handle window resizing
+  window.addEventListener( 'resize', function( event ){
+    docking_stage.handleResize();
+  }, false );
 
-    let select1 = '';
-    let select2 = '/0';
+  let select1 = '';
+  let select2 = '/0';
 
-    // Create a select query for the active sites and one for everything except the active sites.
-    active_sites.forEach((r) => {
-        select1 = select1.concat(
-            `${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0 or `
-        );
-        select2 = select2.concat(
-            ` and not ${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0`
-        );
-    });
+  // Create a select query for the active sites and one for everything except the active sites.
+  active_sites.forEach((r) => {
+      select1 = select1.concat(
+          `${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0 or `
+      );
+      select2 = select2.concat(
+          ` and not ${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0`
+      );
+  });
 
-    select1 = select1.substring(0, select1.length - 4);
+  select1 = select1.substring(0, select1.length - 4);
 
-    // Load file
-    docking_stage.loadFile(file, {ext:"pdb"}).then((o) => {
-        // Load ligand, grab only the selected orientation
-        o.addRepresentation('ball+stick', { sele: `/${model}` });
+  // Load file
+  docking_stage.loadFile(file, {ext:"pdb"}).then((o) => {
+      // Load ligand, grab only the selected orientation
+      o.addRepresentation('ball+stick', { sele: `/${model}` });
 
-        // Load Protein
+      // Load Protein
 
-        // Load active sites as a ball+stick format
-        o.addRepresentation('ball+stick', { color: '#2AF598', sele: select1 });
-        // Load rest of protein as cartoon
-        o.addRepresentation('cartoon', { color: '#20BDFF', sele: select2 });
+      // Load active sites as a ball+stick format
+      o.addRepresentation('ball+stick', { color: '#2AF598', sele: select1 });
+      // Load rest of protein as cartoon
+      o.addRepresentation('cartoon', { color: '#20BDFF', sele: select2 });
 
-        // Center camera
-        o.autoView();
-    });
+      // Center camera
+      o.autoView();
+  });
 }
+
+function clearCurrentMotifData(){
+  _parentId = null;
+  _childId = null;
+}
+
+function clearCurrentDockingData(){
+  _file = null;
+  _model = null;
+}
+
