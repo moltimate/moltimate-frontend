@@ -36,7 +36,7 @@ function LigandDetailsBox(props){
           className = {classes.selected}
           onClick = {(e) => selectConfigurationHandler(null)}
         >
-          <TableCell children = {"SEL"}/>
+          <TableCell children = {formatIndex(docking_configuration[0])}/>
           <TableCell children = {docking_configuration[1]}/>
           <TableCell children = {docking_configuration[2]}/>
         </TableRow>);

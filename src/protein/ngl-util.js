@@ -78,9 +78,13 @@ export function loadDocked(file, model, active_sites) {
     );
 
     // Create NGL Stage object
-    if (file.name != _file || model != _model) {
-        docking_stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
+    if (file.name != _file) {
+      docking_stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
     }
+    docking_stage.removeAllComponents();
+    console.log(docking_stage.compList);
+    //if(docking_stage) docking_stage.removeAllComponents(); //cleanup the old docking stage
+    //if(docking_stage) docking_stage.dispose(); //cleanup the old docking stage
     _file = file.name;
     _model = model;
     docking_stage.mouseControls.remove( 'drag-ctrl-right' );

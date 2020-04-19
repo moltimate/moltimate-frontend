@@ -198,11 +198,16 @@ function DockingContainer(props){
 
     if(viewingLigand){
       setDockingConfigs(viewingLigand.dockingData);
+      
       setSelectedDockingConfig(1);
+
+      //clear the previous value
+      setDisplayedFile(null);
       setDisplayedConfiguration(1);
       //sets the displayed file based on the viewing ligand
       retrieveDockedMoleculeFile(viewingLigand,setDisplayedFile)
       setDisplayedActiveSites(viewingLigand.activeSites)
+      
     }
 
   },[viewingLigand]);
@@ -431,6 +436,7 @@ function DockingContainer(props){
 
   function selectConfig(configSelection){
     setSelectedDockingConfig(configSelection[0]);
+    setDisplayedConfiguration(configSelection[0]);
     console.log("selected config: " + configSelection[0]);
   }
 
@@ -511,7 +517,7 @@ function DockingContainer(props){
       //Only display docking info if there is a viewing ligand selected
       viewingLigand ? <DockingInfoContainer
         dockingConfigurations = {dockingConfigs}
-        selectedDockingConfig = {selectedDockingConfig}
+        selectedDockingConfiguration = {selectedDockingConfig}
         selectConfigurationHandler = {selectConfig}
       />:null
     }
