@@ -31,15 +31,9 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
       e.preventDefault();
       e.persist();
     }
-    
-    console.log("submit following values:");
-    for(let property in values){
-      console.log(`  ${property}: ${values[property]}`)
-    }
 
     var queryURL = currentMode === 'test' ? testQueryURL : url;
 
-    console.log("url: " + queryURL);
     const form_data = new FormData();
     for ( let key in values ) {
       if ( String(key) === 'activeSiteResidues') {
@@ -63,8 +57,6 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
       complete: false,
       mode: currentMode,
     });
-
-    console.log("posting query now")
 
     axios.post(queryURL, form_data)
       .then(result =>{
@@ -97,12 +89,6 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
   /* add an attribute-value pair to the values object*/
   const setFormValue = (attribute, attributeValue) => {
     setValues(values => ({ ...values, [attribute]: attributeValue }));
-    console.log(`attribute ${attribute} set to ${attributeValue}`)
-    console.log("saved following values:");
-    for(let property in values){
-      console.log(`  ${property}: ${values[property]}`)
-    }
-
   }
 
   /* Chipinput API only returns the value, not a full event */

@@ -330,8 +330,9 @@ function DockingContainer(props){
     if (new_selected_ligands.has(selectedLigand)){
       new_selected_ligands.delete(selectedLigand)
 
-    //if the ligand is not selected for docking, and there is no selected ligand, select the ligand
+    //if the ligand is not selected for docking, select the ligand
     } else if(!dockedLigands.has(selectedLigand.uniqueID())){
+      new_selected_ligands = new Set()
       new_selected_ligands.add(selectedLigand)
     }
     
@@ -454,8 +455,11 @@ function DockingContainer(props){
   function processHTTPError(messagePreface, postError){
     let error;
       if(postError.response && postError.response.data){
-        error = postError.response.data
+        console.log("path 1");
+        error = postError.response.data.toString()
+        console.log(postError.response.data);
       }else{
+        console.log("path 2");
         error = postError.toString()
       }
       setDockingError(messagePreface + ": " + error);
