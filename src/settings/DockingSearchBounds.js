@@ -32,6 +32,11 @@ function DockingSearchBounds(props){
     coordinateSetter(newCoordinateValue);
   }
 
+
+  function validateRangeValue(value){
+    return value >= 0 && value <= 100
+  }
+
   /**
     Generates a FormGroup for inputting a coordinate's min and max 
     This FormGroup is not functional, is not tied to any state.
@@ -64,7 +69,8 @@ function DockingSearchBounds(props){
           label = {"Range " + coordinateName +": "}
           labelPlacement = "start"
           onChange = {(e) => {
-            setSingleCoordinate(
+            e.persist()
+            if(validateRangeValue(e.target.value)) setSingleCoordinate(
               dockingSearchRange, 
               setDockingSearchRange, 
               coordinateIndex, 

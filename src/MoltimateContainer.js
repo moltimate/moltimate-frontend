@@ -38,8 +38,16 @@ function MoltimateContainer(props) {
   const [ dockingDisplayActiveSites, setDockingDisplayActiveSites ] = useState(null);
   //the ligand selected to be viewed
   const [viewingLigand, setViewingLigand] = useState(null);
+
   //protein electron class
   const [searchEClass, setSearchEClass] = useState({});
+
+  //the display mode to use for molecules
+  const [queryProteinMode, setQueryProteinMode] = useState("ball+stick");
+  const [motifProteinMode, setMotifProteinMode] = useState("ball+stick");
+  const [dockingProteinMode, setDockingProteinMode] = useState("cartoon");
+  const [activeSitesMode, setActiveSitesMode] = useState("ball+stick");
+  const [ligandMode, setLigandMode] = useState("ball+stick");
 
   const [alignmentInProgress, setAlignmentInProgress] = useState(false);
 
@@ -105,6 +113,9 @@ function MoltimateContainer(props) {
         file={dockingDisplayFile}
         ligand_model={dockingDisplayConfiguration}
         active_sites={dockingDisplayActiveSites}
+        proteinMode = {dockingProteinMode}
+        activeSitesMode = {activeSitesMode}
+        ligandMode = {ligandMode}
       />);
     } else {
       return (<ProteinLoading/>);
@@ -113,7 +124,7 @@ function MoltimateContainer(props) {
 
   return (
     <>
-      <TopBar toggleSettings = {toggleSettingsMenu} uploadPDBQT = {uploadPDBQT}/>
+      <TopBar toggleSettings = {toggleSettingsMenu}/>
       
       <div className={classes.controlPanel}>
         <SearchContainer
@@ -159,6 +170,8 @@ function MoltimateContainer(props) {
           childId={nglData.parentId}
           active={nglData.active}
           aligned={nglData.aligned}
+          queryProteinMode={queryProteinMode} 
+          motifProteinMode={motifProteinMode}
         /> : null
       }
       {
@@ -169,10 +182,20 @@ function MoltimateContainer(props) {
         //Only display the settings modal when showSettings is true
         showSettings ? <SettingsContainer 
           setShowSettings = {setShowSettings}
-          dockingSearchCenter = {getDockingCenter}
+          dockingSearchCenter = {dockingCenter}
           setDockingSearchCenter = {setDockingCenter}
-          dockingSearchRange = {getDockingRange}
+          dockingSearchRange = {dockingRange}
           setDockingSearchRange = {setDockingRange}
+          queryProteinMode ={queryProteinMode}
+          setQueryProteinMode = {setQueryProteinMode} 
+          motifProteinMode = {motifProteinMode}
+          setMotifProteinMode = {setMotifProteinMode}
+          dockingProteinMode = {dockingProteinMode} 
+          setDockingProteinMode = {setDockingProteinMode} 
+          activeSitesMode = {activeSitesMode} 
+          setActiveSitesMode = {setActiveSitesMode} 
+          ligandMode = {ligandMode} 
+          setLigandMode = {setLigandMode}
         />:null
       }
     </>

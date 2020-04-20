@@ -88,7 +88,7 @@ function FilteredLigandResults(props) {
           { dockingError ?
             <ErrorBar
               open={openDocking}
-              message={error}
+              message={dockingError}
               handleClose={setDockingError}
             /> : null
           }

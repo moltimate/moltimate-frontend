@@ -22,16 +22,30 @@ export default{
     width:'50px',
     height: '20px',
     marginLeft: '5px',
-    marginRight: '5px',
+    marginRight: '0px',
   },
 
   settingsGroupContainer:{
     margin: '0px',
-    display:'block',
+    display:'inline-block',
+    verticalAlign: 'top',
+    top: '0px',
     paddingTop: '20px',
     paddingLeft: '20px',
     paddingRight: '20px',
     paddingBottom: '10px',
+  },
+
+  dockingSearchBoundaryContainer:{
+    width: '260px',
+  },
+
+  settingsContainer:{
+
+  },
+
+  displayModeRadio:{
+    paddingRight: '10px',
   },
 
   centerContents:{

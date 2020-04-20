@@ -73,6 +73,9 @@ function DockingContainer(props){
             macromoleculeID: macromoleculeID,
             data: response.data
           });
+
+          console.log("docking response") 
+          console.log(newDockingResults)
           setDockingResults(newDockingResults);
           
           //indicate docking is complete
@@ -82,7 +85,7 @@ function DockingContainer(props){
       }).catch((error) => {
         setDockingInProgress(false);
         clearInterval(pollingTimer)
-        setDockingError("Error Retrieving Docking Data")
+        processHTTPError("Error retrieving docking data",error)
       });
     }
 
@@ -99,7 +102,7 @@ function DockingContainer(props){
    * @param {Object} result.data - the body of the response from the docking request
    */
   function handleDockingResponse(values, result){
-    if(!result.error){
+    if(result.data){
       if(!values["macromoleculeID"]){
 
         console.error("macromoleculeID was absent from docking request");
@@ -116,10 +119,11 @@ function DockingContainer(props){
       pollDockingResults(requestURL, retryFrequency, timeout, selectedLigand, values.macromoleculeID)
     }else{
       console.error(`Error: ${result.error}`);
+ 
     }
   }
 
-  const {handleSubmit, setFormValue} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
+  const {handleSubmit, setFormValue, result} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
 
   useEffect(() => {
     
@@ -129,10 +133,22 @@ function DockingContainer(props){
   },[dockingInProgress]);
 
   useEffect(() => {
+    
+    if(result.error){
+      processHTTPError("Error posting dock request",result.error)
+      setDockingInProgress(false);
+    } 
+
+  },[result]);
+
+  useEffect(() => {
     //if there are any docking results
     if(dockingResults[0]){
       //only handle one at a time
       let dockingResult = dockingResults.shift();
+
+      console.log("docking results off queue") 
+      console.log(dockingResult)
 
       let ligandID = dockingResult.ligandID;
 
@@ -171,7 +187,8 @@ function DockingContainer(props){
       }
       
 
-      
+      console.log("viewing ligand") 
+      console.log(dockedLigand)
       setViewingLigand(dockedLigand);
     }
   },[dockingResults]);
@@ -190,6 +207,8 @@ function DockingContainer(props){
       setDisplayedConfiguration(1);
       //sets the displayed file based on the viewing ligand.
       setTimeout(()=>retrieveDockedMoleculeFile(viewingLigand,setDisplayedFile),2000)
+      console.log("setting active sites") 
+      console.log(viewingLigand.activeSites)
       setDisplayedActiveSites(viewingLigand.activeSites)
       
     } else{
@@ -267,6 +286,8 @@ function DockingContainer(props){
       let moleculeFile = new File([dataBlob],`${babelJobId}.pdb`,{ type: 'text/plain' });
       fileSetter(moleculeFile);
       
+    }).catch((error) =>{
+      processHTTPError("Error retrieving molecule file", error);
     });
   }
 
@@ -423,6 +444,23 @@ function DockingContainer(props){
       }
     }
   }
+
+
+  /**
+   * Display an error message based on an http error
+   * @param {} messagePreface 
+   * @param {*} postError 
+   */
+  function processHTTPError(messagePreface, postError){
+    let error;
+      if(postError.response && postError.response.data){
+        error = postError.response.data
+      }else{
+        error = postError.toString()
+      }
+      setDockingError(messagePreface + ": " + error);
+  }
+
 
   function selectConfig(configSelection){
     setSelectedDockingConfig(configSelection[0]);
