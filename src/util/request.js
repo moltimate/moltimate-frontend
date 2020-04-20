@@ -8,7 +8,8 @@ import testSearchResponse from './testSearchResponse';
 const testQueryURL = 'http://localhost:8080/test/motif';
 const searchQueryURL = 'http://localhost:8080/align/activesite';
 const dockRequestURL = 'http://localhost:8080/dock/dockligand';
-const dockingMoleculeFileRetrievalURL = 'http://localhost:8080/dock/retrievefile'; 
+const dockingMoleculeFileRetrievalURL = 'http://localhost:8080/dock/retrievefile';
+const ligandLibraryURL = 'http://localhost:8080/ligands';
 
 const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
   const [values, setValues] = useState(defaultValues);
@@ -24,7 +25,8 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
   const [formStatus, setFormStatus] = useState(null);
   const [url, setURL] = useState(defaultURL);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e, clearEClass) => {
+    if(clearEClass) clearEClass();
     if (e) {
       e.preventDefault();
       e.persist();
@@ -169,4 +171,4 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
 };
 
 export default useForm;
-export { dockRequestURL, searchQueryURL, dockingMoleculeFileRetrievalURL };
+export { dockRequestURL, searchQueryURL, dockingMoleculeFileRetrievalURL, ligandLibraryURL };

@@ -38,6 +38,10 @@ function MoltimateContainer(props) {
   const [ dockingDisplayActiveSites, setDockingDisplayActiveSites ] = useState(null);
   //the ligand selected to be viewed
   const [viewingLigand, setViewingLigand] = useState(null);
+
+  //protein electron class
+  const [searchEClass, setSearchEClass] = useState({});
+
   //the display mode to use for molecules
   const [queryProteinMode, setQueryProteinMode] = useState("ball+stick");
   const [motifProteinMode, setMotifProteinMode] = useState("ball+stick");
@@ -45,6 +49,17 @@ function MoltimateContainer(props) {
   const [activeSitesMode, setActiveSitesMode] = useState("ball+stick");
   const [ligandMode, setLigandMode] = useState("ball+stick");
 
+  const [alignmentInProgress, setAlignmentInProgress] = useState(false);
+
+  function addEClass( className, protein ) {
+    if( !searchEClass[className] ) {
+        searchEClass[className] = protein;
+    }
+  }
+
+  function clearEClass() {
+    setSearchEClass({});
+  }
 
   //TEMPORARY START
   function uploadPDBQT( files ) {
@@ -116,6 +131,9 @@ function MoltimateContainer(props) {
           handleSelectedResult={handleSelectedResult}
           selectedResult={selectedResult}
           setSearchedProteins = {setSearchedProteinIDs}
+          setEClass = {addEClass}
+          clearEClass = {clearEClass}
+          setAlignmentInProgress = {setAlignmentInProgress}
         />
         <BuilderContainer
           handleSelectedResult={handleSelectedResult}
@@ -125,6 +143,8 @@ function MoltimateContainer(props) {
           selectedMacromolecules = {searchedProteinIDs}
           dockingCenter = {dockingCenter}
           dockingRange = {dockingRange}
+          alignmentInProgress = {alignmentInProgress}
+          eClasses = {searchEClass}
           setDisplayedFile = {(x) =>{
             console.log("Docking Display File is as follows:")
             console.log(dockingDisplayFile)
