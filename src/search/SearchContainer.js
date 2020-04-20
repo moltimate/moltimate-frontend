@@ -26,7 +26,7 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function SearchContainer(props) {
-  const { classes, selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress } = props;
+  const { classes, selectedResult, handleSelectedResult, setSearchedProteins } = props;
   const { values, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
 
@@ -70,7 +70,7 @@ function SearchContainer(props) {
       case 4:
         setExpandBuild(false);
         setExpandResult(true);
-        handleSubmit(e, clearEClass);
+        handleSubmit(e);
         break;
       case 5:
         handleClearValues(e)
@@ -112,14 +112,12 @@ function SearchContainer(props) {
             cardChild={
               <ResultsBox
                 handleSelectedResult={filterHandleSelectedResult}
-                setEClass = {setEClass}
                 temp={ result.data ? result.data.entries : []}
               />
             }
             childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
         /> : null
       }
-      { setAlignmentInProgress(result.pending) }
       {
         selected && result.data ?
           <ResultDetails

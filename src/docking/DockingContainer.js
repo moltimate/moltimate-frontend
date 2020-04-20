@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import LigandLibraryContainer from "../ligand_library/LigandLibraryContainer";
 import ImportedLigandsContainer from "../imported_ligands/ImportedLigandsContainer";
 import DockingInfoContainer from "../docking_info/DockingInfoContainer";
-import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL, ligandLibraryURL} from "../util/request"
+import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL} from "../util/request"
 import axios from "axios";
 
 import {library_ligands, 
@@ -12,7 +12,7 @@ import {library_ligands,
 
 function DockingContainer(props){
   const { selectedMacromolecules, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration, 
-    setDisplayedActiveSites, viewingLigand, setViewingLigand, alignmentInProgress, eClasses } = props;
+    setDisplayedActiveSites, viewingLigand, setViewingLigand } = props;
 
   //ligands selected for docking. Do not pass this setter (instead use the 
   //"setSelectedLigands" function)
@@ -34,8 +34,6 @@ function DockingContainer(props){
   const [dockingResults, setDockingResults] = useState(new Array());
   //Text telling if there is a docking error
   const [dockingError, setDockingError] = useState(false);
-  const [cachedEcs, setCachedEcs] = useState("[]");
-  const [cachedLibrary, setCachedLibrary] = useState([]);
 
   //this form is used to make docking requests
   const defaultRequestValues = {
@@ -226,15 +224,14 @@ function DockingContainer(props){
     }
   },[dockingRange]);
 
-  function Ligand(name, structure, macromolecule = false, smiles = ""){
+  function Ligand(name, structure){
     this.name = name;
     this.structure = structure;
     this.selected = false;
     this.min_affinity = 0;
-    this.macromolecule = macromolecule;
+    this.macromolecule = false;
     this.library = "";
-    this.timeOfCreation = Date.now();
-    this.smiles = smiles;
+    this.timeOfCreation = Date.now()
     
     function uniqueID(){
       //return this.name.toString() + this.macromolecule.toString() + this.library.toString();
@@ -484,37 +481,14 @@ function DockingContainer(props){
     setSelectedLigandsInner(newLigands);
   }
 
-  function loadLigandLibrary() {
-    if( JSON.stringify(Object.keys(eClasses)) !== cachedEcs ) {
-        var newLibrary = [];
-        for( const ecNum in eClasses ) {
-            var libraryURL = ligandLibraryURL + '/' + ecNum;
-            axios.get(libraryURL).then((response) => {
-                var results = response.data;
-                results.forEach((ligand) => {
-                    var ligandObj = new Ligand( ligand.id, ligand.formula, eClasses[ecNum], ligand.smiles );
-                    newLibrary.push( ligandObj );
-                });
-            });
-        }
-        setCachedEcs( JSON.stringify(Object.keys(eClasses)) );
-        setCachedLibrary( newLibrary );
-    }
-    return cachedLibrary;
-  }
-
   return <>
     <LigandLibraryContainer
-      library = {loadLigandLibrary()}
+      library = {libraryLigands}
       selectedLigands = {selectedLigands}
       clickLigandHandler = {handleSelectedLigand}
       dockHandler = {ligandDockingHandler}
       viewingLigand = {viewingLigand}
       dockedLigands = {dockedLigands}
-      alignmentInProgress = {alignmentInProgress}
-      dockingInProgress = {dockingInProgress}
-      dockingError = {dockingError}
-      setDockingError = {setDockingError}
     />
     <ImportedLigandsContainer 
       importedLigands = {uploadedLigands}
