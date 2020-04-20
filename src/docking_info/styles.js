@@ -16,7 +16,7 @@ export default{
     cursor: "pointer",
   },
   selected: {
-    background: '#b3b3b3',
+    background: '#e6e6e6',
     cursor: "pointer",
   },
 

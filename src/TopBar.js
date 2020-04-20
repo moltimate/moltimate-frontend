@@ -30,7 +30,6 @@ function TopBar(props) {
           <IconButton className={classes.floatRight} onClick={() => toggleSettings()}>
             <SettingsIcon className={classNames(classes.floatRight, classes.white)}/>
           </IconButton>
-          <input type="file" onChange={(e) => uploadPDBQT(e.target.files)} multiple/>
           <IconButton className={classes.floatRight} onClick={() => console.log('temp')}>
             <InvertColorsIcon className={classNames(classes.floatRight, classes.white)}/>
           </IconButton>

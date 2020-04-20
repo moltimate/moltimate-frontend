@@ -109,7 +109,7 @@ function MoltimateContainer(props) {
 
   return (
     <>
-      <TopBar toggleSettings = {toggleSettingsMenu} uploadPDBQT = {uploadPDBQT}/>
+      <TopBar toggleSettings = {toggleSettingsMenu}/>
       
       <div className={classes.controlPanel}>
         <SearchContainer
