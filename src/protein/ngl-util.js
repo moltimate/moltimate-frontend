@@ -86,7 +86,6 @@ export function loadDocked(file, model, active_sites) {
   NGL.DatasourceRegistry.add(
       'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
   );
-  console.log(file)
   // Create NGL Stage object
   if (file.name != _file) {//file.name != _file
     docking_stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });

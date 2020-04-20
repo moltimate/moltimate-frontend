@@ -117,18 +117,12 @@ function MoltimateContainer(props) {
           dockingCenter = {dockingCenter}
           dockingRange = {dockingRange}
           setDisplayedFile = {(x) =>{
-            console.log("Docking Display File is as follows:")
-            console.log(dockingDisplayFile)
             setDockingDisplayFile(x)}}
           setDisplayedConfiguration = {(x) =>{
-            console.log("Docking Display configuration is as follows:")
-            console.log(dockingDisplayConfiguration)
             setDockingDisplayConfiguration(x)
             setNglData(null);}
           } 
           setDisplayedActiveSites = {(x) =>{
-            console.log("Docking Display Active Sites is as follows:")
-            console.log(dockingDisplayActiveSites)
             setDockingDisplayActiveSites(x)}}
             viewingLigand = {viewingLigand}
             setViewingLigand = {setViewingLigand} 

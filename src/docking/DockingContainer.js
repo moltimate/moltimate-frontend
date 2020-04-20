@@ -177,8 +177,6 @@ function DockingContainer(props){
   useEffect(() => {
 
     if(viewingLigand){
-      console.log("new viewing ligand:");
-      console.log(viewingLigand);
       setDockingConfigs(viewingLigand.dockingData);
       
       setSelectedDockingConfig(1);
