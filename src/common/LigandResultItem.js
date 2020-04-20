@@ -27,12 +27,17 @@ function LigandResultItem(props){
 
   let item;
 
+  function generateTitle() {
+    return (ligand.macromolecule ? "Macromolecule: " + ligand.macromolecule : "") + (ligand.macromolecule && ligand.smiles ? " - " : "") + (ligand.smiles ? "Smiles: " + ligand.smiles : "");
+  }
+
   //if these are both true than this ligand is being docked
   if(midDocking && isSelected){
     item = <ListItem
       //should do nothing on being clicked
       onClick={(e) => {}}
       className={classes.midDocking}
+      title={generateTitle()}
     >
       {contents()}
     </ListItem>;
@@ -42,6 +47,7 @@ function LigandResultItem(props){
       cursor="pointer"
       onClick={(e) => {}}
       className={classes.dockedSelected}
+      title={generateTitle()}
     >
       {contents_docked}
     </ListItem>;
@@ -51,6 +57,7 @@ function LigandResultItem(props){
       cursor="pointer"
       onClick={(e) => clickHandler(ligand)}
       className={classes.dockedUnselected}
+      title={generateTitle()}
     >
       {contents_docked}
     </ListItem>;
@@ -60,6 +67,7 @@ function LigandResultItem(props){
       cursor="pointer"
       onClick={(e) => clickHandler(ligand)}
       className={classes.selected}
+      title={generateTitle()}
     >
       {contents()}
     </ListItem>;
@@ -68,6 +76,7 @@ function LigandResultItem(props){
     item = <ListItem 
       onClick={(e) => {}}
       className = {classes.unselected}
+      title={generateTitle()}
     >
       {contents()}
     </ListItem>;
@@ -77,6 +86,7 @@ function LigandResultItem(props){
       cursor="pointer"
       onClick={(e) => clickHandler(ligand)}
       className = {classes.unselected}
+      title={generateTitle()}
     >
       {contents()}
     </ListItem>;
