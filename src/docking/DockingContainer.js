@@ -71,6 +71,9 @@ function DockingContainer(props){
             macromoleculeID: macromoleculeID,
             data: response.data
           });
+
+          console.log("docking response") 
+          console.log(newDockingResults)
           setDockingResults(newDockingResults);
           
           //indicate docking is complete
@@ -132,6 +135,9 @@ function DockingContainer(props){
       //only handle one at a time
       let dockingResult = dockingResults.shift();
 
+      console.log("docking results off queue") 
+      console.log(dockingResult)
+
       let ligandID = dockingResult.ligandID;
 
       //add this ligand to the "dockedLigands" set
@@ -169,7 +175,8 @@ function DockingContainer(props){
       }
       
 
-      
+      console.log("viewing ligand") 
+      console.log(dockedLigand)
       setViewingLigand(dockedLigand);
     }
   },[dockingResults]);
@@ -188,6 +195,8 @@ function DockingContainer(props){
       setDisplayedConfiguration(1);
       //sets the displayed file based on the viewing ligand.
       setTimeout(()=>retrieveDockedMoleculeFile(viewingLigand,setDisplayedFile),2000)
+      console.log("setting active sites") 
+      console.log(viewingLigand.activeSites)
       setDisplayedActiveSites(viewingLigand.activeSites)
       
     } else{
