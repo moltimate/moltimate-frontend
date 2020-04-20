@@ -35,7 +35,7 @@ function DockingContainer(props){
   //Text telling if there is a docking error
   const [dockingError, setDockingError] = useState(false);
   const [cachedEcs, setCachedEcs] = useState("[]");
-  const [cachedLibrary, setCachedLibrary] = useState([]);
+  const [cachedLibrary, setCachedLibrary] = useState({});
 
   //this form is used to make docking requests
   const defaultRequestValues = {
@@ -226,7 +226,7 @@ function DockingContainer(props){
     }
   },[dockingRange]);
 
-  function Ligand(name, structure, macromolecule = false, smiles = ""){
+  function Ligand(name, structure, macromolecule = false, smiles = false){
     this.name = name;
     this.structure = structure;
     this.selected = false;
@@ -486,14 +486,14 @@ function DockingContainer(props){
 
   function loadLigandLibrary() {
     if( JSON.stringify(Object.keys(eClasses)) !== cachedEcs ) {
-        var newLibrary = [];
+        var newLibrary = {};
         for( const ecNum in eClasses ) {
             var libraryURL = ligandLibraryURL + '/' + ecNum;
             axios.get(libraryURL).then((response) => {
                 var results = response.data;
                 results.forEach((ligand) => {
                     var ligandObj = new Ligand( ligand.id, ligand.formula, eClasses[ecNum], ligand.smiles );
-                    newLibrary.push( ligandObj );
+                    newLibrary[ligand.id] = ligandObj;
                 });
             });
         }
