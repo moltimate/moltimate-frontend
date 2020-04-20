@@ -74,7 +74,7 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
           mode: currentMode,
         })
         callback(values,result);
-      }).catch((error) =>
+      }).catch((error) =>{
         setResult({
           data: null,
           pending: false,
@@ -82,7 +82,8 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
           complete: true,
           mode: currentMode,
         })
-      );   
+        callback(values,result);
+      });   
   };
 
   /* Generic input handleChange */

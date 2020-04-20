@@ -20,7 +20,7 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 
 function TopBar(props) {
-  const { classes, toggleSettings, compare, base, uploadPDBQT,  } = props;
+  const { classes, toggleSettings } = props;
 
   return (
     <AppBar className={classNames(classes.purpleGradient, classes.topLayer)}>

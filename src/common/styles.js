@@ -47,7 +47,6 @@ export default {
     cursor: "pointer",
   },
   dockedUnselected: {
-
     cursor: "pointer",
   },
   midDocking: {

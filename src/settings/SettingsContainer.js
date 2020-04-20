@@ -81,7 +81,8 @@ function SettingsContainer(props){
                 setDockingProteinMode(formDockingProteinMode);
                 setActiveSitesMode(formActiveSitesMode);
                 setLigandMode(formLigandMode);
-                
+                setDockingSearchCenter(formDockingCenter);
+                setDockingSearchRange(formDockingRange);
               }}>Apply</Button>
             </div>
           </div>}

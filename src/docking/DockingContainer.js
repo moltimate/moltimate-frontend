@@ -83,7 +83,7 @@ function DockingContainer(props){
       }).catch((error) => {
         setDockingInProgress(false);
         clearInterval(pollingTimer)
-        setDockingError("Error Retrieving Docking Data")
+        processHTTPError("Error retrieving docking data",error)
       });
     }
 
@@ -100,7 +100,7 @@ function DockingContainer(props){
    * @param {Object} result.data - the body of the response from the docking request
    */
   function handleDockingResponse(values, result){
-    if(!result.error){
+    if(result.data){
       if(!values["macromoleculeID"]){
 
         console.error("macromoleculeID was absent from docking request");
@@ -117,10 +117,11 @@ function DockingContainer(props){
       pollDockingResults(requestURL, retryFrequency, timeout, selectedLigand, values.macromoleculeID)
     }else{
       console.error(`Error: ${result.error}`);
+ 
     }
   }
 
-  const {handleSubmit, setFormValue} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
+  const {handleSubmit, setFormValue, result} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
 
   useEffect(() => {
     
@@ -128,6 +129,15 @@ function DockingContainer(props){
       handleSubmit()
     } 
   },[dockingInProgress]);
+
+  useEffect(() => {
+    
+    if(result.error){
+      processHTTPError("Error posting dock request",result.error)
+      setDockingInProgress(false);
+    } 
+
+  },[result]);
 
   useEffect(() => {
     //if there are any docking results
@@ -273,6 +283,8 @@ function DockingContainer(props){
       let moleculeFile = new File([dataBlob],`${babelJobId}.pdb`,{ type: 'text/plain' });
       fileSetter(moleculeFile);
       
+    }).catch((error) =>{
+      processHTTPError("Error retrieving molecule file", error);
     });
   }
 
@@ -429,6 +441,23 @@ function DockingContainer(props){
       }
     }
   }
+
+
+  /**
+   * Display an error message based on an http error
+   * @param {} messagePreface 
+   * @param {*} postError 
+   */
+  function processHTTPError(messagePreface, postError){
+    let error;
+      if(postError.response && postError.response.data){
+        error = postError.response.data
+      }else{
+        error = postError.toString()
+      }
+      setDockingError(messagePreface + ": " + error);
+  }
+
 
   function selectConfig(configSelection){
     setSelectedDockingConfig(configSelection[0]);
