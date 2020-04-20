@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import LigandLibraryContainer from "../ligand_library/LigandLibraryContainer";
 import ImportedLigandsContainer from "../imported_ligands/ImportedLigandsContainer";
 import DockingInfoContainer from "../docking_info/DockingInfoContainer";
-import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL} from "../util/request"
+import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL, ligandLibraryURL} from "../util/request"
 import axios from "axios";
 
 import {library_ligands, 
@@ -12,7 +12,7 @@ import {library_ligands,
 
 function DockingContainer(props){
   const { selectedMacromolecules, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration, 
-    setDisplayedActiveSites, viewingLigand, setViewingLigand } = props;
+    setDisplayedActiveSites, viewingLigand, setViewingLigand, alignmentInProgress, eClasses } = props;
 
   //ligands selected for docking. Do not pass this setter (instead use the 
   //"setSelectedLigands" function)
@@ -36,6 +36,8 @@ function DockingContainer(props){
   const [dockingError, setDockingError] = useState(false);
   //Name of selected ligand
   const [selectedName, setSelectedName] = useState("");
+  const [cachedEcs, setCachedEcs] = useState("[]");
+  const [cachedLibrary, setCachedLibrary] = useState({});
 
   //this form is used to make docking requests
   const defaultRequestValues = {
@@ -73,6 +75,9 @@ function DockingContainer(props){
             macromoleculeID: macromoleculeID,
             data: response.data
           });
+
+          console.log("docking response") 
+          console.log(newDockingResults)
           setDockingResults(newDockingResults);
           
           //indicate docking is complete
@@ -82,7 +87,7 @@ function DockingContainer(props){
       }).catch((error) => {
         setDockingInProgress(false);
         clearInterval(pollingTimer)
-        setDockingError("Error Retrieving Docking Data")
+        processHTTPError("Error retrieving docking data",error)
       });
     }
 
@@ -99,7 +104,7 @@ function DockingContainer(props){
    * @param {Object} result.data - the body of the response from the docking request
    */
   function handleDockingResponse(values, result){
-    if(!result.error){
+    if(result.data){
       if(!values["macromoleculeID"]){
 
         console.error("macromoleculeID was absent from docking request");
@@ -117,10 +122,11 @@ function DockingContainer(props){
       pollDockingResults(requestURL, retryFrequency, timeout, selectedLigand, values.macromoleculeID)
     }else{
       console.error(`Error: ${result.error}`);
+ 
     }
   }
 
-  const {handleSubmit, setFormValue} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
+  const {handleSubmit, setFormValue, result} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
 
   useEffect(() => {
     
@@ -130,10 +136,22 @@ function DockingContainer(props){
   },[dockingInProgress]);
 
   useEffect(() => {
+    
+    if(result.error){
+      processHTTPError("Error posting dock request",result.error)
+      setDockingInProgress(false);
+    } 
+
+  },[result]);
+
+  useEffect(() => {
     //if there are any docking results
     if(dockingResults[0]){
       //only handle one at a time
       let dockingResult = dockingResults.shift();
+
+      console.log("docking results off queue") 
+      console.log(dockingResult)
 
       let ligandID = dockingResult.ligandID;
 
@@ -172,7 +190,8 @@ function DockingContainer(props){
       }
       
 
-      
+      console.log("viewing ligand") 
+      console.log(dockedLigand)
       setViewingLigand(dockedLigand);
     }
   },[dockingResults]);
@@ -191,6 +210,8 @@ function DockingContainer(props){
       setDisplayedConfiguration(1);
       //sets the displayed file based on the viewing ligand.
       setTimeout(()=>retrieveDockedMoleculeFile(viewingLigand,setDisplayedFile),2000)
+      console.log("setting active sites") 
+      console.log(viewingLigand.activeSites)
       setDisplayedActiveSites(viewingLigand.activeSites)
       
     } else{
@@ -227,14 +248,15 @@ function DockingContainer(props){
     }
   },[dockingRange]);
 
-  function Ligand(name, structure){
+  function Ligand(name, structure, macromolecule = false, smiles = false){
     this.name = name;
     this.structure = structure;
     this.selected = false;
     this.min_affinity = 0;
-    this.macromolecule = false;
+    this.macromolecule = macromolecule;
     this.library = "";
-    this.timeOfCreation = Date.now()
+    this.timeOfCreation = Date.now();
+    this.smiles = smiles;
     
     function uniqueID(){
       //return this.name.toString() + this.macromolecule.toString() + this.library.toString();
@@ -267,6 +289,8 @@ function DockingContainer(props){
       let moleculeFile = new File([dataBlob],`${babelJobId}.pdb`,{ type: 'text/plain' });
       fileSetter(moleculeFile);
       
+    }).catch((error) =>{
+      processHTTPError("Error retrieving molecule file", error);
     });
   }
 
@@ -425,6 +449,23 @@ function DockingContainer(props){
     }
   }
 
+
+  /**
+   * Display an error message based on an http error
+   * @param {} messagePreface 
+   * @param {*} postError 
+   */
+  function processHTTPError(messagePreface, postError){
+    let error;
+      if(postError.response && postError.response.data){
+        error = postError.response.data
+      }else{
+        error = postError.toString()
+      }
+      setDockingError(messagePreface + ": " + error);
+  }
+
+
   function selectConfig(configSelection){
     setSelectedDockingConfig(configSelection[0]);
     setDisplayedConfiguration(configSelection[0]);
@@ -485,14 +526,37 @@ function DockingContainer(props){
     setSelectedLigandsInner(newLigands);
   }
 
+  function loadLigandLibrary() {
+    if( JSON.stringify(Object.keys(eClasses)) !== cachedEcs ) {
+        var newLibrary = {};
+        for( const ecNum in eClasses ) {
+            var libraryURL = ligandLibraryURL + '/' + ecNum;
+            axios.get(libraryURL).then((response) => {
+                var results = response.data;
+                results.forEach((ligand) => {
+                    var ligandObj = new Ligand( ligand.id, ligand.formula, eClasses[ecNum], ligand.smiles );
+                    newLibrary[ligand.id] = ligandObj;
+                });
+            });
+        }
+        setCachedEcs( JSON.stringify(Object.keys(eClasses)) );
+        setCachedLibrary( newLibrary );
+    }
+    return cachedLibrary;
+  }
+
   return <>
     <LigandLibraryContainer
-      library = {libraryLigands}
+      library = {loadLigandLibrary()}
       selectedLigands = {selectedLigands}
       clickLigandHandler = {handleSelectedLigand}
       dockHandler = {ligandDockingHandler}
       viewingLigand = {viewingLigand}
       dockedLigands = {dockedLigands}
+      alignmentInProgress = {alignmentInProgress}
+      dockingInProgress = {dockingInProgress}
+      dockingError = {dockingError}
+      setDockingError = {setDockingError}
     />
     <ImportedLigandsContainer 
       importedLigands = {uploadedLigands}
