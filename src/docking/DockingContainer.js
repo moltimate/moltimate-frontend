@@ -35,7 +35,7 @@ function DockingContainer(props){
   //Text telling if there is a docking error
   const [dockingError, setDockingError] = useState(false);
   const [cachedEcs, setCachedEcs] = useState("[]");
-  const [cachedLibrary, setCachedLibrary] = useState({});
+  const [cachedLibrary, setCachedLibrary] = useState([]);
 
   //this form is used to make docking requests
   const defaultRequestValues = {
