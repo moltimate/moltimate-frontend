@@ -71,8 +71,8 @@ function LigandDetailsBox(props){
             name: ligandName,
             bindingEnergy: configuration[1],
             modeNumber: configuration[0],
-            rmsdUpper: configuration[2],
-            rmsdLower: configuration[3]
+            rmsdLower: configuration[2],
+            rmsdUpper: configuration[3]
         });
      });
      axios.post(exportDockingInfoURL, {ligands: dockingData}).then( (response) => {
