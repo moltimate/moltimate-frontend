@@ -34,6 +34,8 @@ function DockingContainer(props){
   const [dockingResults, setDockingResults] = useState(new Array());
   //Text telling if there is a docking error
   const [dockingError, setDockingError] = useState(false);
+  //Name of selected ligand
+  const [selectedName, setSelectedName] = useState("");
   const [cachedEcs, setCachedEcs] = useState("[]");
   const [cachedLibrary, setCachedLibrary] = useState({});
 
@@ -116,6 +118,7 @@ function DockingContainer(props){
       //We assume there is only one selected ligand for now - this may be changed at a later time
       let selectedLigandArray = Array.from(selectedLigands)
       let selectedLigand = selectedLigandArray[0]
+      setSelectedName( selectedLigand.name );
       pollDockingResults(requestURL, retryFrequency, timeout, selectedLigand, values.macromoleculeID)
     }else{
       console.error(`Error: ${result.error}`);
@@ -315,6 +318,7 @@ function DockingContainer(props){
 
     //if docking has already been performed on the selected ligand, select it for viewing
     }else if(dockedLigands.has(selectedLigand.uniqueID())){
+      setSelectedName(selectedLigand.name);
       setViewingLigand(selectedLigand)
     }
 
@@ -629,6 +633,7 @@ function DockingContainer(props){
         dockingConfigurations = {dockingConfigs}
         selectedDockingConfiguration = {selectedDockingConfig}
         selectConfigurationHandler = {selectConfig}
+        ligandName = {selectedName}
       />:null
     }
   </>
