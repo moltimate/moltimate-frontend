@@ -152,9 +152,6 @@ function DockingContainer(props){
 
       let ligandID = dockingResult.ligandID;
 
-      console.log("docking ligand id") 
-      console.log(ligandID)
-
       //add this ligand to the "dockedLigands" set
       let newDockedLigands = new Set(dockedLigands);
       newDockedLigands.add(ligandID);
@@ -257,8 +254,6 @@ function DockingContainer(props){
     }
     
     this.uniqueID = uniqueID;
-
-    console.log(`Ligand ${this.name} constructed, ID: ${this.uniqueID()}`);
   }
 
   /**
@@ -460,7 +455,6 @@ function DockingContainer(props){
 
       if(requestError.response && requestError.response.data){
         error = requestError.response.data.toString()
-        console.log(requestError.response.data);
       }else{
         error = requestError.toString()
       }
@@ -529,8 +523,6 @@ function DockingContainer(props){
       setFormValue("ligand", null);
     }
 
-    console.log("selected Ligands:");
-    console.log(newLigands);
     //if there are no ligands, there will be none in the docking request
     setSelectedLigandsInner(newLigands);
   }
