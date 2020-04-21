@@ -18,6 +18,7 @@ function UploadLigand(props) {
 
   return (
     <>
+      <label htmlFor="upload-ligand" children={"upload a ligand file for docking"} style={{ display: "none" }}/>
       <input
         accept="*"
         className={classes.input}
@@ -27,6 +28,7 @@ function UploadLigand(props) {
         type="file"
         onChange={handleChange}
       />
+      
       <label htmlFor="upload-ligand">
         <Button
           variant="contained"
@@ -38,6 +40,7 @@ function UploadLigand(props) {
           {`${buttonText}`}
         </Button>
       </label>
+      
     </>
   );
 }
