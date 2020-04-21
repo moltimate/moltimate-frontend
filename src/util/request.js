@@ -90,6 +90,12 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
   const setFormValue = (attribute, attributeValue) => {
     setValues(values => ({ ...values, [attribute]: attributeValue }));
   }
+  /** necessary because a successive remove value/set value wont work b/c asyncronous */
+  const replaceFormField = (oldAttribute, newAttribute, newValue) => {
+    let modifiedValues = { ...values, [newAttribute]: newValue }
+    delete modifiedValues[oldAttribute];
+    setValues(modifiedValues);
+  }
 
   /* Chipinput API only returns the value, not a full event */
   const handleChipInput = (e, key) => {
@@ -149,6 +155,7 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
     handleClearValues,
     handleFileDelete,
     setFormValue,
+    replaceFormField,
     values,
     handleSetMode,
     result,

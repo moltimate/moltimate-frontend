@@ -18,9 +18,9 @@ function DockingContainer(props){
   //"setSelectedLigands" function)
   const [selectedLigands, setSelectedLigandsInner] = useState(new Set());
   //autopopulating data on ligands
-  const [ libraryLigands, setLibraryLigands ] = useState(library_ligands);
+  const [ libraryLigands, setLibraryLigands ] = useState({});
   //data on all the ligands the user has uploaded
-  const [ uploadedLigands, setUploadedLigands ] = useState(test_ligands);
+  const [ uploadedLigands, setUploadedLigands ] = useState({});
   //ligands which have been docked (These are all ligandID strings)
   const [dockedLigands, setDockedLigands] = useState(new Set());
   //the docking configurations available for the viewing ligand
@@ -46,6 +46,8 @@ function DockingContainer(props){
     size_y: 100,
     size_z: 100
   }
+
+  useEffect(()=>{loadLigandLibrary()})
 
   /**
    * Polls the backend until it receives the result of a docking job or times out
@@ -123,7 +125,7 @@ function DockingContainer(props){
     }
   }
 
-  const {handleSubmit, setFormValue, result} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
+  const {handleSubmit, setFormValue, replaceFormField, values, result} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
 
   useEffect(() => {
     
@@ -147,10 +149,10 @@ function DockingContainer(props){
       //only handle one at a time
       let dockingResult = dockingResults.shift();
 
-      console.log("docking results off queue") 
-      console.log(dockingResult)
-
       let ligandID = dockingResult.ligandID;
+
+      console.log("docking ligand id") 
+      console.log(ligandID)
 
       //add this ligand to the "dockedLigands" set
       let newDockedLigands = new Set(dockedLigands);
@@ -164,8 +166,8 @@ function DockingContainer(props){
       let dockedLigand;
       if(uploadedLigands[ligandID]){
         dockedLigand = Object.assign({},uploadedLigands[ligandID])
-      }else if(libraryLigands[ligandID]){
-        dockedLigand = Object.assign({},ligandLibrary[ligandID])
+      }else if(cachedLibrary[ligandID]){
+        dockedLigand = Object.assign({},cachedLibrary[ligandID])
       }else{
         console.error("docked ligand cannot be found in any library");
         dockedLigand = {};
@@ -180,10 +182,10 @@ function DockingContainer(props){
         modifiedLigandLibrary = Object.assign({},uploadedLigands)
         modifiedLigandLibrary[ligandID] = dockedLigand;
         setUploadedLigands(modifiedLigandLibrary);
-      }else if(libraryLigands[ligandID]){
-        modifiedLigandLibrary = Object.assign({},libraryLigands)
+      }else if(cachedLibrary[ligandID]){
+        modifiedLigandLibrary = Object.assign({},cachedLibrary)
         modifiedLigandLibrary[ligandID] = dockedLigand;
-        setLibraryLigands(modifiedLigandLibrary);
+        setCachedLibrary(modifiedLigandLibrary);
       }
       
 
@@ -261,6 +263,8 @@ function DockingContainer(props){
     }
     
     this.uniqueID = uniqueID;
+
+    console.log(`Ligand ${this.name} constructed, ID: ${this.uniqueID()}`);
   }
 
   /**
@@ -449,18 +453,23 @@ function DockingContainer(props){
 
   /**
    * Display an error message based on an http error
-   * @param {} messagePreface 
-   * @param {*} postError 
+   * @param {String} messagePreface - Information about the context of the error. What process failed?
+   * @param {Object} requestError - the error object captured from an axios request
    */
-  function processHTTPError(messagePreface, postError){
+  function processHTTPError(messagePreface, requestError){
     let error;
-      if(postError.response && postError.response.data){
+      if(!requestError){
+        setDockingError(messagePreface + ": unspecified error");
+        return
+      }
+
+      if(requestError.response && requestError.response.data){
         console.log("path 1");
-        error = postError.response.data.toString()
-        console.log(postError.response.data);
+        error = requestError.response.data.toString()
+        console.log(requestError.response.data);
       }else{
         console.log("path 2");
-        error = postError.toString()
+        error = requestError.toString()
       }
       setDockingError(messagePreface + ": " + error);
   }
@@ -517,37 +526,91 @@ function DockingContainer(props){
     //if there are ligands, add the first of them to the docking req
     if(newLigands.size > 0){
       var ligandArray = Array.from(newLigands)
-
-      setFormValue("ligand", ligandArray[0].file);
+      if(ligandArray[0].file){
+        replaceFormField("ligandID","ligand", ligandArray[0].file)    
+      } else {
+        replaceFormField("ligand","ligandID", ligandArray[0].name)  
+      }
+      
     } else {
       setFormValue("ligand", null);
     }
+
+    console.log("selected Ligands:");
+    console.log(newLigands);
     //if there are no ligands, there will be none in the docking request
     setSelectedLigandsInner(newLigands);
   }
 
   function loadLigandLibrary() {
     if( JSON.stringify(Object.keys(eClasses)) !== cachedEcs ) {
-        var newLibrary = {};
-        for( const ecNum in eClasses ) {
-            var libraryURL = ligandLibraryURL + '/' + ecNum;
-            axios.get(libraryURL).then((response) => {
-                var results = response.data;
-                results.forEach((ligand) => {
-                    var ligandObj = new Ligand( ligand.id, ligand.formula, eClasses[ecNum], ligand.smiles );
-                    newLibrary[ligand.id] = ligandObj;
-                });
-            });
-        }
-        setCachedEcs( JSON.stringify(Object.keys(eClasses)) );
-        setCachedLibrary( newLibrary );
+      var newLibrary = {};
+      for( const ecNum in eClasses ) {
+          var libraryURL = ligandLibraryURL + '/' + ecNum;
+          axios.get(libraryURL).then((response) => {
+              var results = response.data;
+              results.forEach((ligand) => {
+                  var ligandObj = new Ligand( ligand.id, ligand.formula, eClasses[ecNum], ligand.smiles );
+                  newLibrary[ligandObj.uniqueID()] = ligandObj;
+              });
+          });
+      }
+      setCachedEcs( JSON.stringify(Object.keys(eClasses)) );
+      setCachedLibrary( newLibrary );
+
+      cleanupCachedLibraryLigands()
+
+      //made a specific return statement for this case to avoid async issues, like returning cachedLibrary before it 
+      //is set
+      return newLibrary;
     }
     return cachedLibrary;
   }
 
+  /**
+   * Remove cachedLibrary ligands wherever they appear in viewingLigand, selectedLigands, or dockedLigands
+   */
+  function cleanupCachedLibraryLigands(){
+
+    //clean viewingLigand
+    if(viewingLigand && cachedLibrary[viewingLigand.uniqueID()]){
+      setViewingLigand(null);
+    }
+
+    //clean selectedLigands
+    let ligandsToDelete = new Array()
+    for(let selectedLigand of selectedLigands){
+      if(cachedLibrary[selectedLigand.uniqueID()]){
+        ligandsToDelete.push(selectedLigand);
+      }
+    }
+    
+    //clone selectedLigands for modification
+    let modifiedSelectedLigands = new Set(selectedLigands)
+    //delete every ligand from modifiedSelectedLigands that occurs in ligandsToDelete
+    ligandsToDelete.forEach((ligand)=> delete modifiedSelectedLigands[ligand]);
+
+    setSelectedLigands(modifiedSelectedLigands);
+
+    //clean dockedLigands
+    let ligandIDsToDelete = new Array()
+    for(let dockedLigandID of dockedLigands){
+      if(cachedLibrary[dockedLigandID]){
+        ligandIDsToDelete.push(dockedLigandID);
+      }
+    }
+
+    //clone dockedLigands for modification
+    let modifiedDockedLigands = new Set(dockedLigands)
+    //delete every ligand from modifiedSelectedLigands that occurs in ligandsToDelete
+    ligandIDsToDelete.forEach((ligandID)=> delete dockedLigands[ligandID]);
+
+    setDockedLigands(modifiedDockedLigands);
+  }
+
   return <>
     <LigandLibraryContainer
-      library = {loadLigandLibrary()}
+      library = {cachedLibrary}
       selectedLigands = {selectedLigands}
       clickLigandHandler = {handleSelectedLigand}
       dockHandler = {ligandDockingHandler}
