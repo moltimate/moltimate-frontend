@@ -11,8 +11,6 @@ import classNames from 'classnames';
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
-//         <img alt="MOltimate logo" className={classes.logo} src={Logo} />
-
 function NavBar(props) {
   const { classes } = props;
 

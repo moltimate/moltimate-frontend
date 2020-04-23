@@ -4,7 +4,7 @@ import { loadDocked } from './ngl-util';
 
 export default function DockingProteinContainer(props) {
   const { file, ligand_model, active_sites, proteinMode, activeSitesMode, ligandMode } = props;
-  const key = `${file.name}`;//${new Date().getTime()}
+  const key = `${file.name}`;
 
   useEffect(() => {
     loadDocked(file, ligand_model, active_sites, proteinMode, activeSitesMode, ligandMode);

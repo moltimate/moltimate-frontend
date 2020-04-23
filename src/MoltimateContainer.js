@@ -11,7 +11,6 @@ import ProteinLoading from './protein/ProteinLoading'
 import SettingsContainer from './settings/SettingsContainer';
 import DockingContainer from "./docking/DockingContainer";
 
-import {test_sites} from './DummyData'
 
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
@@ -59,34 +58,6 @@ function MoltimateContainer(props) {
 
   function clearEClass() {
     setSearchEClass({});
-  }
-
-  //TEMPORARY START
-  function uploadPDBQT( files ) {
-    setDockingDisplayFile(files[0])
-    setDockingDisplayActiveSites(test_sites)
-    setDockingDisplayConfiguration(1)
-  }
-  //TEMPORARY END
-
-  /**
-   * Access the dockingCenter virtual attribute
-   * 
-   * @returns An array of the the x, y, and z values of the center of the docking search area. If these have
-   *  not been set, they default to 0.
-   */
-  function getDockingCenter(){
-    return dockingCenter;
-  }
-
-  /**
-   * Access the dockinRange virtual attribute
-   * 
-   * @returns An array of the the x, y, and z dimensions of the docking range. If these have not been set, 
-   * they default to 100.
-   */
-  function getDockingRange(){
-    return dockingRange
   }
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {

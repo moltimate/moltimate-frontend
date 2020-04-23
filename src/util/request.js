@@ -105,7 +105,6 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
 
   // TODO
   const handleFileUpload = (e) => {
-    //console.dir(values);
     setValues({ ...values, [e.target.name]: Array.from(e.target.files)});
   }
 

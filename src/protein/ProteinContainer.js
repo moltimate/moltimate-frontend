@@ -4,7 +4,7 @@ import { init } from './ngl-util';
 
 export default function ProteinContainer(props) {
   const { parentId, childId, aligned, active, queryProteinMode, motifProteinMode } = props;
-  const key = `${parentId} ${childId}`;//${new Date().getTime()}
+  const key = `${parentId} ${childId}`;
 
   useEffect(() => {
     init(parentId, childId, aligned, active, queryProteinMode, motifProteinMode);

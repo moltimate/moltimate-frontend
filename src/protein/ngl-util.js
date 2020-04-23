@@ -17,7 +17,7 @@ export function init(parentId, childId, aligned, active, query_display_mode, mot
   NGL.DatasourceRegistry.add(
     'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
   );
-  
+
   // Only load if something changed to prevent the model from reloading every time the settings are opened.
   if( _parentId == parentId && _childId == childId && _query_display_mode == query_display_mode && _motif_display_mode == motif_display_mode ) {
     return;
@@ -31,7 +31,7 @@ export function init(parentId, childId, aligned, active, query_display_mode, mot
   motif_display_mode = motif_display_mode.split("-")[0];
 
   // Create NGL Stage object
-  if (parentId != _parentId || childId != _childId) {//parentId != _parentId || childId != _childId
+  if (parentId != _parentId || childId != _childId) {
     stage = new NGL.Stage( 'viewport' , {backgroundColor: 'white'});
   }
 
@@ -70,13 +70,13 @@ export function init(parentId, childId, aligned, active, query_display_mode, mot
 
   Promise.all([
     stage.loadFile(`rcsb://${parentId}`).then((o) => {
-      o.addRepresentation(query_display_mode, { sele: select1, color: '#2AF598', surfaceType: query_surface_rep});
+      o.addRepresentation(query_display_mode, { sele: select1, color: '#2AF598', surfaceType: query_surface_rep });
       o.autoView();
       return o;
     }),
 
     stage.loadFile(`rcsb://${childId}`).then((o) => {
-      o.addRepresentation(motif_display_mode, { sele: select2, color: '#20BDFF', surfaceType: motif_surface_rep});
+      o.addRepresentation(motif_display_mode, { sele: select2, color: '#20BDFF', surfaceType: motif_surface_rep });
       o.autoView();
       return o;
     })
@@ -119,7 +119,7 @@ export function loadDocked(file, model, active_sites, protein_display_mode, acti
   ligand_display_mode = ligand_display_mode.split("-")[0];
 
   // Create NGL Stage object
-  if (file.name != _file) {//file.name != _file
+  if (file.name != _file) {
     docking_stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
   }
 

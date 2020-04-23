@@ -5,11 +5,6 @@ import DockingInfoContainer from "../docking_info/DockingInfoContainer";
 import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL, ligandLibraryURL} from "../util/request"
 import axios from "axios";
 
-import {library_ligands, 
-  test_ligands, 
-  fake_docking_data, 
-  fake_docking_data_2} from '../DummyData'
-
 function DockingContainer(props){
   const { selectedMacromolecules, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration, 
     setDisplayedActiveSites, viewingLigand, setViewingLigand, alignmentInProgress, eClasses } = props;
@@ -17,8 +12,6 @@ function DockingContainer(props){
   //ligands selected for docking. Do not pass this setter (instead use the 
   //"setSelectedLigands" function)
   const [selectedLigands, setSelectedLigandsInner] = useState(new Set());
-  //autopopulating data on ligands
-  const [ libraryLigands, setLibraryLigands ] = useState({});
   //data on all the ligands the user has uploaded
   const [ uploadedLigands, setUploadedLigands ] = useState({});
   //ligands which have been docked (These are all ligandID strings)
