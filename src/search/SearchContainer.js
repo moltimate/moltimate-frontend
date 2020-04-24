@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
-import useForm from '../util/request';
+import useForm, { searchQueryURL } from '../util/request';
 
 import BuildIcon from '@material-ui/icons/Build';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -26,9 +26,9 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function SearchContainer(props) {
-  const { classes, selectedResult, handleSelectedResult } = props;
+  const { classes, selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress } = props;
   const { values, result, handleChange, handleClearValues, handleSubmit,
-    handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm();
+    handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
 
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
@@ -59,6 +59,7 @@ function SearchContainer(props) {
         break;
       case 1:
         handleChipInput(e, extra);
+        setSearchedProteins(e);
         break;
       case 2:
         handleResidues(e);
@@ -69,7 +70,7 @@ function SearchContainer(props) {
       case 4:
         setExpandBuild(false);
         setExpandResult(true);
-        handleSubmit(e);
+        handleSubmit(e, clearEClass);
         break;
       case 5:
         handleClearValues(e)
@@ -111,12 +112,14 @@ function SearchContainer(props) {
             cardChild={
               <ResultsBox
                 handleSelectedResult={filterHandleSelectedResult}
+                setEClass = {setEClass}
                 temp={ result.data ? result.data.entries : []}
               />
             }
             childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
         /> : null
       }
+      { setAlignmentInProgress(result.pending) }
       {
         selected && result.data ?
           <ResultDetails

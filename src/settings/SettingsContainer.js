@@ -12,8 +12,11 @@ import DisplayMode from './DisplayMode.js';
 
 function SettingsContainer(props){
   const {classes, setShowSettings, queryProteinMode, setQueryProteinMode, motifProteinMode, setMotifProteinMode,
-    dockingProteinMode, setDockingProteinMode, activeSitesMode, setActiveSitesMode, ligandMode, setLigandMode} = props;
-  const [formQueryProteinMode, setFormQueryProteinMode] = useState(queryProteinMode);
+    dockingProteinMode, setDockingProteinMode, activeSitesMode, setActiveSitesMode, ligandMode, 
+    setLigandMode, dockingSearchCenter, setDockingSearchCenter, dockingSearchRange, setDockingSearchRange} = props;
+  const [formDockingCenter, setFormDockingCenter] = useState(dockingSearchCenter);
+  const [formDockingRange, setFormDockingRange] = useState(dockingSearchRange);
+    const [formQueryProteinMode, setFormQueryProteinMode] = useState(queryProteinMode);
   const [formMotifProteinMode, setFormMotifProteinMode] = useState(motifProteinMode);
   const [formDockingProteinMode, setFormDockingProteinMode] = useState(dockingProteinMode);
   const [formActiveSitesMode, setFormActiveSitesMode] = useState(activeSitesMode);
@@ -35,7 +38,12 @@ function SettingsContainer(props){
       >
         <Card children = {
           <div className = {classes.settingsContainer}>
-            <DockingSearchBounds/>
+            <DockingSearchBounds
+              dockingSearchCenter = {formDockingCenter}
+              setDockingSearchCenter = {setFormDockingCenter}
+              dockingSearchRange =  {formDockingRange}
+              setDockingSearchRange = {setFormDockingRange}
+            />
             <DisplayMode
               displayMode = {formQueryProteinMode}
               setDisplayMode = {setFormQueryProteinMode}
@@ -73,6 +81,8 @@ function SettingsContainer(props){
                 setDockingProteinMode(formDockingProteinMode);
                 setActiveSitesMode(formActiveSitesMode);
                 setLigandMode(formLigandMode);
+                setDockingSearchCenter(formDockingCenter);
+                setDockingSearchRange(formDockingRange);
               }}>Apply</Button>
             </div>
           </div>}

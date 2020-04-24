@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
-import useForm from '../util/request';
+import useForm, {searchQueryURL} from '../util/request';
 
 import BuildIcon from '@material-ui/icons/Build';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -29,7 +29,7 @@ import { withStyles } from '@material-ui/core/styles';
 function BuilderContainer(props) {
   const { classes, handleSelectedResult } = props;
   const { values, result, handleChange, handleClearValues, handleSubmit,
-    handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm();
+    handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
 
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);

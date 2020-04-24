@@ -22,7 +22,6 @@ export function init(parentId, childId, aligned, active, query_display_mode, mot
   if( _parentId == parentId && _childId == childId && _query_display_mode == query_display_mode && _motif_display_mode == motif_display_mode ) {
     return;
   }
-
   _query_display_mode = query_display_mode;
   _motif_display_mode = motif_display_mode;
 
@@ -35,10 +34,16 @@ export function init(parentId, childId, aligned, active, query_display_mode, mot
   if (parentId != _parentId || childId != _childId) {
     stage = new NGL.Stage( 'viewport' , {backgroundColor: 'white'});
   }
+
+  //This is done so the loadDocked function knows it has to load a new stage when switching back to the most
+  //recently viewed docking config after a motif file is viewed
+  clearCurrentDockingData()
+
   _parentId = parentId;
   _childId = childId;
   stage.mouseControls.remove( 'drag-ctrl-right' );
   stage.mouseControls.remove( 'drag-ctrl-left' );
+  //prevents components from building up if the same stage is being used more than once
   stage.removeAllComponents();
   // Handle window resizing
   window.addEventListener( 'resize', function( event ){
@@ -92,69 +97,91 @@ export function init(parentId, childId, aligned, active, query_display_mode, mot
  * @param active_sites - List of active sites in the selected protein.
  */
 export function loadDocked(file, model, active_sites, protein_display_mode, active_sites_display_mode, ligand_display_mode) {
-    NGL.DatasourceRegistry.add(
-        'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
-    );
+  NGL.DatasourceRegistry.add(
+      'data', new NGL.StaticDatasource( '//cdn.rawgit.com/arose/ngl/v2.0.0-dev.32/data/' )
+  );
 
-    // Only load if something changed to prevent the model from reloading every time the settings are opened.
-    if( _file == file.name && _model == model && _protein_display_mode == protein_display_mode
-        && _active_sites_display_mode == active_sites_display_mode && _ligand_display_mode == ligand_display_mode ) {
-        return;
-    }
+  // Only load if something changed to prevent the model from reloading every time the settings are opened.
+  if( _file == file.name && _model == model && _protein_display_mode == protein_display_mode
+    && _active_sites_display_mode == active_sites_display_mode && _ligand_display_mode == ligand_display_mode ) {
+    return;
+  }
 
-    _protein_display_mode = protein_display_mode;
-    _active_sites_display_mode = active_sites_display_mode;
-    _ligand_display_mode = ligand_display_mode;
+  _protein_display_mode = protein_display_mode;
+  _active_sites_display_mode = active_sites_display_mode;
+  _ligand_display_mode = ligand_display_mode;
 
-    let protein_surface_rep = protein_display_mode.split("-")[1];
-    protein_display_mode = protein_display_mode.split("-")[0];
-    let active_sites_surface_rep = active_sites_display_mode.split("-")[1];
-    active_sites_display_mode = active_sites_display_mode.split("-")[0];
-    let ligand_surface_rep = ligand_display_mode.split("-")[1];
-    ligand_display_mode = ligand_display_mode.split("-")[0];
+  let protein_surface_rep = protein_display_mode.split("-")[1];
+  protein_display_mode = protein_display_mode.split("-")[0];
+  let active_sites_surface_rep = active_sites_display_mode.split("-")[1];
+  active_sites_display_mode = active_sites_display_mode.split("-")[0];
+  let ligand_surface_rep = ligand_display_mode.split("-")[1];
+  ligand_display_mode = ligand_display_mode.split("-")[0];
 
-    // Create NGL Stage object
-    if (file.name != _file || model != _model) {
-        docking_stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
-    }
-    _file = file.name;
-    _model = model;
-    docking_stage.mouseControls.remove( 'drag-ctrl-right' );
-    docking_stage.mouseControls.remove( 'drag-ctrl-left' );
-    docking_stage.removeAllComponents();
-    // Handle window resizing
-    window.addEventListener( 'resize', function( event ){
-        stage.handleResize();
-    }, false );
+  // Create NGL Stage object
+  if (file.name != _file) {
+    docking_stage = new NGL.Stage( 'viewport' , { backgroundColor: 'white' });
+  }
 
-    let select1 = '';
-    let select2 = '/0';
+  //This is done so the init function knows it has to load a new stage when switching back to the most
+  //recently viewed motif file after a docked ligand viewing
+  clearCurrentMotifData();
+  _file = file.name;
+  _model = model;
+  docking_stage.mouseControls.remove( 'drag-ctrl-right' );
+  docking_stage.mouseControls.remove( 'drag-ctrl-left' );
+  //prevents components from building up if the same stage is being used more than once
+  docking_stage.removeAllComponents();
+  // Handle window resizing
+  window.addEventListener( 'resize', function( event ){
+    docking_stage.handleResize();
+  }, false );
 
-    // Create a select query for the active sites and one for everything except the active sites.
-    active_sites.forEach((r) => {
-        select1 = select1.concat(
-            `${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0 or `
-        );
-        select2 = select2.concat(
-            ` and not ${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0`
-        );
-    });
+  let select1 = '';
+  let select2 = '/0';
 
-    select1 = select1.substring(0, select1.length - 4);
+  // Create a select query for the active sites and one for everything except the active sites.
+  active_sites.forEach((r) => {
+      select1 = select1.concat(
+          `${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0 or `
+      );
+      select2 = select2.concat(
+          ` and not ${r.residueId}:${r.residueChainName}${r.residueAltLoc != "" ? `%${r.residueAltLoc}`: ''}/0`
+      );
+  });
 
-    // Load file
-    docking_stage.loadFile(file, {ext:"pdb"}).then((o) => {
-        // Load ligand, grab only the selected orientation
-        o.addRepresentation(ligand_display_mode, { sele: `/${model}`, surfaceType: ligand_surface_rep });
+  select1 = select1.substring(0, select1.length - 4);
 
-        // Load Protein
+  // Load file
+  docking_stage.loadFile(file, {ext:"pdb"}).then((o) => {
+      // Load ligand, grab only the selected orientation
+      o.addRepresentation(ligand_display_mode, { sele: `/${model}`, surfaceType: ligand_surface_rep });
 
-        // Load active sites
-        o.addRepresentation(active_sites_display_mode, { color: '#2AF598', sele: select1, surfaceType: active_sites_surface_rep });
-        // Load rest of protein
-        o.addRepresentation(protein_display_mode, { color: '#20BDFF', sele: select2, surfaceType: protein_surface_rep });
+      // Load Protein
 
-        // Center camera
-        o.autoView();
-    });
+      // Load active sites as a ball+stick format
+      o.addRepresentation(active_sites_display_mode, { color: '#2AF598', sele: select1, surfaceType: active_sites_surface_rep});
+      // Load rest of protein as cartoon
+      o.addRepresentation(protein_display_mode, { color: '#20BDFF', sele: select2, surfaceType: protein_surface_rep});
+
+      // Center camera
+      o.autoView();
+  });
 }
+
+function clearCurrentMotifData(){
+  _parentId = null;
+  _childId = null;
+  _query_display_mode = null;
+  _motif_display_mode = null;
+
+}
+
+function clearCurrentDockingData(){
+  _file = null;
+  _model = null;
+  _protein_display_mode = null;
+  _active_sites_display_mode = null;
+  _ligand_display_mode = null;
+}
+

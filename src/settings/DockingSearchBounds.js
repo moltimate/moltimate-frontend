@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import {withStyles} from '@material-ui/styles'
 import Typography from '@material-ui/core/Typography'
@@ -14,32 +14,69 @@ import styles from './styles.js'
 import { TextField, FormControl } from '@material-ui/core';
 
 function DockingSearchBounds(props){
-  const{classes} = props
+  const{classes, dockingSearchCenter, setDockingSearchCenter, dockingSearchRange, 
+    setDockingSearchRange} = props
 
-  /*
-  Generates a FormGroup for inputting a coordinate's min and max 
-  This FormGroup is not functional, is not tied to any state.
+  /**
+   * Given a the value and setter for an array, an index, and a new value, set the given
+   * index in the given array to the given value
+   * 
+   * @param {Array} coordinateValue - the current value of the array
+   * @param {Function} coordinateSetter - the setter function for the array
+   * @param {int} coordinateIndex - the index of the element to be changed
+   * @param {*} newValue - the new value to be entered into the array
+   */
+  function setSingleCoordinate(coordinateValue, coordinateSetter, coordinateIndex, newValue){
+    var newCoordinateValue = [... coordinateValue];
+    newCoordinateValue[coordinateIndex] = newValue;
+    coordinateSetter(newCoordinateValue);
+  }
 
-  inputs: 
-    coordinate_name: the name of the coordinate to offer input for
-  outputs: react element containing a row for inputting min and max coordinates
+
+  function validateRangeValue(value){
+    return value >= 0 && value <= 100
+  }
+
+  /**
+    Generates a FormGroup for inputting a coordinate's min and max 
+    This FormGroup is not functional, is not tied to any state.
+
+    @param {string} coordinateName - the name of the coordinate to offer input for.
+    @param {int} coordinateIndex - the index representing the selected coordinate in
+      the dockingSearchCenter and dockingBoundaries state objects.
+    @returns {React.Component}
   */
-  function generateCoordinateFormRow(coordinate_name){
-
-    //control = {<TextField variant = "outlined" className = {classes.coordinateTextField}/>}
+  function generateCoordinateFormRow(coordinateName, coordinateIndex){
     return(
       <FormGroup row>
         <FormControlLabel
           className = {classes.coordinateLabeledInput}
           control = {<input type="text" className = {classes.coordinateTextField}/>}
-          label = {"Min " + coordinate_name +": "}
+          label = {"Center " + coordinateName +": "}
           labelPlacement = "start"
+          onChange = {(e) => {
+            setSingleCoordinate(
+              dockingSearchCenter, 
+              setDockingSearchCenter, 
+              coordinateIndex, 
+              e.target.value)
+          }}
+          value = {dockingSearchCenter[coordinateIndex].toString()}
         />
         <FormControlLabel
           height = "25px"
           control = {<input type="text" className = {classes.coordinateTextField}/>}
-          label = {"Max " + coordinate_name +": "}
+          label = {"Range " + coordinateName +": "}
           labelPlacement = "start"
+          onChange = {(e) => {
+            e.persist()
+            if(validateRangeValue(e.target.value)) setSingleCoordinate(
+              dockingSearchRange, 
+              setDockingSearchRange, 
+              coordinateIndex, 
+              e.target.value)
+        }}
+          value = {dockingSearchRange[coordinateIndex].toString()}
         />
       </FormGroup>
     );
@@ -48,10 +85,12 @@ function DockingSearchBounds(props){
 
   return(
     <div className={classes.settingsGroupContainer}>
-      <Typography className={classes.settingsSectionTitle}>Docking Search Bounds</Typography>
-      {generateCoordinateFormRow("X")}
-      {generateCoordinateFormRow("Y")}
-      {generateCoordinateFormRow("Z")}
+      <Typography className={classes.settingsSectionTitle}>
+        Docking Search Bounds
+      </Typography>
+      {generateCoordinateFormRow("X",0)}
+      {generateCoordinateFormRow("Y",1)}
+      {generateCoordinateFormRow("Z",2)}
     </div>
   );
 }

@@ -25,13 +25,15 @@ export default {
   },
   dockButton:{
     float: 'right',
-    background: '#5433FF',
     borderRadius: 25,
     padding: '10px 20px',
     color: 'white',
-    '&:hover': {
-      background: '#7f66ff'
-    },
+  },
+  uploadButton:{
+    float: 'right',
+    borderRadius: 25,
+    padding: '10px 20px',
+    color: 'white',
   },
   unselected: {
     cursor: "pointer",
@@ -41,12 +43,15 @@ export default {
     cursor: "pointer",
   },
   dockedSelected: {
-    background: '#b3b3b3',
+    background: '#e6e6e6',
     cursor: "pointer",
   },
   dockedUnselected: {
-    background: '#e6e6e6',
     cursor: "pointer",
+  },
+  midDocking: {
+    color: '#f2f2f2',
+    opacity: 0.5,
   },
   cancelButton: {
     borderRadius: 25,
@@ -77,5 +82,8 @@ export default {
   },
   filter: {
     margin: '0% 10%'
-  }
+  },
+  input: {
+    display: 'none',
+  },
 }
