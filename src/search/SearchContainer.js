@@ -74,7 +74,7 @@ function SearchContainer(props) {
       case 4:
         setExpandBuild(false);
         setExpandResult(true);
-        handleSubmit(e, clearEClass);
+        handleSubmit(e, clearEClass, setEClass);
         break;
       case 5:
         handleClearValues(e)
@@ -116,6 +116,7 @@ function SearchContainer(props) {
             cardChild={
               <ResultsBox
                 handleSelectedResult={filterHandleSelectedResult}
+                setEClass = {setEClass}
                 temp={ result.data ? result.data.entries : []}
               />
             }

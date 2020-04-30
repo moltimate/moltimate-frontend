@@ -5,12 +5,12 @@ import testMakerResponse from './testMakerResponse';
 import testSearchResponse from './testSearchResponse';
 
 // TODO make this a config file
-const testQueryURL = 'http://localhost:8080/test/motif';
-const searchQueryURL = 'http://localhost:8080/align/activesite';
-const dockRequestURL = 'http://localhost:8080/dock/dockligand';
-const dockingMoleculeFileRetrievalURL = 'http://localhost:8080/dock/retrievefile';
-const exportDockingInfoURL = 'http://localhost:8080/dock/exportLigands';
-const ligandLibraryURL = 'http://localhost:8080/ligands';
+const testQueryURL = '/test/motif';
+const searchQueryURL = '/align/activesite';
+const dockRequestURL = '/dock/dockligand';
+const dockingMoleculeFileRetrievalURL = '/dock/retrievefile';
+const exportDockingInfoURL = '/dock/exportLigands';
+const ligandLibraryURL = '/ligands';
 
 const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
   const [values, setValues] = useState(defaultValues);

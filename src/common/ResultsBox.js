@@ -7,8 +7,8 @@ import ResultItem from './ResultItem';
 
 
 export default function ResultsBox(props) {
-  const { failedResult, successResult, handleSelectedResult, temp } = props;
-
+  const { failedResult, successResult, handleSelectedResult, setEClass, temp } = props;
+  if( setEClass && temp && temp.length > 0 ) setEClass(temp[0].ecNumber, temp[0].pdbId, true);
   return (
     <div>
       <List>
