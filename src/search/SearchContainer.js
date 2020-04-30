@@ -49,6 +49,10 @@ function SearchContainer(props) {
     setSelected(pdbId);
     setRes(extra);
 
+    clearEClass();
+    setEClass(pdbId.ecNumber, extra.pdbId);
+    setAlignmentInProgress(true);
+
     handleSelectedResult(e, parentId, childId, active, aligned)
   }
 
@@ -112,7 +116,6 @@ function SearchContainer(props) {
             cardChild={
               <ResultsBox
                 handleSelectedResult={filterHandleSelectedResult}
-                setEClass = {setEClass}
                 temp={ result.data ? result.data.entries : []}
               />
             }

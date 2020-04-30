@@ -7,7 +7,7 @@ import ResultItem from './ResultItem';
 
 
 export default function ResultsBox(props) {
-  const { failedResult, successResult, handleSelectedResult, setEClass, temp } = props;
+  const { failedResult, successResult, handleSelectedResult, temp } = props;
 
   return (
     <div>
@@ -31,7 +31,6 @@ export default function ResultsBox(props) {
         {
           temp ?
             temp.map((m, k) => {
-              if( setEClass ) setEClass(m.ecNumber, m.pdbId);
               return (
                 <ResultItem
                   key={k}

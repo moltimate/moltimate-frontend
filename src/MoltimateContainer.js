@@ -53,11 +53,15 @@ function MoltimateContainer(props) {
   function addEClass( className, protein ) {
     if( !searchEClass[className] ) {
         searchEClass[className] = protein;
+        setSearchEClass(searchEClass);
     }
   }
 
   function clearEClass() {
-    setSearchEClass({});
+    Object.keys(searchEClass).forEach( (key) => {
+        delete searchEClass[key];
+    });
+    setSearchEClass(searchEClass);
   }
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
