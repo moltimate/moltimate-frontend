@@ -38,7 +38,7 @@ function MoltimateContainer(props) {
   //the ligand selected to be viewed
   const [viewingLigand, setViewingLigand] = useState(null);
 
-  //protein electron class
+  //protein Enzyme Commission class
   const [searchEClass, setSearchEClass] = useState({});
 
   //the display mode to use for molecules
@@ -50,14 +50,23 @@ function MoltimateContainer(props) {
 
   const [alignmentInProgress, setAlignmentInProgress] = useState(false);
 
-  function addEClass( className, protein ) {
-    if( !searchEClass[className] ) {
-        searchEClass[className] = protein;
+  function addEClass( className, protein, search ) {
+    if( search && Object.keys(searchEClass).length != 0 ) {
+        return;
     }
+    if( Object.keys(searchEClass).length != 0 ) {
+        clearEClass();
+    }
+    searchEClass[className] = protein;
+    setSearchEClass(searchEClass);
+    console.log(searchEClass);
   }
 
   function clearEClass() {
-    setSearchEClass({});
+    Object.keys(searchEClass).forEach( (key) => {
+        delete searchEClass[key];
+    });
+    setSearchEClass(searchEClass);
   }
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
