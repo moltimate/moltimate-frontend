@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
-import LigandLibraryContainer from "../ligand_library/LigandLibraryContainer";
-import ImportedLigandsContainer from "../imported_ligands/ImportedLigandsContainer";
-import DockingInfoContainer from "../docking_info/DockingInfoContainer";
+import LigandLibraryContainer from "./ligand_library/LigandLibraryContainer";
+import ImportedLigandsContainer from "./imported_ligands/ImportedLigandsContainer";
+import DockingInfoContainer from "./docking_info/DockingInfoContainer";
 import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL, ligandLibraryURL} from "../util/request"
 import axios from "axios";
 

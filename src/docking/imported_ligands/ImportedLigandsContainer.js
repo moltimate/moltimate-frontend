@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import FilteredLigandResults from '../common/FilteredLigandResults';
-import MenuCard from '../common/MenuCard';
+import FilteredLigandResults from '../FilteredLigandResults';
+import MenuCard from '../../common/MenuCard';
 import PropTypes from 'prop-types';
 
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
