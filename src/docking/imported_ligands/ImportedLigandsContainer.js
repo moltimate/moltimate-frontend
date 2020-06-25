@@ -8,8 +8,30 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 function ImportedLigandsContainer(props){
-  const {importedLigands, setImportedLigands, selectedLigands, dockedLigands, viewingLigand, 
-    clickLigandHandler, dockHandler, ligandUploadHandler, dockingInProgress, dockingError, setDockingError} = props;
+  const {
+    //an object containing Ligand objects. Each key is the ligand's unique ID.
+    importedLigands, 
+    //setter for importedLigands
+    setImportedLigands, 
+    //an object containing Ligand objects which represent ligands selected for docking
+    selectedLigands, 
+    //an object containing Ligand objects which have had dockings already performed on them
+    dockedLigands, 
+    //the Ligand object being viewed
+    viewingLigand, 
+    //an event handler used to handle ligand selection for docking and viewing
+    clickLigandHandler, 
+    //an event handler used to initiate docking
+    dockHandler, 
+    //an even handler used to upload ligands
+    ligandUploadHandler, 
+    //true when docking is in progress
+    dockingInProgress, 
+    //contains a message when there is a docking error to show (falsy otherwise)
+    dockingError, 
+    //set the docking error message
+    setDockingError
+  } = props;
   const [expandImportedLigands, setExpandImportedLigands] = useState(false);
 
   return(

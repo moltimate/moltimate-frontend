@@ -7,7 +7,16 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 
 function UploadLigand(props) {
-  const { classes, label, buttonText, inputName, handleChange} = props;
+  const { 
+    classes, 
+    //text displayed on the Upload button
+    buttonText, 
+    //the name of the upload input element
+    inputName, 
+    //event handler for selecting ligands for upload 
+    //(triggered by a change to the selected upload file)
+    handleChange
+  } = props;
 
   return (
     <>

@@ -22,4 +22,7 @@ function DockingInfoContainer(props){
     />
 }
 
+DockingInfoContainer.propTypes ={
+  
+}
 export default withStyles(styles)(DockingInfoContainer)

@@ -6,8 +6,35 @@ import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL, ligandLibraryU
 import axios from "axios";
 
 function DockingContainer(props){
-  const { selectedMacromolecules, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration, 
-    setDisplayedActiveSites, viewingLigand, setViewingLigand, alignmentInProgress, eClasses } = props;
+  const { 
+    //an array of string macromolecule IDs (ex: "1A0J")
+    selectedMacromolecules,     
+    //a 3-element array representing the XYZ coordinates of the 
+    //center of the docking search space 
+    dockingCenter,              
+    //a 3-element array representing the XYZ dimensions of the 
+    //docking search space
+    dockingRange,               
+    //a setter function which takes a File object representing 
+    //a .PDB molecule file
+    setDisplayedFile,           
+    //the index of the molecular configuration to be 
+    //displayed (ordered lowest to highest RMSD)
+    setDisplayedConfiguration,  
+    //an array of objects representing the residues that 
+    //are part of the active sites to be displayed. Each 
+    //one includes a residueId, a residueChainName, and 
+    //(optionally) and a (residueAltLocation)
+    setDisplayedActiveSites,    
+    //a Ligand object representing the ligand to be viewed                  
+    viewingLigand,
+    //setter function for viewingLigand              
+    setViewingLigand,
+    //true if docking calculation is in process           
+    alignmentInProgress, 
+    //enzyme classes
+    eClasses 
+  } = props;
 
   //ligands selected for docking. Do not pass this setter (instead use the 
   //"setSelectedLigands" function)
