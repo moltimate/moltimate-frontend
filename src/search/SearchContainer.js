@@ -18,6 +18,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import ResultsBox from '../common/ResultsBox';
 import MenuCard from '../common/MenuCard';
 import ErrorBar from '../common/ErrorBar';
+import Modal from '../common/Modal'
 import ResultDetails from '../common/ResultDetails';
 import QueryFormContainer from './form/QueryFormContainer';
 
@@ -35,6 +36,7 @@ function SearchContainer(props) {
   const [open, setOpen] = useState(true);
   const [ selected, setSelected ] = useState(null);
   const [ res, setRes ] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     handleSetMode('search');
@@ -89,6 +91,7 @@ function SearchContainer(props) {
 
   return (
     <>
+      <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
       {result.error && open?
         <ErrorBar
           open={open}
@@ -100,6 +103,7 @@ function SearchContainer(props) {
         label='Search'
         expand={expandBuild}
         handleClick={setExpandBuild}
+        setModalOpen={setModalOpen}
         cardChild={
           <QueryFormContainer
             values={values}
