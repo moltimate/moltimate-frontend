@@ -16,7 +16,7 @@ import { withStyles } from '@material-ui/core/styles';
 function Modal(props) {
   const {modalOpen, setModalOpen} = props;
   return (
-    <Dialog  aria-labelledby="customized-dialog-title" open={modalOpen}>
+    <Dialog onClose={() => setModalOpen(false)} aria-labelledby="customized-dialog-title" open={modalOpen}>
       <DialogTitle id="customized-dialog-title">
         Search Box Modal
       </DialogTitle>
