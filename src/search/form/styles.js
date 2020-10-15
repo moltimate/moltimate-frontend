@@ -8,8 +8,23 @@ export default {
   label: {
     marginBottom: '20px'
   },
+  labelTooltip: {
+    marginTop: '25px',
+    marginRight: '10px',
+    paddingRight: '5px',
+    color: '#A0A0A0'
+  },
+  buttonTooltip: {
+    marginTop: '40px',
+    marginLeft: '10px',
+    paddingRight: '5px',
+    color: '#A0A0A0'
+  },
   input: {
     display: 'none',
+  },
+  helpText : {
+    fontSize: '15px'
   },
   button: {
     margin: '10px',
@@ -23,6 +38,10 @@ export default {
   floatButton: {
     float: 'right',
     margin: '20px 0',
+  },
+  flexStretch: {
+      display: 'flex',
+      alignItems: 'stretch'
   },
   spaced: {
     margin: '20px 0'
