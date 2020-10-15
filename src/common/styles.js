@@ -62,6 +62,9 @@ export default {
     float: 'right',
     marginBottom: '20px',
   },
+  helpIcon: {
+    color: "#404040"
+  },
   spaced: {
     margin: '20px 0'
   },
@@ -70,6 +73,9 @@ export default {
     justifyContent: 'center',
     margin: '10px 0',
     overflow: 'scroll'
+  },
+  flexBox: {
+    display: 'flex'
   },
   grey: {
     color: 'rgba(0, 0, 0, 0.54)'
