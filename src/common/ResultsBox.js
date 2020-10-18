@@ -4,13 +4,25 @@ import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 
 import ResultItem from './ResultItem';
+import { Button } from '@material-ui/core';
 
 
 export default function ResultsBox(props) {
   const { failedResult, successResult, handleSelectedResult, setEClass, temp } = props;
+    
+  function handleSort(filterType, results) {
+    //get button and change the type of button it is
+    temp[0].alignments.sort((a,b) => a[filterType] > b[filterType] ? 1 : -1 );
+    //force an update to the results box
+  };
+
   if( setEClass && temp && temp.length > 0 ) setEClass(temp[0].ecNumber, temp[0].pdbId, true);
   return (
     <div>
+      <div>
+        <Button id="ecFilter" variant="contained" onClick={() => handleSort("ecNumber", temp.alignments)}>EC Class</Button>
+        <Button id="rmsdFilter" onClick={() =>handleSort("rmsd", temp.alignments)}>RMSD Value</Button>
+      </div>
       <List>
         {
           failedResult ?

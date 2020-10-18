@@ -10,7 +10,7 @@
     "node": ">=10.1.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
+    "start": "webpack-dev-server --mode development --open --port 3000",
     "build": "webpack --mode production",
     "test": ""
   },
