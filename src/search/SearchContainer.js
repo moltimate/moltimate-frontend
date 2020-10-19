@@ -35,6 +35,9 @@ function SearchContainer(props) {
   const [open, setOpen] = useState(true);
   const [ selected, setSelected ] = useState(null);
   const [ res, setRes ] = useState(null);
+  let currentFilterType = "rmsd";
+
+//  const [currentfilterType, setFilterType] = useState(true);
 
   useEffect(() => {
     handleSetMode('search');
@@ -86,6 +89,15 @@ function SearchContainer(props) {
         break;
       };
   }
+  function filterSearchResults(filterType) {
+    //setFilterType(filterType);
+    currentFilterType = filterType;
+    let resultsCopy = result.data.entries[0].alignments.map(i => i);
+    resultsCopy.sort((a,b) => a[currentFilterType] > b[currentFilterType] ? 1 :-1);
+    console.log(resultsCopy);
+    result.data.entries[0].alignments.sort((a,b) => a[currentFilterType] > b[currentFilterType] ? 1 : -1 );
+    console.log(result.data.entries[0]);
+  }
 
   return (
     <>
@@ -108,7 +120,8 @@ function SearchContainer(props) {
         }
         childIcon={<SearchIcon />}
       />
-      {result.mode === 'search' ?
+      { 
+        result.mode === 'search' ?
           <MenuCard
             label='Search Results'
             expand={expandResult}
@@ -117,6 +130,8 @@ function SearchContainer(props) {
               <ResultsBox
                 handleSelectedResult={filterHandleSelectedResult}
                 setEClass = {setEClass}
+                filterByType = {(filter) => filterSearchResults(filter)}
+                defaultFilterType = {currentFilterType}
                 temp={ result.data ? result.data.entries : []}
               />
             }
