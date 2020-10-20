@@ -24,7 +24,7 @@ export default {
     display: 'none',
   },
   helpText : {
-    fontSize: '15px'
+    fontSize: '18px'
   },
   button: {
     margin: '10px',
