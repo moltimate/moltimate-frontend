@@ -28,26 +28,26 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function QueryFormContainer(props) {
-  const { classes, handleChange, values } = props;
+  const { classes, handleChange, values, helpText } = props;
   const [expand, setExpand] = useState(false);
+  function parseText(text) {
+    return (
+      <>
+      {text.split('\n').map((str,index) => <p key={index} className={classes.helpText}>{str}</p>)}
+      </>);
+  }
 
   return (
     <div className={classes.searchContainer}>
       <div className={classes.flexStretch}>
         <ChipWithIcon
           value={values.pdbIds}
-          nameVal='MARK'
+          nameVal='pdbIds'
           handleChange={handleChange}
         />
         <Tooltip className={classes.labelTooltip}
-          title={
-            <div className={classes.helpText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-              ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </div>}>
-              <InfoIcon/>
+          title={parseText(helpText.pdbIdText)}>
+          <InfoIcon/>
         </Tooltip>
       </div>
       <div className={classes.flexStretch}>
@@ -56,29 +56,23 @@ function QueryFormContainer(props) {
           value={values.ecNumber || ''}
           onChange={e => handleChange(e, 0)}
           className={classes.smallInput}
-          label='Mark'
-          /><Tooltip  className={classes.labelTooltip}
-          title={
-            <div className={classes.helpText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-              ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </div>} ><InfoIcon/></Tooltip>
+          label='EC Class'
+          />
+        <Tooltip className={classes.labelTooltip}
+          title={parseText(helpText.ecClassText)}>
+          <InfoIcon/>
+        </Tooltip>
         <TextField
           name='precision'
           value={values.precision || ''}
           onChange={e => handleChange(e, 0)}
           className={classes.smallInput}
           label='Precision'
-          /><Tooltip className={classes.labelTooltip}
-          title={
-            <div className={classes.helpText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-              ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </div>} ><InfoIcon/></Tooltip>
+          />
+        <Tooltip  className={classes.labelTooltip}
+          title={parseText(helpText.precisionText)}>
+          <InfoIcon/>
+        </Tooltip>
         </div>
         <div className={classes.flexStretch}>
         <UploadFile
@@ -88,14 +82,10 @@ function QueryFormContainer(props) {
           buttonText='Custom'
           files={values.customMotifStructure}
           />
-          <Tooltip className={classes.buttonTooltip}
-          title={
-            <div className={classes.helpText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-              sed do eiusmod tempor incididunt ut labore et dolore magna
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-              ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </div>}><InfoIcon/></Tooltip>
+        <Tooltip className={classes.buttonTooltip}
+          title={parseText(helpText.customBottonText)}>
+          <InfoIcon/>
+        </Tooltip>
         </div>
         <div className={classes.floatButton}>
           <Button className={classes.cancelButton} onClick={(e) => handleChange(e, 5)}>Clear</Button>
