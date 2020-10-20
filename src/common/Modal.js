@@ -14,26 +14,15 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function Modal(props) {
-  const {modalOpen, setModalOpen} = props;
+  const {modalOpen, setModalOpen, title, text} = props;
+  const newLineText = text.split('\n').map((str, index) => <Typography key={index} gutterBottom>{str}</Typography>)
   return (
     <Dialog onClose={() => setModalOpen(false)} aria-labelledby="customized-dialog-title" open={modalOpen}>
       <DialogTitle id="customized-dialog-title">
-        Search Box Modal
+        {title}
       </DialogTitle>
       <DialogContent dividers>
-        <Typography gutterBottom>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-          in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-        </Typography>
-        <Typography gutterBottom>
-          Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-          lacus vel augue laoreet rutrum faucibus dolor auctor.
-        </Typography>
-        <Typography gutterBottom>
-          Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-          scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-          auctor fringilla.
-        </Typography>
+          {newLineText}
       </DialogContent>
       <DialogActions>
         <Button autoFocus color="primary" onClick={() => setModalOpen(!modalOpen)}>
