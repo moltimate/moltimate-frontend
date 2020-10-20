@@ -4,24 +4,25 @@ import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 
 import ResultItem from './ResultItem';
-import { Button, Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 
 export default function ResultsBox(props) {
-  const { failedResult, successResult, handleSelectedResult, setEClass, temp, filterByType, defaultFilterType } = props;
+  const { failedResult, successResult, handleSelectedResult, setEClass, temp } = props;
+  const[filter, setFilterType] = useState("rmsd");
+  const[searchResults, setSearchResults] = useState(temp);
 
   if( setEClass && temp && temp.length > 0 ) setEClass(temp[0].ecNumber, temp[0].pdbId, true);
-  if(defaultFilterType && temp && temp.length > 0) {
-    console.log("running with default filter type");
-     temp[0].alignments.sort((a,b) => a[defaultFilterType] > b[defaultFilterType] ? 1 : -1 );
-  };
+  if(temp && temp.length > 0) {
+    temp[0].alignments.sort((a,b) => a[filter] > b[filter] ? 1 :-1);
+  } 
 
   return (
     <div>
-      {defaultFilterType && temp ?
+      {searchResults ?
       <div style={{display: "flex", justifyContent: "center"}}>
-        <Button id="ecFilter"  onClick={() => filterByType("ecNumber")}>EC Class</Button>
-        <Button id="rmsdFilter" variant="contained" onClick={() => filterByType("rmsd")}>RMSD Value</Button>
+        <Button id="ecFilter"  variant={filter === "ecNumber" ? "contained" : null} onClick={() => setFilterType("ecNumber")}>EC Class</Button>
+        <Button id="rmsdFilter" variant={filter === "rmsd" ? "contained" : null} onClick={() => setFilterType("rmsd")}>RMSD Value</Button>
       </div>
       : null
       }
