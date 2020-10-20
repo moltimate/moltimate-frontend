@@ -21,6 +21,7 @@ import ErrorBar from '../common/ErrorBar';
 import Modal from '../common/Modal'
 import ResultDetails from '../common/ResultDetails';
 import QueryFormContainer from './form/QueryFormContainer';
+import helpText from './SearchText.js'
 
 import classNames from 'classnames';
 import styles from './styles.js';
@@ -28,6 +29,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 function SearchContainer(props) {
   const { classes, selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress } = props;
+  const { searchBoxModalText } = helpText;
   const { values, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
 
@@ -91,7 +93,7 @@ function SearchContainer(props) {
 
   return (
     <>
-      <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
+      <Modal className = {classes.modal} modalOpen={modalOpen} setModalOpen={setModalOpen} title={searchBoxModalText.modalTitle} text={searchBoxModalText.modalText} />
       {result.error && open?
         <ErrorBar
           open={open}
@@ -107,6 +109,7 @@ function SearchContainer(props) {
         cardChild={
           <QueryFormContainer
             values={values}
+            helpText={helpText}
             handleChange={switchHandler}
           />
         }
