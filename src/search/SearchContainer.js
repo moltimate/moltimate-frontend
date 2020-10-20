@@ -35,9 +35,6 @@ function SearchContainer(props) {
   const [open, setOpen] = useState(true);
   const [ selected, setSelected ] = useState(null);
   const [ res, setRes ] = useState(null);
-  let currentFilterType = "rmsd";
-
-//  const [currentfilterType, setFilterType] = useState(true);
 
   useEffect(() => {
     handleSetMode('search');
