@@ -7,10 +7,10 @@ import GetAppIcon from '@material-ui/icons/GetApp'
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles, TableBody } from "@material-ui/core";
 import FileDownload from "js-file-download";
-import jssPluginPropsSort from "jss-plugin-props-sort";
 import PropTypes from 'prop-types';
 import axios from "axios";
-import {exportDockingInfoURL} from "../util/request"
+
+import {exportDockingInfoURL} from "../../util/request"
 
 import styles from "./styles.js"
 

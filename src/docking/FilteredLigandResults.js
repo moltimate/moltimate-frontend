@@ -147,9 +147,9 @@ FilteredLigandResults.propTypes = {
    */
   selectedLigands: propTypes.object,
   /** 
-   * A Set of objects representing ligands which have had docking operations
+   * An object containing objects representing ligands which have had docking operations
    * performed on them.
-   * Example of object inside the Set: 
+   * Example of object inside the top level object: 
    *   {name:"00I",structure:"C30 H35 N5 O6 S", min_affinity: -5.2}  
    */
   dockedLigands: propTypes.object,

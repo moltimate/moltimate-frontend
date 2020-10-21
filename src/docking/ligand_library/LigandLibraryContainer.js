@@ -1,14 +1,34 @@
 import React, {useState} from "react"
-import FilteredLigandResults from '../common/FilteredLigandResults';
-import MenuCard from '../common/MenuCard';
+import FilteredLigandResults from '../FilteredLigandResults';
+import MenuCard from '../../common/MenuCard';
 
 import ListIcon from '@material-ui/icons/List';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 function LigandLibraryContainer(props){
-    const {library, selectedLigands, dockedLigands, viewingLigand, clickLigandHandler, dockHandler,
-        alignmentInProgress, dockingInProgress, dockingError, setDockingError} = props
+    const {
+      //an object containing the Ligand objects available for use
+      library, 
+      //an object containing Ligand objects which represent ligands selected for docking
+      selectedLigands, 
+      //an object containing Ligand objects which have had dockings already performed on them
+      dockedLigands, 
+      //the Ligand object being viewed
+      viewingLigand, 
+      //an event handler used to handle ligand selection for docking and viewing
+      clickLigandHandler, 
+      //an event handler used to initiate docking
+      dockHandler,
+      //true when an alignment search is in progress
+      alignmentInProgress, 
+      //true when docking is in progress
+      dockingInProgress, 
+      //contains a message when there is a docking error to show (falsy otherwise)
+      dockingError, 
+      //set the docking error message
+      setDockingError
+    } = props
     const [expandLigandLibrary, setExpandLigandLibrary] = useState(false);
 
     if( alignmentInProgress && expandLigandLibrary ) {

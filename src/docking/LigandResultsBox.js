@@ -25,6 +25,7 @@ export default function LigandResultsBox(props) {
 }
 
 LigandResultsBox.propTypes = {
+  /** full list of ligands being displayed */
   ligandResults: PropTypes.array,
   /** ligands selected for docking */
   selectedLigands: PropTypes.instanceOf(Set),

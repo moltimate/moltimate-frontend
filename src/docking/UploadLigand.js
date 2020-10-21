@@ -2,19 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
-import FormLabel from '@material-ui/core/FormLabel';
-import GetAppIcon from '@material-ui/icons/GetApp';
-
-import Chip from '@material-ui/core/Chip';
-import CloseIcon from '@material-ui/icons/Close';
-
-import NameChips from '../search/form/NameChips';
 
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 
 function UploadLigand(props) {
-  const { classes, label, buttonText, inputName, handleChange} = props;
+  const { 
+    classes, 
+    //text displayed on the Upload button
+    buttonText, 
+    //the name of the upload input element
+    inputName, 
+    //event handler for selecting ligands for upload 
+    //(triggered by a change to the selected upload file)
+    handleChange
+  } = props;
 
   return (
     <>
