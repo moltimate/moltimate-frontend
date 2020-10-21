@@ -86,7 +86,7 @@ function SearchContainer(props) {
         break;
       };
   }
-
+  
   return (
     <>
       {result.error && open?
@@ -108,7 +108,8 @@ function SearchContainer(props) {
         }
         childIcon={<SearchIcon />}
       />
-      {result.mode === 'search' ?
+      { 
+        result.mode === 'search' ?
           <MenuCard
             label='Search Results'
             expand={expandResult}
