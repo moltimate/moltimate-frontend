@@ -14,9 +14,11 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function Modal(props) {
-  const {classes, text, title} = props;
+  const {classes, text} = props;
+  const {modalTitle, modalBody} = text;
   const [modalOpen, setModalOpen] = useState(false);
-  const newLineText = text.split('\n').map((str, index) => <Typography key={index} gutterBottom>{str}</Typography>)
+
+  const newLineText = modalBody.split('\n').map((str, index) => <Typography key={index} gutterBottom>{str}</Typography>)
   return (
     <>
     <Button size="small" onClick={() => setModalOpen(true)}>
@@ -24,7 +26,7 @@ function Modal(props) {
     </Button>
     <Dialog onClose={() => setModalOpen(false)} aria-labelledby="customized-dialog-title" open={modalOpen}>
       <DialogTitle id="customized-dialog-title">
-        {title}
+        {modalTitle}
       </DialogTitle>
       <DialogContent>
           {newLineText}
