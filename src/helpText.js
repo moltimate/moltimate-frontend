@@ -2,7 +2,7 @@ export default {
     searchText: {
       searchBoxModalText: {
       modalTitle: "Search Box Hints",
-      modalText:
+      modalBody:
       "The search box is used for querying proteins against the PDB and " +
       "returning a list of similar proteins and their alignments.\n" +
       "To begin the process the user must enter a protein, by either " +
