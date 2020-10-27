@@ -21,21 +21,14 @@ import ChipWithIcon from './ChipWithIcon';
 import Mask from './Mask';
 import Slide from './Slide';
 import UploadFile from './UploadFile';
-import Tooltip from '@material-ui/core/Tooltip';
+import ParsedToolTip from '../../common/ParsedToolTip';
 
-import classNames from 'classnames';
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function QueryFormContainer(props) {
   const { classes, handleChange, values, helpText } = props;
   const [expand, setExpand] = useState(false);
-  function parseText(text) {
-    return (
-      <>
-      {text.split('\n').map((str,index) => <p key={index} className={classes.helpText}>{str}</p>)}
-      </>);
-  }
 
   return (
     <div className={classes.searchContainer}>
@@ -45,10 +38,7 @@ function QueryFormContainer(props) {
           nameVal='pdbIds'
           handleChange={handleChange}
         />
-        <Tooltip className={classes.labelTooltip}
-          title={parseText(helpText.pdbIdText)}>
-          <InfoIcon/>
-        </Tooltip>
+        <ParsedToolTip label={true} text={helpText.pdbIdText}/>
       </div>
       <div className={classes.flexStretch}>
         <TextField
@@ -58,10 +48,7 @@ function QueryFormContainer(props) {
           className={classes.smallInput}
           label='EC Class'
           />
-        <Tooltip className={classes.labelTooltip}
-          title={parseText(helpText.ecClassText)}>
-          <InfoIcon/>
-        </Tooltip>
+        <ParsedToolTip label={true} text={helpText.ecClassText}/>
         <TextField
           name='precision'
           value={values.precision || ''}
@@ -69,12 +56,9 @@ function QueryFormContainer(props) {
           className={classes.smallInput}
           label='Precision'
           />
-        <Tooltip  className={classes.labelTooltip}
-          title={parseText(helpText.precisionText)}>
-          <InfoIcon/>
-        </Tooltip>
-        </div>
-        <div className={classes.flexStretch}>
+        <ParsedToolTip label={true} text={helpText.precisionText}/>
+      </div>
+      <div className={classes.flexStretch}>
         <UploadFile
           handleChange={handleChange}
           label=''
@@ -82,16 +66,13 @@ function QueryFormContainer(props) {
           buttonText='Custom'
           files={values.customMotifStructure}
           />
-        <Tooltip className={classes.buttonTooltip}
-          title={parseText(helpText.customBottonText)}>
-          <InfoIcon/>
-        </Tooltip>
-        </div>
-        <div className={classes.floatButton}>
+        <ParsedToolTip label={false} text={helpText.customBottonText}/>
+      </div>
+      <div className={classes.floatButton}>
           <Button className={classes.cancelButton} onClick={(e) => handleChange(e, 5)}>Clear</Button>
           <Button name='search' className={classes.rounded} onClick={(e) => handleChange(e, 4)}>Search</Button>
-        </div>
       </div>
+    </div>
   );
 }
 
