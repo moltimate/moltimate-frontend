@@ -11,7 +11,7 @@ import ProteinLoading from './protein/ProteinLoading'
 import SettingsContainer from './settings/SettingsContainer';
 import DockingContainer from "./docking/DockingContainer";
 
-
+import helpText from './helpText.js'
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -19,6 +19,7 @@ import { withStyles } from '@material-ui/core/styles';
 function MoltimateContainer(props) {
 
   const { classes } = props;
+  const { searchText } = helpText;
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
   //the protein ID entered in the search box
@@ -114,6 +115,7 @@ function MoltimateContainer(props) {
           setEClass = {addEClass}
           clearEClass = {clearEClass}
           setAlignmentInProgress = {setAlignmentInProgress}
+          helpText = {searchText}
         />
         <BuilderContainer
           handleSelectedResult={handleSelectedResult}
