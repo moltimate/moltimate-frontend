@@ -1,5 +1,6 @@
 export default {
-    searchBoxModalText: {
+    searchText: {
+      searchBoxModalText: {
       modalTitle: "Search Box Hints",
       modalText:
       "The search box is used for querying proteins against the PDB and " +
@@ -25,4 +26,5 @@ export default {
     "to be included in the alignment. The PDB id will be parsed out of the " +
     "structure to be included in the response. A custom structure will be " +
     "listed with any motifs that are able to be matched to it."
+  }
   }
