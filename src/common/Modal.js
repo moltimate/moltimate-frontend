@@ -26,7 +26,7 @@ function Modal(props) {
       <DialogTitle id="customized-dialog-title">
         {title}
       </DialogTitle>
-      <DialogContent dividers>
+      <DialogContent>
           {newLineText}
       </DialogContent>
       <DialogActions>
