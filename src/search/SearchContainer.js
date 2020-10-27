@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import useForm, { searchQueryURL } from '../util/request';
+import { withStyles } from '@material-ui/core/styles';
 
 import BuildIcon from '@material-ui/icons/Build';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -21,15 +22,14 @@ import ErrorBar from '../common/ErrorBar';
 import Modal from '../common/Modal'
 import ResultDetails from '../common/ResultDetails';
 import QueryFormContainer from './form/QueryFormContainer';
-import helpText from './SearchText.js'
 
-import classNames from 'classnames';
+
 import styles from './styles.js';
-import { withStyles } from '@material-ui/core/styles';
+
 
 function SearchContainer(props) {
-  const { classes, selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress } = props;
-  const { searchBoxModalText } = helpText;
+  const { selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress, helpText } = props;
+  const { searchBoxModalText } = helpText
   const { values, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
 
@@ -90,10 +90,9 @@ function SearchContainer(props) {
         break;
       };
   }
-  
+
   return (
     <>
-      <Modal className = {classes.modal} modalOpen={modalOpen} setModalOpen={setModalOpen} title={searchBoxModalText.modalTitle} text={searchBoxModalText.modalText} />
       {result.error && open?
         <ErrorBar
           open={open}
@@ -105,7 +104,7 @@ function SearchContainer(props) {
         label='Search'
         expand={expandBuild}
         handleClick={setExpandBuild}
-        setModalOpen={setModalOpen}
+        modalText={searchBoxModalText}
         cardChild={
           <QueryFormContainer
             values={values}
@@ -115,7 +114,7 @@ function SearchContainer(props) {
         }
         childIcon={<SearchIcon />}
       />
-      { 
+      {
         result.mode === 'search' ?
           <MenuCard
             label='Search Results'
