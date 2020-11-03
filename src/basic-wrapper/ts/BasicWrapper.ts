@@ -18,7 +18,7 @@ import { StripedResidues } from './coloring';
 import { buildStaticSuperposition, dynamicSuperpositionTest, StaticSuperpositionTestData } from './superposition';
 import { PDBeStructureQualityReport } from 'molstar/lib/extensions/pdbe';
 import { Asset } from 'molstar/lib/mol-util/assets';
-// require('molstar/lib/mol-plugin-ui/skin/light.scss');
+require('molstar/lib/mol-plugin-ui/skin/light.scss');
 
 type LoadParams = { url: string, format?: BuiltInTrajectoryFormat, isBinary?: boolean, assemblyId?: string }
 

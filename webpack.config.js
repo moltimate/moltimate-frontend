@@ -14,6 +14,8 @@ module.exports = {
   // output: {
   //   filename: "bundle.js"
   // },
+  // target:'node',
+  node: { fs:'empty' },
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.
     extensions: [".ts", ".tsx", ".js", ".jsx"]
@@ -48,6 +50,17 @@ module.exports = {
         test: /\.ts?$/,
         exclude: /node_modules/,
         loader: 'ts-loader'
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          'style-loader',
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ],
       }
     ]
   },

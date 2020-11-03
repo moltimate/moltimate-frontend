@@ -1,3 +1,5 @@
+import color from "@material-ui/core/colors/amber";
+
 export default {
   // ABOUT START
   about: {
@@ -212,4 +214,26 @@ export default {
     position: 'fixed',
     zIndex: 10,
   },
+
+  // MOLSTAR START
+  molstarContainer: {
+    position: 'absolute',
+    left: '450px',
+    top: '100px',
+    width: '700px',
+    height: '700px'
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '100%'
+  },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexBasis: '100%',
+    flex: '1'
+  }
+  // MOLSTAR END
 };

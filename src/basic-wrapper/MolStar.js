@@ -1,5 +1,6 @@
-import React, { useState  } from 'react';
+import React, { useState, useEffect } from 'react';
 import BasicWrapper from './ts/BasicWrapper';
+import styles from '../styles.js';
 
 function MolStar(props) {
     const { searchQuery } = props;
@@ -7,18 +8,23 @@ function MolStar(props) {
     const [url, setUrl] = useState('https://files.rcsb.org/download/' + pdbId + '.cif');
     const [format, setFormat] = useState('mmcif');
 
+    const bw = new BasicWrapper();
+    useEffect(() => {
+        bw.init(document.getElementById('molstar-viewer'))
+    });
+
     return (
         <div>
-            <div id='controls'>
+            <div>
                 <h3>Source</h3>
                 <input type='text' id='pdb-id' placeholder='pdb id' />
                 <select id='format'>
                     <option value='mmcif' defaultValue>mmCIF</option>
                     <option value='pdb'>PDB</option>
                 </select>
-                <button onClick={() => BasicWrapper.load({ url: url, format: format })}>Load Asym Unit</button>
+                <button onClick={() => bw.load({ url: url, format: format })}>Load Asym Unit</button>
             </div>
-        {/* <div id="molstar-viewer">{ BasicWrapper.prototype.init('molstar-viewer') }</div> */}
+            <div id="molstar-viewer"></div>
         </div>
     )
 

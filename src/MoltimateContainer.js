@@ -137,9 +137,12 @@ function MoltimateContainer(props) {
             viewingLigand = {viewingLigand}
             setViewingLigand = {setViewingLigand} 
         />
-        <MolStar />
       </div>
        
+      <div className={classes.molstarContainer}>
+          <MolStar />
+          <p>wdad</p>
+      </div>
       {
         nglData ? <ProteinContainer
           parentId={nglData.childId}
