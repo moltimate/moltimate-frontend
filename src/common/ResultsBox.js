@@ -25,7 +25,7 @@ export default function ResultsBox(props) {
       <div style={{display: "flex", justifyContent: "center"}}>
         <Button id="ecFilter"  variant={filter === "ecNumber" ? "contained" : null} onClick={() => setFilterType("ecNumber")}>EC Class</Button>
         <Button id="rmsdFilter" variant={filter === "rmsd" ? "contained" : null} onClick={() => setFilterType("rmsd")}>RMSD Value</Button>
-        <ParsedToolTip tooltipClassName="ligandButtonTooltip" text={helpText.resultFilterTexts}/>
+        { helpText ? <ParsedToolTip tooltipClassName="ligandButtonTooltip" text={helpText.resultFilterText}/> : <></>}
       </div>
       : null
       }
