@@ -38,7 +38,7 @@ function QueryFormContainer(props) {
           nameVal='pdbIds'
           handleChange={handleChange}
         />
-        <ParsedToolTip label={true} text={helpText.pdbIdText}/>
+        <ParsedToolTip tooltipClassName="labelTooltip" text={helpText.pdbIdText}/>
       </div>
       <div className={classes.flexStretch}>
         <TextField
@@ -48,7 +48,7 @@ function QueryFormContainer(props) {
           className={classes.smallInput}
           label='EC Class'
           />
-        <ParsedToolTip label={true} text={helpText.ecClassText}/>
+        <ParsedToolTip tooltipClassName="labelTooltip" text={helpText.ecClassText}/>
         <TextField
           name='precision'
           value={values.precision || ''}
@@ -56,7 +56,7 @@ function QueryFormContainer(props) {
           className={classes.smallInput}
           label='Precision'
           />
-        <ParsedToolTip label={true} text={helpText.precisionText}/>
+        <ParsedToolTip tooltipClassName="labelTooltip" text={helpText.precisionText}/>
       </div>
       <div className={classes.flexStretch}>
         <UploadFile
@@ -66,7 +66,7 @@ function QueryFormContainer(props) {
           buttonText='Custom'
           files={values.customMotifStructure}
           />
-        <ParsedToolTip label={false} text={helpText.customBottonText}/>
+        <ParsedToolTip tooltipClassName="buttonTooltip" text={helpText.customBottonText}/>
       </div>
       <div className={classes.floatButton}>
           <Button className={classes.cancelButton} onClick={(e) => handleChange(e, 5)}>Clear</Button>
