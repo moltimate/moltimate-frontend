@@ -18,23 +18,25 @@ export default {
     float: 'right',
     margin: '20px 0',
   },
+  narrowInput: {
+    width: '75px',
+    margin: '10px'
+  },
+  flexBox: {
+    display: 'flex',
+  },
   cancelButton: {
     borderRadius: 25,
     padding: '10px 20px',
   },
-
   spaced: {
     margin: '20px 0'
   },
-
   purpleButton: {
     '&:hover': {
       background: '#7f66ff'
     }
   },
-
-
-
   builderContainer: {
     margin: '5% 10%'
   },
