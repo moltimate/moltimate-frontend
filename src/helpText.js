@@ -3,8 +3,8 @@ export default {
       searchBoxModalText: {
         modalTitle: "Search Box Description",
         modalBody: "The search box is used for querying proteins against the " +
-        "PDB and returning a list of proteins will similar active sites " +
-        " and their alignments.</br></br>" +
+        "PDB and returning a list of proteins with similar active sites." +
+        "</br></br>" +
         "To begin the process the user must enter a protein, by either: " +
         "<ul><li>Entering the PDB id of the protein in the PDB search bar.</li>" +
         "<li>Uploading a custom structure through the custom upload tool.</li></ul> " +
@@ -30,7 +30,7 @@ export default {
   },
   makerText: {
     makerModalText: {
-      modalTitle: "Maker Box Description",
+      modalTitle: "Maker Description",
       modalBody:
       "Maker is used for creating proteins with custom active sites to use " +
       "for querying."
@@ -55,5 +55,19 @@ export default {
     homologTest: "Test the above motif against all proteins with the same EC Class, as defined by the PDB.",
     randomTest: "Test the above motif against a number of randomly selected proteins from the PDB.",
     listTest: "Test the above motif against a list of proteins available on the PDB"
+  },
+  ligandText: {
+    ligandLibraryModalText: {
+      modalTitle: "Ligand Library Description",
+      modalBody: "Ligands for the EC class of the protein selected for alignment " +
+      "will appear here. A ligand may be selected and docked with the aligned protein"
+    },
+    importedLigandsModalText: {
+      modalTitle: "Import Ligand Description",
+      modalBody: "Upload custom ligands to be used for docking."
+    },
+    ligandFilterText: "Filter the ligand list by ligand name",
+    dockButtonText: "Dock the selected ligand with the protein that is currently aligned.",
+    ligandUploadButtonText: "Upload a ligand."
   }
-  }
+}
