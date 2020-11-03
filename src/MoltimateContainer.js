@@ -14,6 +14,7 @@ import DockingContainer from "./docking/DockingContainer";
 
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
+import MolStar from "./basic-wrapper/MolStar";
 
 
 function MoltimateContainer(props) {
@@ -135,7 +136,8 @@ function MoltimateContainer(props) {
             setDockingDisplayActiveSites(x)}}
             viewingLigand = {viewingLigand}
             setViewingLigand = {setViewingLigand} 
-        />  
+        />
+        <MolStar />
       </div>
        
       {

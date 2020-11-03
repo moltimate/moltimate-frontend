@@ -8,6 +8,16 @@ module.exports = {
     poll: true,
     ignored: /node_modules/
   },
+  // mode: "development",
+  // devtool: "inline-source-map",
+  // entry: "./src/basic-wrapper/ts/BasicWrapper.ts",
+  // output: {
+  //   filename: "bundle.js"
+  // },
+  resolve: {
+    // Add `.ts` and `.tsx` as a resolvable extension.
+    extensions: [".ts", ".tsx", ".js", ".jsx"]
+  },
   module: {
     rules: [
       {
@@ -33,6 +43,11 @@ module.exports = {
       {
         test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
         loader: 'file-loader?name=[name].[ext]'  // <-- retain original file name
+      },
+      {
+        test: /\.ts?$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader'
       }
     ]
   },
