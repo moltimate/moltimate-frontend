@@ -40,6 +40,7 @@ function SearchContainer(props) {
   const [ res, setRes ] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
+
   useEffect(() => {
     handleSetMode('search');
   });
@@ -118,12 +119,14 @@ function SearchContainer(props) {
         result.mode === 'search' ?
           <MenuCard
             label='Search Results'
+            modalText={helpText.searchResultsModalText}
             expand={expandResult}
             handleClick={setExpandResult}
             cardChild={
               <ResultsBox
                 handleSelectedResult={filterHandleSelectedResult}
                 setEClass = {setEClass}
+                helpText={helpText}
                 temp={ result.data ? result.data.entries : []}
               />
             }

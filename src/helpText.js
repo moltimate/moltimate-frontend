@@ -13,20 +13,26 @@ export default {
         "</br>Finally press the " +
         "search button and the resulting protein list will appear in the search results box."
       },
-    ecClassText:
-    "Default: none.\nFilter the motifs to only those with a " +
-    "certain EC Class. There are a few motifs with an unknown EC Class " +
-    "and they will always be included in the results.",
-    precisionText:
-    "Default: 1.\nRequirements: Must be positive. \n" +
-    "Increasing the precision factor increases the acceptable " +
-    "distance between a set of atoms when doing an alignment.",
-    pdbIdText: "Enter the PDB id of the protein you would like to query.",
-    customBottonText:
-    "Supports PDB or MMCIF files.\n Upload a custom structure " +
-    "to be included in the alignment. The PDB id will be parsed out of the " +
-    "structure to be included in the response. A custom structure will be " +
-    "listed with any motifs that are able to be matched to it."
+      searchResultsModalText: {
+        modalTitle: "Search Results Description",
+        modalBody: "A list of proteins with similar active sites to the queried protein."
+      },
+      resultFilterText: "Filter the protein list be either RMSD value or EC class." +
+      "\nBoth options will be shown in ascending order.",
+      ecClassText:
+      "Default: none.\nFilter the motifs to only those with a " +
+      "certain EC Class. There are a few motifs with an unknown EC Class " +
+      "and they will always be included in the results.",
+      precisionText:
+      "Default: 1.\nRequirements: Must be positive. \n" +
+      "Increasing the precision factor increases the acceptable " +
+      "distance between a set of atoms when doing an alignment.",
+      pdbIdText: "Enter the PDB id of the protein you would like to query.",
+      customBottonText:
+      "Supports PDB or MMCIF files.\n Upload a custom structure " +
+      "to be included in the alignment. The PDB id will be parsed out of the " +
+      "structure to be included in the response. A custom structure will be " +
+      "listed with any motifs that are able to be matched to it."
   },
   makerText: {
     makerModalText: {
