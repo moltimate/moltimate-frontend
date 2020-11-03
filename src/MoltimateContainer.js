@@ -19,7 +19,7 @@ import { withStyles } from '@material-ui/core/styles';
 function MoltimateContainer(props) {
 
   const { classes } = props;
-  const { searchText, makerText } = helpText;
+  const { searchText, makerText, ligandText } = helpText;
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
   //the protein ID entered in the search box
@@ -105,7 +105,7 @@ function MoltimateContainer(props) {
   return (
     <>
       <TopBar toggleSettings = {toggleSettingsMenu}/>
-      
+
       <div className={classes.controlPanel}>
         <SearchContainer
           handleSelectedResult={handleSelectedResult}
@@ -127,50 +127,51 @@ function MoltimateContainer(props) {
           dockingRange = {dockingRange}
           alignmentInProgress = {alignmentInProgress}
           eClasses = {searchEClass}
+          helpText = {ligandText}
           setDisplayedFile = {(x) =>{
             setDockingDisplayFile(x)}}
           setDisplayedConfiguration = {(x) =>{
             setDockingDisplayConfiguration(x)
             setNglData(null);}
-          } 
+          }
           setDisplayedActiveSites = {(x) =>{
             setDockingDisplayActiveSites(x)}}
             viewingLigand = {viewingLigand}
-            setViewingLigand = {setViewingLigand} 
-        />  
+            setViewingLigand = {setViewingLigand}
+        />
       </div>
-       
+
       {
         nglData ? <ProteinContainer
           parentId={nglData.childId}
           childId={nglData.parentId}
           active={nglData.active}
           aligned={nglData.aligned}
-          queryProteinMode={queryProteinMode} 
+          queryProteinMode={queryProteinMode}
           motifProteinMode={motifProteinMode}
         /> : null
       }
       {
         (dockingDisplayActiveSites && dockingDisplayConfiguration) ? dockingDisplay(): null
-        
+
       }
       {
         //Only display the settings modal when showSettings is true
-        showSettings ? <SettingsContainer 
+        showSettings ? <SettingsContainer
           setShowSettings = {setShowSettings}
           dockingSearchCenter = {dockingCenter}
           setDockingSearchCenter = {setDockingCenter}
           dockingSearchRange = {dockingRange}
           setDockingSearchRange = {setDockingRange}
           queryProteinMode ={queryProteinMode}
-          setQueryProteinMode = {setQueryProteinMode} 
+          setQueryProteinMode = {setQueryProteinMode}
           motifProteinMode = {motifProteinMode}
           setMotifProteinMode = {setMotifProteinMode}
-          dockingProteinMode = {dockingProteinMode} 
-          setDockingProteinMode = {setDockingProteinMode} 
-          activeSitesMode = {activeSitesMode} 
-          setActiveSitesMode = {setActiveSitesMode} 
-          ligandMode = {ligandMode} 
+          dockingProteinMode = {dockingProteinMode}
+          setDockingProteinMode = {setDockingProteinMode}
+          activeSitesMode = {activeSitesMode}
+          setActiveSitesMode = {setActiveSitesMode}
+          ligandMode = {ligandMode}
           setLigandMode = {setLigandMode}
         />:null
       }
