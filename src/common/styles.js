@@ -16,11 +16,13 @@ export default {
   cyanBackground: {
     background: '#2AF598',
   },
-  dockButton:{
+  dockButton: {
     float: 'right',
     borderRadius: 25,
     padding: '10px 20px',
     color: 'white',
+    marginLeft: '20px',
+    marginTop: '5px'
   },
   dockedSelected: {
     background: '#e6e6e6',
@@ -60,6 +62,12 @@ export default {
     paddingRight: '5px',
     color: '#A0A0A0'
   },
+  ligandLabelTooltip: {
+    marginTop: '15px',
+    marginLeft: '3px',
+    paddingRight: '5px',
+    color: '#A0A0A0'
+  },
   testRadioTooltip: {
     marginTop: '12px',
     marginLeft: '10px',
@@ -80,6 +88,12 @@ export default {
   },
   buttonTooltip: {
     marginTop: '40px',
+    marginLeft: '10px',
+    paddingRight: '5px',
+    color: '#A0A0A0'
+  },
+  ligandButtonTooltip: {
+    marginTop: '13px',
     marginLeft: '10px',
     paddingRight: '5px',
     color: '#A0A0A0'
@@ -128,6 +142,7 @@ export default {
     borderRadius: 25,
     padding: '10px 20px',
     color: 'white',
+    marginLeft: '20px'
   },
   white: {
     color: 'white',
