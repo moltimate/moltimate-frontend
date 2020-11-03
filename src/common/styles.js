@@ -8,12 +8,6 @@ export default {
     margin: '10px 0',
     overflow: 'scroll'
   },
-  buttonTooltip: {
-    marginTop: '40px',
-    marginLeft: '10px',
-    paddingRight: '5px',
-    color: '#A0A0A0'
-  },
   cancelButton: {
     borderRadius: 25,
     color: 'rgba(0, 0, 0, 0.54)',
@@ -52,16 +46,47 @@ export default {
     color: "#404040"
   },
   helpText : {
-    fontSize: '18px'
+    fontSize: '19px',
+    fontFamily: 'Nunito, sans-serif',
+    letterSpacing: "1px",
+    lineHeight: "20px"
   },
   input: {
     display: 'none',
   },
   labelTooltip: {
-    marginTop: '25px',
+    marginTop: '30px',
     marginRight: '10px',
     paddingRight: '5px',
     color: '#A0A0A0'
+  },
+  testRadioTooltip: {
+    marginTop: '12px',
+    marginLeft: '10px',
+    paddingRight: '5px',
+    color: '#A0A0A0'
+  },
+  makerRadioTooltip: {
+    marginTop: '12px',
+    paddingRight: '5px',
+    color: '#A0A0A0'
+
+  },
+  activesiteTooltip: {
+    marginTop: '-4px',
+    marginLeft: '6px',
+    paddingRight: '5px',
+    color: '#A0A0A0'
+  },
+  buttonTooltip: {
+    marginTop: '40px',
+    marginLeft: '10px',
+    paddingRight: '5px',
+    color: '#A0A0A0'
+  },
+  modalText: {
+    fontSize: "16px",
+    fontFamily: 'Nunito, sans-serif'
   },
   midDocking: {
     color: '#f2f2f2',
