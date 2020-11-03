@@ -8,11 +8,11 @@ import PropTypes from 'prop-types';
 import styles from './styles.js';
 
 function ParsedToolTip(props) {
-  const {classes, label, text} = props;
+  const {classes, label, text, tooltipClassName} = props;
   const newLineText = text.split('\n').map((str,index) => <p key={index} className={classes.helpText}>{str}</p>)
   return (
     <>
-    <Tooltip className={props.label ? classes.labelTooltip : classes.buttonTooltip}
+    <Tooltip className={classes[tooltipClassName]}
       title={newLineText}>
       <InfoIcon/>
     </Tooltip>
