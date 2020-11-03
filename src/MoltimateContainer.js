@@ -19,7 +19,7 @@ import { withStyles } from '@material-ui/core/styles';
 function MoltimateContainer(props) {
 
   const { classes } = props;
-  const { searchText } = helpText;
+  const { searchText, makerText } = helpText;
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
   //the protein ID entered in the search box
@@ -60,7 +60,6 @@ function MoltimateContainer(props) {
     }
     searchEClass[className] = protein;
     setSearchEClass(searchEClass);
-    console.log(searchEClass);
   }
 
   function clearEClass() {
@@ -120,6 +119,7 @@ function MoltimateContainer(props) {
         <BuilderContainer
           handleSelectedResult={handleSelectedResult}
           selectedResult={selectedResult}
+          helpText = {makerText}
         />
         <DockingContainer
           selectedMacromolecules = {searchedProteinIDs}
