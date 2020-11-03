@@ -141,7 +141,6 @@ function MoltimateContainer(props) {
        
       <div className={classes.molstarContainer}>
           <MolStar />
-          <p>wdad</p>
       </div>
       {
         nglData ? <ProteinContainer

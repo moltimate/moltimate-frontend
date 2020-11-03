@@ -223,6 +223,13 @@ export default {
     width: '700px',
     height: '700px'
   },
+  molstarControls: {
+    position: 'absolute',
+    left: '400px',
+    top: '50px',
+    width: '40px',
+    height: '100px'
+  },
   row: {
     display: 'flex',
     flexDirection: 'row',
