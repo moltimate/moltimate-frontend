@@ -18,7 +18,6 @@ function Modal(props) {
   const {modalTitle, modalBody} = text;
   const [modalOpen, setModalOpen] = useState(false);
 
-  const newLineText = modalBody.split('\n').map((str, index) => <Typography key={index} gutterBottom>{str}</Typography>)
   return (
     <>
     <Button size="small" onClick={() => setModalOpen(true)}>
@@ -29,7 +28,7 @@ function Modal(props) {
         {modalTitle}
       </DialogTitle>
       <DialogContent>
-          {newLineText}
+          <Typography className={classes.modalText} dangerouslySetInnerHTML={{ __html: modalBody }}></Typography>
       </DialogContent>
       <DialogActions>
         <Button autoFocus color="primary" onClick={() => setModalOpen(!modalOpen)}>
