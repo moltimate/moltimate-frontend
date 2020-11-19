@@ -6,6 +6,7 @@
 
 import { EmptyLoci } from 'molstar/lib/mol-model/loci';
 import { StructureSelection } from 'molstar/lib/mol-model/structure';
+import { align } from 'molstar/lib/mol-model/sequence/alignment/alignment';
 import { createPlugin, DefaultPluginSpec } from 'molstar/lib/mol-plugin';
 import { AnimateModelIndex } from 'molstar/lib/mol-plugin-state/animation/built-in';
 import { BuiltInTrajectoryFormat } from 'molstar/lib/mol-plugin-state/formats/trajectory';
@@ -52,7 +53,6 @@ export default class BasicWrapper {
 
         const data = await this.plugin.builders.data.download({ url: Asset.Url(url), isBinary }, { state: { isGhost: true } });
         const trajectory = await this.plugin.builders.structure.parseTrajectory(data, format);
-
         await this.plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default', {
             structure: assemblyId ? {
                 name: 'assembly',
@@ -64,6 +64,19 @@ export default class BasicWrapper {
             showUnitcell: false,
             representationPreset: 'auto'
         });
+
+        // const { aliA, aliB, score } = align(
+        //     'MNGTEGPNFYVPFSNKTGVVRSPFEAPQYYLAEPWQFSMLAAYMFLLIMLGFPINFLTLYVTVQHKKLRTPLNYILLNLAVADLFMVFGGFTTTLYTSLHGYFVFGPTGCNLEGFFATLGGEIALWSLVVLAIERYVVVCKPMSNFRFGENHAIMGVAFTWVMALACAAPPLVGWSRYIPEGMQCSCGIDYYTPHEETNNESFVIYMFVVHFIIPLIVIFFCYGQLVFTVKEAAAQQQESATTQKAEKEVTRMVIIMVIAFLICWLPYAGVAFYIFTHQGSDFGPIFMTIPAFFAKTSAVYNPVIYIMMNKQFRNCMVTTLCCGKNPLGDDEASTTVSKTETSQVAPA',
+        //     'DYKDDDDAENLYFQGNIFEMLRIDEGLRLKIYKDTEGYYTIGIGHLLTKSPSLNAAKSELDKAIGRNTNGVITKDEAEKLFNQDVDAAVRGILRNAKLKPVYDSLDAVRRAALINMVFQMGETGVAGFTNSLRMLQQKRWDEAAVNLAKSRWYNQTPNRAKRVITTFRTGTWDAYAADEVWVVGMGIVMSLIVLAIVFGNVLVITAIAKFERLQTVTNYFITSLACADLVMGLAVVPFGAAHILTKTWTFGNFWCEFWTSIDVLCVTASIETLCVIAVDRYFAITSPFKYQSLLTKNKARVIILMVWIVSGLTSFLPIQMHWYRATHQEAINCYAEETCCDFFTNQAYAIASSIVSFYVPLVIMVFVYSRVFQEAKRQLQKIDKSEGRFHVQNLSQVEQDGRTGHGLRRSSKFCLKEHKALKTLGIIMGTFTLCWLPFFIVNIVHVIQDNLIRKEVYILLNWIGYVNSGFNPLIYCRSPDFRIAFQELLCLRRSSLKAYGNGYSSNGNTGEQSG',
+        //     {
+        //         gapPenalty: -11,
+        //         gapExtensionPenalty: -1,
+        //         substMatrix: 'blosum62'
+        //     }
+        // );
+        // console.log('aliA: ', aliA);
+        // console.log('aliB: ', aliB);
+        // console.log('score: ', score);
     }
 
     setBackground(color: number) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
@@ -25,7 +25,7 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function QueryFormContainer(props) {
-  const { classes, handleChange, handleSubmit, values } = props;
+  const { classes, handleChange, handleSubmit, values, basicWrapper } = props;
   const [expand, setExpand] = useState(false);
 
   return (
@@ -36,7 +36,7 @@ function QueryFormContainer(props) {
         handleChange={handleChange}
       />
       <TextField
-        name='ecNumber'
+        name='ecNumber' 
         value={values.ecNumber || ''}
         onChange={e => handleChange(e, 0)}
         className={classes.smallInput}
@@ -58,7 +58,11 @@ function QueryFormContainer(props) {
       />
       <div className={classes.floatButton}>
         <Button className={classes.cancelButton} onClick={(e) => handleChange(e, 5)}>Clear</Button>
-        <Button name='search' className={classes.rounded} onClick={(e) => handleChange(e, 4)}>Search</Button>
+        {/* handleChange(e, 4) */}
+        {/* {console.log(values.pdbIds)} */}
+        {/* {console.log(values)} */}
+        {/* {console.log('https://files.rcsb.org/download/' + values.pdbIds? values.pdbIds : '' + '.cif')} */}
+        <Button name='search' className={classes.rounded} onClick={(e) => basicWrapper.load({ url: 'https://files.rcsb.org/download/' + values.pdbIds[0] + '.cif' })}>Search</Button>
       </div>
     </div>
   );

@@ -3,27 +3,26 @@ import BasicWrapper from './ts/BasicWrapper';
 import styles from '../styles.js';
 
 function MolStar(props) {
-    const { searchQuery } = props;
+    const { searchQuery, basicWrapper } = props;
     const [pdbId, setPdbId] = useState(searchQuery || '1grm');
     const [url, setUrl] = useState('https://files.rcsb.org/download/' + pdbId + '.cif');
     const [format, setFormat] = useState('mmcif');
-
-    const bw = new BasicWrapper();
+    
     useEffect(() => {
-        bw.init(document.getElementById('molstar-viewer'))
+        basicWrapper.init(document.getElementById('molstar-viewer'))
     });
 
     return (
         <div>
-            <div>
+            {/* <div>
                 <h3>Source</h3>
                 <input type='text' id='pdb-id' placeholder='pdb id' />
                 <select id='format'>
                     <option value='mmcif' defaultValue>mmCIF</option>
                     <option value='pdb'>PDB</option>
                 </select>
-                <button onClick={() => bw.load({ url: url, format: format })}>Load Asym Unit</button>
-            </div>
+                <button onClick={() => basicWrapper.load({ url: url, format: format })}>Load Asym Unit</button>
+            </div> */}
             <div id="molstar-viewer"></div>
         </div>
     )

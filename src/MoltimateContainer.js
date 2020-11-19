@@ -16,6 +16,7 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 import MolStar from "./basic-wrapper/MolStar";
 
+import BasicWrapper from './basic-wrapper/ts/BasicWrapper';
 
 function MoltimateContainer(props) {
 
@@ -50,6 +51,8 @@ function MoltimateContainer(props) {
   const [ligandMode, setLigandMode] = useState("ball+stick");
 
   const [alignmentInProgress, setAlignmentInProgress] = useState(false);
+
+  const basicWrapper = new BasicWrapper();
 
   function addEClass( className, protein, search ) {
     if( search && Object.keys(searchEClass).length != 0 ) {
@@ -115,6 +118,7 @@ function MoltimateContainer(props) {
           setEClass = {addEClass}
           clearEClass = {clearEClass}
           setAlignmentInProgress = {setAlignmentInProgress}
+          basicWrapper = {basicWrapper}
         />
         <BuilderContainer
           handleSelectedResult={handleSelectedResult}
@@ -140,7 +144,9 @@ function MoltimateContainer(props) {
       </div>
        
       <div className={classes.molstarContainer}>
-          <MolStar />
+          <MolStar
+            basicWrapper={basicWrapper}
+          />
       </div>
       {
         nglData ? <ProteinContainer
