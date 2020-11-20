@@ -23,6 +23,36 @@ export default {
     color: 'white',
     padding: '10px 20px',
   },
+  dockButton:{
+    float: 'right',
+    borderRadius: 25,
+    padding: '10px 20px',
+    color: 'white',
+  },
+  uploadButton:{
+    float: 'right',
+    borderRadius: 25,
+    padding: '10px 20px',
+    color: 'white',
+  },
+  unselected: {
+    cursor: "pointer",
+  },
+  selected: {
+    background: '#856eff',
+    cursor: "pointer",
+  },
+  dockedSelected: {
+    background: '#e6e6e6',
+    cursor: "pointer",
+  },
+  dockedUnselected: {
+    cursor: "pointer",
+  },
+  midDocking: {
+    color: '#f2f2f2',
+    opacity: 0.5,
+  },
   cancelButton: {
     borderRadius: 25,
     color: 'rgba(0, 0, 0, 0.54)',
@@ -31,6 +61,9 @@ export default {
   floatButton: {
     float: 'right',
     marginBottom: '20px',
+  },
+  helpIcon: {
+    color: "#404040"
   },
   spaced: {
     margin: '20px 0'
@@ -41,6 +74,9 @@ export default {
     margin: '10px 0',
     overflow: 'scroll'
   },
+  flexBox: {
+    display: 'flex'
+  },
   grey: {
     color: 'rgba(0, 0, 0, 0.54)'
   },
@@ -50,6 +86,10 @@ export default {
   builderContainer: {
     margin: '5% 10%'
   },
-
-
+  filter: {
+    margin: '0% 10%'
+  },
+  input: {
+    display: 'none',
+  },
 }
