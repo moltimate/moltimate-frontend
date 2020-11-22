@@ -8,21 +8,27 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
+import HelpIcon from '@material-ui/icons/Help'
 
-import classNames from 'classnames';
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function Modal(props) {
-  const {modalOpen, setModalOpen, title, text} = props;
-  const newLineText = text.split('\n').map((str, index) => <Typography key={index} gutterBottom>{str}</Typography>)
+  const {classes, text} = props;
+  const {modalTitle, modalBody} = text;
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
+    <>
+    <Button size="small" onClick={() => setModalOpen(true)}>
+      <HelpIcon fontSize="small"  className={classes.helpIcon}/>
+    </Button>
     <Dialog onClose={() => setModalOpen(false)} aria-labelledby="customized-dialog-title" open={modalOpen}>
       <DialogTitle id="customized-dialog-title">
-        {title}
+        {modalTitle}
       </DialogTitle>
-      <DialogContent dividers>
-          {newLineText}
+      <DialogContent>
+          <Typography className={classes.modalText} dangerouslySetInnerHTML={{ __html: modalBody }}></Typography>
       </DialogContent>
       <DialogActions>
         <Button autoFocus color="primary" onClick={() => setModalOpen(!modalOpen)}>
@@ -30,6 +36,7 @@ function Modal(props) {
         </Button>
       </DialogActions>
     </Dialog>
+    </>
   );
 }
 

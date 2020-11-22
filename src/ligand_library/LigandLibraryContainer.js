@@ -8,7 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 function LigandLibraryContainer(props){
     const {library, selectedLigands, dockedLigands, viewingLigand, clickLigandHandler, dockHandler,
-        alignmentInProgress, dockingInProgress, dockingError, setDockingError} = props
+        alignmentInProgress, dockingInProgress, dockingError, setDockingError, helpText} = props
     const [expandLigandLibrary, setExpandLigandLibrary] = useState(false);
 
     if( alignmentInProgress && expandLigandLibrary ) {
@@ -19,9 +19,11 @@ function LigandLibraryContainer(props){
       <MenuCard
         label='Ligand Library'
         expand={expandLigandLibrary}
+        modalText={helpText.ligandLibraryModalText}
         handleClick={setExpandLigandLibrary}
-        cardChild={<FilteredLigandResults 
-            temp={library} 
+        cardChild={<FilteredLigandResults
+            temp={library}
+            helpText={helpText}
             selectedLigands = {selectedLigands}
             dockedLigands = {dockedLigands}
             clickLigandHandler={clickLigandHandler}

@@ -8,23 +8,8 @@ export default {
   label: {
     marginBottom: '20px'
   },
-  labelTooltip: {
-    marginTop: '25px',
-    marginRight: '10px',
-    paddingRight: '5px',
-    color: '#A0A0A0'
-  },
-  buttonTooltip: {
-    marginTop: '40px',
-    marginLeft: '10px',
-    paddingRight: '5px',
-    color: '#A0A0A0'
-  },
   input: {
     display: 'none',
-  },
-  helpText : {
-    fontSize: '18px'
   },
   button: {
     margin: '10px',
