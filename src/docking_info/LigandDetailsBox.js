@@ -15,7 +15,7 @@ import {exportDockingInfoURL} from "../util/request"
 import styles from "./styles.js"
 
 function LigandDetailsBox(props){
-  const {dockingConfigurations, selectedDockingConfiguration, selectConfigurationHandler, ligandName, classes} = props;
+  const {dockingConfigurations, selectedDockingConfiguration, selectConfigurationHandler, ligandName, checkedLigands, classes} = props;
 
   /*
   Formats a docking-configuration index value for viewing
@@ -43,6 +43,7 @@ function LigandDetailsBox(props){
           onClick = {(e) => selectConfigurationHandler(null)}
           key = {formattedIndex}
         >
+          <TableCell children = {<input type="checkbox" id={formatIndex} onChange={(e,this) => selectForDownload(e)}/>}/>
           <TableCell children = {formattedIndex} key = {formattedIndex + '0'}/>
           <TableCell children = {docking_configuration[1]} key = {formattedIndex + '1'}/>
           <TableCell children = {docking_configuration[2]} key = {formattedIndex + '2'}/>
@@ -55,6 +56,7 @@ function LigandDetailsBox(props){
           onClick = {(e) => selectConfigurationHandler(docking_configuration)}
           key = {formattedIndex}
         >
+          <TableCell children = {<input type="checkbox" id={formatIndex} onChange={(e,this) => selectForDownload(e)}/>}/>
           <TableCell children = {formatIndex(docking_configuration[0])}/>
           <TableCell children = {docking_configuration[1]}/>
           <TableCell children = {docking_configuration[2]}/>
@@ -62,6 +64,11 @@ function LigandDetailsBox(props){
         </TableRow>)
     }
       
+  }
+
+  function selectForDownload(e, checkbox){
+    console.log("HELLO!!!!");
+    console.log(checkbox);
   }
     
   function downloadDockingInfo() {
@@ -86,6 +93,7 @@ function LigandDetailsBox(props){
     <Table>
       <TableHead className={classes.ligandTableHead}>
         <TableRow>
+          <TableCell children = {<input type="checkbox" id="top"onChange={(e) => selectForDownload(e,this)}/>}/>
           <TableCell children = "ID"/>
           <TableCell children = "Binding Affinity"/>
           <TableCell children = "min RMSD"/>
