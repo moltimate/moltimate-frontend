@@ -29,7 +29,7 @@ import styles from './styles.js';
 
 
 function SearchContainer(props) {
-  const { selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress, helpText } = props;
+  const { classes, selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress, helpText } = props;
   const { searchBoxModalText } = helpText
   const { values, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
@@ -91,10 +91,9 @@ function SearchContainer(props) {
         break;
       };
   }
-  
+
   return (
     <>
-      <Modal className = {classes.modal} modalOpen={modalOpen} setModalOpen={setModalOpen} title={searchBoxModalText.modalTitle} text={searchBoxModalText.modalText} />
       {result.error && open?
         <ErrorBar
           open={open}
