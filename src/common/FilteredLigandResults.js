@@ -26,7 +26,6 @@ function FilteredLigandResults(props) {
   //a string used as filtering criteria for the list of ligands
   const [filter, setFilter] = useState("");
   const [error, setError] = useState(false);
-
   const test1 = [];
 
   //Display Upload button when true, display Dock button when false
@@ -77,7 +76,6 @@ function FilteredLigandResults(props) {
    * match the filter specified in the textfield
    */
   function filterLigands(ligandLibrary){
-
     if(filter != ""){
 
       var filteredLigandList = [];

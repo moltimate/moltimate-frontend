@@ -131,6 +131,9 @@ export default {
     background: '#856eff',
     cursor: "pointer",
   },
+  helpIcon: {
+    color: "#404040"
+  },
   spaced: {
     margin: '20px 0'
   },

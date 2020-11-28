@@ -105,7 +105,6 @@ function MoltimateContainer(props) {
   return (
     <>
       <TopBar toggleSettings = {toggleSettingsMenu}/>
-
       <div className={classes.controlPanel}>
         <SearchContainer
           handleSelectedResult={handleSelectedResult}
@@ -153,7 +152,6 @@ function MoltimateContainer(props) {
       }
       {
         (dockingDisplayActiveSites && dockingDisplayConfiguration) ? dockingDisplay(): null
-
       }
       {
         //Only display the settings modal when showSettings is true

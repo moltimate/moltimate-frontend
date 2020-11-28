@@ -22,6 +22,7 @@ import ErrorBar from '../common/ErrorBar';
 import Modal from '../common/Modal'
 import ResultDetails from '../common/ResultDetails';
 import QueryFormContainer from './form/QueryFormContainer';
+import helpText from './SearchText.js'
 
 
 import styles from './styles.js';
@@ -39,7 +40,6 @@ function SearchContainer(props) {
   const [ selected, setSelected ] = useState(null);
   const [ res, setRes ] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-
 
   useEffect(() => {
     handleSetMode('search');
@@ -91,9 +91,10 @@ function SearchContainer(props) {
         break;
       };
   }
-
+  
   return (
     <>
+      <Modal className = {classes.modal} modalOpen={modalOpen} setModalOpen={setModalOpen} title={searchBoxModalText.modalTitle} text={searchBoxModalText.modalText} />
       {result.error && open?
         <ErrorBar
           open={open}

@@ -5,7 +5,7 @@ import DockingInfoContainer from "../docking_info/DockingInfoContainer";
 import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL, ligandLibraryURL} from "../util/request"
 import axios from "axios";
 
-function DockingContainer(props){
+function DockingContainer(props){=
   const { selectedMacromolecules, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration,
     setDisplayedActiveSites, viewingLigand, setViewingLigand, alignmentInProgress, eClasses, helpText } = props;
 
@@ -115,21 +115,18 @@ function DockingContainer(props){
       pollDockingResults(requestURL, retryFrequency, timeout, selectedLigand, values.macromoleculeID)
     }else{
       console.error(`Error: ${result.error}`);
-
     }
   }
 
   const {handleSubmit, setFormValue, replaceFormField, values, result} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
 
   useEffect(() => {
-
     if(dockingInProgress){
       handleSubmit()
     }
   },[dockingInProgress]);
 
   useEffect(() => {
-
     if(result.error){
       processHTTPError("Error posting dock request",result.error)
       setDockingInProgress(false);
@@ -178,7 +175,6 @@ function DockingContainer(props){
         modifiedLigandLibrary[ligandID] = dockedLigand;
         setCachedLibrary(modifiedLigandLibrary);
       }
-
       setViewingLigand(dockedLigand);
     }
   },[dockingResults]);
@@ -187,7 +183,6 @@ function DockingContainer(props){
 
     if(viewingLigand){
       setDockingConfigs(viewingLigand.dockingData);
-
       setSelectedDockingConfig(1);
 
       //clear the previous value
@@ -196,7 +191,6 @@ function DockingContainer(props){
       //sets the displayed file based on the viewing ligand.
       setTimeout(()=>retrieveDockedMoleculeFile(viewingLigand,setDisplayedFile),2000)
       setDisplayedActiveSites(viewingLigand.activeSites)
-
     } else{
       setDockingConfigs([]);
     }

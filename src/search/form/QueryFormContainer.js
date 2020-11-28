@@ -29,6 +29,12 @@ import { withStyles } from '@material-ui/core/styles';
 function QueryFormContainer(props) {
   const { classes, handleChange, values, helpText } = props;
   const [expand, setExpand] = useState(false);
+  function parseText(text) {
+    return (
+      <>
+      {text.split('\n').map((str,index) => <p key={index} className={classes.helpText}>{str}</p>)}
+      </>);
+  }
 
   return (
     <div className={classes.searchContainer}>
@@ -72,7 +78,6 @@ function QueryFormContainer(props) {
           <Button className={classes.cancelButton} onClick={(e) => handleChange(e, 5)}>Clear</Button>
           <Button name='search' className={classes.rounded} onClick={(e) => handleChange(e, 4)}>Search</Button>
       </div>
-    </div>
   );
 }
 

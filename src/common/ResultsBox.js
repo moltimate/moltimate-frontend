@@ -18,7 +18,6 @@ export default function ResultsBox(props) {
   if(temp && temp.length > 0) {
     temp[0].alignments.sort((a,b) => a[filter] > b[filter] ? 1 :-1);
   }
-
   return (
     <div>
       {searchResults ?
