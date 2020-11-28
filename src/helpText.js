@@ -71,7 +71,7 @@ export default {
     "This analysis provides a list of “true positives” for active site alignments. Any PDB structures " +
     "from the same EC class that are not found by Moltimate are then “false negatives”.",
     randomTest: "Test the above motif against a number of randomly selected proteins from the PDB. " +
-    "Except for the case where a homolog is chosen randomly, this option is designed to test for “false positives.”"
+    "Except for the case where a homolog is chosen randomly, this option is designed to test for “false positives.”",
     listTest: "Test the above motif against a list of proteins available on the PDB"
   },
   ligandText: {
