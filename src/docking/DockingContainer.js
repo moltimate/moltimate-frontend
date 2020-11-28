@@ -5,7 +5,7 @@ import DockingInfoContainer from "../docking_info/DockingInfoContainer";
 import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL, ligandLibraryURL} from "../util/request"
 import axios from "axios";
 
-function DockingContainer(props){=
+function DockingContainer(props){
   const { selectedMacromolecules, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration,
     setDisplayedActiveSites, viewingLigand, setViewingLigand, alignmentInProgress, eClasses, helpText } = props;
 

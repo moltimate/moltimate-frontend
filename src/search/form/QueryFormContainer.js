@@ -78,6 +78,7 @@ function QueryFormContainer(props) {
           <Button className={classes.cancelButton} onClick={(e) => handleChange(e, 5)}>Clear</Button>
           <Button name='search' className={classes.rounded} onClick={(e) => handleChange(e, 4)}>Search</Button>
       </div>
+      </div>
   );
 }
 
