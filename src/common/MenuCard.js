@@ -8,15 +8,14 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
-import HelpIcon from '@material-ui/icons/Help'
+import Modal from './Modal'
 
-import classNames from 'classnames';
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
+
 function MenuCard(props) {
-  const { classes, expand, label, cardChild, childIcon, handleClick, setModalOpen } = props;
+  const { classes, expand, label, cardChild, childIcon, handleClick, modalText} = props;
 
   return (
     <Card className={classes.search}>
@@ -28,9 +27,7 @@ function MenuCard(props) {
         <ListItemText inset primary={label}/>
           {expand ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <Button size="small" onClick={() => setModalOpen(true)}>
-          <HelpIcon fontSize="small"  className={classes.helpIcon}/>
-        </Button>
+        {modalText ? <Modal text={modalText}  /> : <></>}
       </div>
       <Collapse in={expand} className={classes.scrolling}>
         {cardChild}

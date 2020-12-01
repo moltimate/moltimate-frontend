@@ -6,10 +6,10 @@ import useForm, {dockRequestURL, dockingMoleculeFileRetrievalURL, ligandLibraryU
 import axios from "axios";
 
 function DockingContainer(props){
-  const { selectedMacromolecules, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration, 
-    setDisplayedActiveSites, viewingLigand, setViewingLigand, alignmentInProgress, eClasses } = props;
+  const { selectedMacromolecules, dockingCenter, dockingRange, setDisplayedFile, setDisplayedConfiguration,
+    setDisplayedActiveSites, viewingLigand, setViewingLigand, alignmentInProgress, eClasses, helpText } = props;
 
-  //ligands selected for docking. Do not pass this setter (instead use the 
+  //ligands selected for docking. Do not pass this setter (instead use the
   //"setSelectedLigands" function)
   const [selectedLigands, setSelectedLigandsInner] = useState(new Set());
   //data on all the ligands the user has uploaded
@@ -46,7 +46,7 @@ function DockingContainer(props){
 
   /**
    * Polls the backend until it receives the result of a docking job or times out
-   * 
+   *
    * @param {string} requestURL - the url to be polled
    * @param {int} retryFrequency - number of seconds between retry attempts
    * @param {int} timeout - number of seconds to retry before giving up
@@ -54,7 +54,7 @@ function DockingContainer(props){
    * @param {string} macromoleculeID - the ID of the macromolecule involved in docking
    */
   function pollDockingResults(requestURL, retryFrequency, timeoutTime, ligand, macromoleculeID){
-    var pollingTimer; 
+    var pollingTimer;
 
     function checkDockingResults(){
       axios.get(requestURL).then( (response) =>{
@@ -72,10 +72,10 @@ function DockingContainer(props){
           });
 
           setDockingResults(newDockingResults);
-          
+
           //indicate docking is complete
           setDockingInProgress(false);
-          
+
         }
       }).catch((error) => {
         setDockingInProgress(false);
@@ -86,12 +86,12 @@ function DockingContainer(props){
 
     pollingTimer = setInterval(checkDockingResults, retryFrequency*1000);
 
-    setTimeout(()=>{clearInterval(pollingTimer)},timeoutTime*1000) 
+    setTimeout(()=>{clearInterval(pollingTimer)},timeoutTime*1000)
   }
 
   /**
    * parses and responds to the results from the initial docking request
-   * 
+   *
    * @param {Object} values - the values of the form data in the initial docking request
    * @param {Object} result - the response from the docking request sent to the backend
    * @param {Object} result.data - the body of the response from the docking request
@@ -115,25 +115,22 @@ function DockingContainer(props){
       pollDockingResults(requestURL, retryFrequency, timeout, selectedLigand, values.macromoleculeID)
     }else{
       console.error(`Error: ${result.error}`);
- 
     }
   }
 
   const {handleSubmit, setFormValue, replaceFormField, values, result} = useForm(dockRequestURL,defaultRequestValues,handleDockingResponse);
 
   useEffect(() => {
-    
     if(dockingInProgress){
       handleSubmit()
-    } 
+    }
   },[dockingInProgress]);
 
   useEffect(() => {
-    
     if(result.error){
       processHTTPError("Error posting dock request",result.error)
       setDockingInProgress(false);
-    } 
+    }
 
   },[result]);
 
@@ -178,7 +175,6 @@ function DockingContainer(props){
         modifiedLigandLibrary[ligandID] = dockedLigand;
         setCachedLibrary(modifiedLigandLibrary);
       }
-      
       setViewingLigand(dockedLigand);
     }
   },[dockingResults]);
@@ -187,7 +183,6 @@ function DockingContainer(props){
 
     if(viewingLigand){
       setDockingConfigs(viewingLigand.dockingData);
-      
       setSelectedDockingConfig(1);
 
       //clear the previous value
@@ -196,7 +191,6 @@ function DockingContainer(props){
       //sets the displayed file based on the viewing ligand.
       setTimeout(()=>retrieveDockedMoleculeFile(viewingLigand,setDisplayedFile),2000)
       setDisplayedActiveSites(viewingLigand.activeSites)
-      
     } else{
       setDockingConfigs([]);
     }
@@ -204,7 +198,7 @@ function DockingContainer(props){
   },[viewingLigand]);
 
   useEffect(() => {
-    //use the first macromolecule if there is one. 
+    //use the first macromolecule if there is one.
     if(selectedMacromolecules[0])setFormValue("macromoleculeID",selectedMacromolecules[0]);
     else setFormValue("macromoleculeID",null);
   },[selectedMacromolecules]);
@@ -240,18 +234,18 @@ function DockingContainer(props){
     this.library = "";
     this.timeOfCreation = Date.now();
     this.smiles = smiles;
-    
+
     function uniqueID(){
       //return this.name.toString() + this.macromolecule.toString() + this.library.toString();
       return this.name.toString() + this.timeOfCreation.toString();
     }
-    
+
     this.uniqueID = uniqueID;
   }
 
   /**
    * Given a docked ligand object, retrieve the relevant molecule file
-   * 
+   *
    * @param {Ligand} ligand a ligand object
    * @param {Function} fileSetter the setter function that will receive the docked molecule
    */
@@ -271,7 +265,7 @@ function DockingContainer(props){
       let dataBlob = new Blob([data],{ type: 'text/plain' })
       let moleculeFile = new File([dataBlob],`${babelJobId}.pdb`,{ type: 'text/plain' });
       fileSetter(moleculeFile);
-      
+
     }).catch((error) =>{
       processHTTPError("Error retrieving molecule file", error);
     });
@@ -279,8 +273,8 @@ function DockingContainer(props){
 
   /**
    * Sends a docking request with the relevant information to the backend.
-   * 
-   * @param {Function} setError sets an error message, notifying the client component that something went 
+   *
+   * @param {Function} setError sets an error message, notifying the client component that something went
    *  wrong with the docking
    */
   function ligandDockingHandler(setError){
@@ -288,9 +282,9 @@ function DockingContainer(props){
     for(let ligand of dockedLigands){
       new_docked_ligands.add(ligand)
     }
-    
+
     var errorMessage = sendDockingRequest(()=>{});
-    
+
     if(errorMessage){
       setError(errorMessage);
     }
@@ -322,7 +316,7 @@ function DockingContainer(props){
       new_selected_ligands = new Set()
       new_selected_ligands.add(selectedLigand)
     }
-    
+
     setSelectedLigands(new_selected_ligands)
   }
 
@@ -337,7 +331,7 @@ function DockingContainer(props){
 
     /**
      * Creates a string formula for a ligand, based on the text extracted from the ligand
-     * file. String is in the following format: 
+     * file. String is in the following format:
      *   [atom 1][number of occurances of atom 1] [atom 2][number of occurances of atom 2] ... [atom n][number of occurances of atom n]
      * excepting atoms which only occur once, which appear without the number of occurances.
      * For example, the formula for ligand 0LI in the PDB is C29 H27 F3 N6 O.
@@ -359,19 +353,19 @@ function DockingContainer(props){
       //are given
       while(ligandLines[lineIndex].length >= 32){
         var atom = ligandLines[lineIndex].charAt(atomIndex);
-        
+
         //if the atom has already been found, add to its count
         if(atomCount.hasOwnProperty(atom)){
           atomCount[atom] = atomCount[atom] + 1;
         //if this is the atom's first occurance, set its count to 1
         } else {
           atomCount[atom] = 1;
-        }   
-        lineIndex += 1; 
+        }
+        lineIndex += 1;
       }
       var presentAtoms = Object.getOwnPropertyNames(atomCount);
       presentAtoms.sort;
-     
+
       var ligandFormula = "";
 
       for(var index in presentAtoms){
@@ -382,7 +376,7 @@ function DockingContainer(props){
         else
           ligandFormula = ligandFormula + atom + atomCount[atom] + " ";
       }
-      
+
       //removes the last character, which is a superfluous space
       ligandFormula = ligandFormula.substring(0,ligandFormula.length - 1);
 
@@ -392,7 +386,7 @@ function DockingContainer(props){
     //confirms the object is names as an .sdf file
     function validateLigand(ligandFile){
       var fileNamePattern = /.*\.sdf$/;
-      
+
       return ligandFile.name.match(fileNamePattern);
     }
 
@@ -404,7 +398,7 @@ function DockingContainer(props){
 
     if(!validateLigand(ligandFile)){
       errorSetter("Ligand file must be of type .sdf");
-      
+
     //only add the ligand file to the list if it is valid
     }else{
       var reader = new FileReader();
@@ -466,10 +460,10 @@ function DockingContainer(props){
 
   /**
    * Used to submit a ligand-protein pair for docking
-   * 
-   * @param {Function} callback Callback function to be called on the completion or 
+   *
+   * @param {Function} callback Callback function to be called on the completion or
    *  failure of the docking operation. The callback function includes 2 parameters: a
-   *  number and an (optional) message. 
+   *  number and an (optional) message.
    */
   function sendDockingRequest(callback){
     let errorMessage = "Docking request rejected for uncertain reason";
@@ -480,7 +474,7 @@ function DockingContainer(props){
       return errorMessage;
     }
     if(selectedMacromolecules.length > 1){
-      errorMessage = `${selectedMacromolecules.length} proteins selected, but Multi-protein docking is not ` + 
+      errorMessage = `${selectedMacromolecules.length} proteins selected, but Multi-protein docking is not ` +
       `supported. Please remove search IDs until 1 remains.`
       console.error(errorMessage);
       return errorMessage;
@@ -507,11 +501,11 @@ function DockingContainer(props){
     if(newLigands.size > 0){
       var ligandArray = Array.from(newLigands)
       if(ligandArray[0].file){
-        replaceFormField("ligandID","ligand", ligandArray[0].file)    
+        replaceFormField("ligandID","ligand", ligandArray[0].file)
       } else {
-        replaceFormField("ligand","ligandID", ligandArray[0].name)  
+        replaceFormField("ligand","ligandID", ligandArray[0].name)
       }
-      
+
     } else {
       setFormValue("ligand", null);
     }
@@ -538,7 +532,7 @@ function DockingContainer(props){
 
       cleanupCachedLibraryLigands()
 
-      //made a specific return statement for this case to avoid async issues, like returning cachedLibrary before it 
+      //made a specific return statement for this case to avoid async issues, like returning cachedLibrary before it
       //is set
       return newLibrary;
     }
@@ -562,7 +556,7 @@ function DockingContainer(props){
         ligandsToDelete.push(selectedLigand);
       }
     }
-    
+
     //clone selectedLigands for modification
     let modifiedSelectedLigands = new Set(selectedLigands)
     //delete every ligand from modifiedSelectedLigands that occurs in ligandsToDelete
@@ -598,8 +592,9 @@ function DockingContainer(props){
       dockingInProgress = {dockingInProgress}
       dockingError = {dockingError}
       setDockingError = {setDockingError}
+      helpText = {helpText}
     />
-    <ImportedLigandsContainer 
+    <ImportedLigandsContainer
       importedLigands = {uploadedLigands}
       setImportedLigands = {setUploadedLigands}
       selectedLigands = {selectedLigands}
@@ -611,6 +606,7 @@ function DockingContainer(props){
       dockingInProgress = {dockingInProgress}
       dockingError = {dockingError}
       setDockingError = {setDockingError}
+      helpText={helpText}
     />
     {
       //Only display docking info if there is a viewing ligand selected

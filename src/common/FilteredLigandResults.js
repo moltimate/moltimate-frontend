@@ -3,7 +3,8 @@ import {useState} from "react";
 import propTypes from 'prop-types';
 
 import LigandResultsBox from "./LigandResultsBox";
-import ErrorBar from '../common/ErrorBar';
+import ErrorBar from './ErrorBar';
+import ParsedToolTip from "./ParsedToolTip"
 import UploadLigand from "./UploadLigand";
 
 import ListItem from "@material-ui/core/ListItem";
@@ -18,13 +19,13 @@ import styles from "./styles.js";
  * process, and (optionally) an "upload" button to upload ligands
  */
 function FilteredLigandResults(props) {
-  const { classes, temp, handleLigandUpload, selectedLigands, dockedLigands, 
-    clickLigandHandler, dockHandler, viewingLigand, uploadButton, midDocking, dockingError, setDockingError } = props;
+  const { classes, temp, handleLigandUpload, selectedLigands, dockedLigands,
+    clickLigandHandler, dockHandler, viewingLigand, uploadButton, midDocking,
+    dockingError, setDockingError, helpText } = props;
 
   //a string used as filtering criteria for the list of ligands
   const [filter, setFilter] = useState("");
   const [error, setError] = useState(false);
-  
   const test1 = [];
 
   //Display Upload button when true, display Dock button when false
@@ -34,12 +35,47 @@ function FilteredLigandResults(props) {
     return uploadButton && selectedLigands.size == 0
   }
 
+  function getButton(){
+    return(
+      showUploadButton() ?
+        <div className={classes.flexBox}>
+          <UploadLigand
+            handleChange={
+              (e) => {
+                setFilter("");
+                handleLigandUpload(e, setError);
+              }
+            }
+            label=''
+            inputName='customLigand'
+            buttonText='Upload'
+            files={test1}
+          />
+          <ParsedToolTip tooltipClassName="ligandButtonTooltip" text={helpText.dockButtonText}/>
+        </div>
+        :
+        <div className={classes.flexBox}>
+          <Button
+            //initiates the docking process
+            name='dock'
+            className= {classes.dockButton}
+            onClick= {() => {dockHandler(setError)}}
+            variant= "contained"
+            color= 'primary'
+            disabled= {midDocking}
+          >
+            Dock
+          </Button>
+          <ParsedToolTip tooltipClassName="ligandButtonTooltip" text={helpText.dockButtonText}/>
+        </div>
+      )
+  }
+
   /**
-   * given an object containing ligands, return a list containing the subset of ligands that 
+   * given an object containing ligands, return a list containing the subset of ligands that
    * match the filter specified in the textfield
    */
   function filterLigands(ligandLibrary){
-    
     if(filter != ""){
 
       var filteredLigandList = [];
@@ -70,14 +106,17 @@ function FilteredLigandResults(props) {
   return(
     <div>
       <ListItem>
-        <ListItemText>
-          <TextField 
+        <div className={classes.flexBox}>
+          <TextField
             //represents a text filter, currently non functional (TODO)
             value = {filter}
-            name = "filter" 
+            name = "filter"
             label = "Ligand Filter"
             onChange = {(e) => setFilter(e.target.value)}
           />
+          {helpText ? <ParsedToolTip tooltipClassName="ligandLabelTooltip" text={helpText.ligandFilterText}/>
+          : <></>}
+          </div>
           { error ?
             <ErrorBar
               open={open}
@@ -92,35 +131,9 @@ function FilteredLigandResults(props) {
               handleClose={setDockingError}
             /> : null
           }
-          {
-            showUploadButton() ?
-              <UploadLigand
-                handleChange={
-                  (e) => {
-                    setFilter("");
-                    handleLigandUpload(e, setError);
-                  }
-                }
-                label=''
-                inputName='customLigand'
-                buttonText='Upload'
-                files={test1}
-              />
-              : <Button 
-                //initiates the docking process
-                name='dock' 
-                className= {classes.dockButton}
-                onClick= {() => {dockHandler(setError)}}
-                variant= "contained"
-                color= 'primary'
-                disabled= {midDocking}
-              >
-                Dock
-              </Button>
-          }       
-        </ListItemText>
+          {getButton()}
       </ListItem>
-      <LigandResultsBox 
+      <LigandResultsBox
         //Shows the ligands available for docking and viewing
         ligandResults = {filterLigands(temp)}
         selectedLigands = {selectedLigands}
@@ -134,23 +147,23 @@ function FilteredLigandResults(props) {
 };
 FilteredLigandResults.propTypes = {
   classes: propTypes.object,
-  /** 
+  /**
    * An object whose properties are objects representing ligands available for docking operations.
-   * Example of an inner object: 
-   *   {name:"00I", structure:"C30 H35 N5 O6 S", }  
+   * Example of an inner object:
+   *   {name:"00I", structure:"C30 H35 N5 O6 S", }
    */
   temp: propTypes.object,
-  /** 
+  /**
    * A Set of objects representing ligands selected for docking operations.
-   * Example of object inside the Set: 
-   *   {name:"00I", structure:"C30 H35 N5 O6 S", selected:false, min_affinity:0, macromolecule:false;}  
+   * Example of object inside the Set:
+   *   {name:"00I", structure:"C30 H35 N5 O6 S", selected:false, min_affinity:0, macromolecule:false;}
    */
   selectedLigands: propTypes.object,
-  /** 
+  /**
    * A Set of objects representing ligands which have had docking operations
    * performed on them.
-   * Example of object inside the Set: 
-   *   {name:"00I",structure:"C30 H35 N5 O6 S", min_affinity: -5.2}  
+   * Example of object inside the Set:
+   *   {name:"00I",structure:"C30 H35 N5 O6 S", min_affinity: -5.2}
    */
   dockedLigands: propTypes.object,
   /** A function that is triggered when a user clicks on a Ligand in the list. */
@@ -159,9 +172,9 @@ FilteredLigandResults.propTypes = {
   dockHandler: propTypes.func,
   /** The handler for selecting a  */
   handleSelectedResult: propTypes.func,
-  /** An object representing a ligand selected to be viewed 
+  /** An object representing a ligand selected to be viewed
    *  Example of object:
-   *    {name:"00I",structure:"C30 H35 N5 O6 S", min_affinity: -5.2}  
+   *    {name:"00I",structure:"C30 H35 N5 O6 S", min_affinity: -5.2}
    */
   viewingLigand: propTypes.object,
   /**

@@ -11,6 +11,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import ResidueInputs from './ResidueInputs';
 import TestOptions from './TestOptions';
 import ProteinOptions from './ProteinOptions';
+import ParsedToolTip from '../../common/ParsedToolTip';
 
 import styles from '../styles.js';
 import { withStyles } from '@material-ui/core/styles';
@@ -20,7 +21,7 @@ const MAX_RESIDUE = 10;
 const MIN_RESIDUE = 3;
 
 function BuilderForm(props) {
-  const { classes, values, handleChange } = props;
+  const { classes, values, handleChange, helpText} = props;
   const [ numberInputs, setNumberInputs ] = useState(3);
 
   function renderResidueInputs(num) {
@@ -38,9 +39,12 @@ function BuilderForm(props) {
 
   return (
     <div className={classes.builderContainer}>
-      <ProteinOptions handleChange={handleChange} values={values} />
+      <ProteinOptions handleChange={handleChange} values={values} helpText={helpText} />
       <Divider className={classes.padded}/>
-      <FormLabel component='legend'>Active Sites</FormLabel>
+      <div className={classes.flexBox}>
+        <FormLabel component='legend'>Active Sites</FormLabel>
+        <ParsedToolTip tooltipClassName="activesiteTooltip" text={helpText.activeSites}/>
+      </div>
       <div>
         { renderResidueInputs(numberInputs) }
         <div className={classes.buttonContainer}>
@@ -57,6 +61,7 @@ function BuilderForm(props) {
       <Divider className={classes.padded}/>
       <div>
         <TestOptions
+          helpText={helpText}
           handleChange={handleChange}
           values={values}
         />
