@@ -19,6 +19,7 @@ import { withStyles } from '@material-ui/core/styles';
 function MoltimateContainer(props) {
 
   const { classes } = props;
+  const showLigandComponents = false;
   const { searchText, makerText, ligandText } = helpText;
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
@@ -120,6 +121,7 @@ function MoltimateContainer(props) {
           selectedResult={selectedResult}
           helpText = {makerText}
         />
+        { showLigandComponents ?
         <DockingContainer
           selectedMacromolecules = {searchedProteinIDs}
           dockingCenter = {dockingCenter}
@@ -137,7 +139,7 @@ function MoltimateContainer(props) {
             setDockingDisplayActiveSites(x)}}
             viewingLigand = {viewingLigand}
             setViewingLigand = {setViewingLigand}
-        />
+        /> : null }
       </div>
 
       {
@@ -156,6 +158,7 @@ function MoltimateContainer(props) {
       {
         //Only display the settings modal when showSettings is true
         showSettings ? <SettingsContainer
+          showLigandComponents = {showLigandComponents}
           setShowSettings = {setShowSettings}
           dockingSearchCenter = {dockingCenter}
           setDockingSearchCenter = {setDockingCenter}

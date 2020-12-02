@@ -12,8 +12,9 @@ import DisplayMode from './DisplayMode.js';
 
 function SettingsContainer(props){
   const {classes, setShowSettings, queryProteinMode, setQueryProteinMode, motifProteinMode, setMotifProteinMode,
-    dockingProteinMode, setDockingProteinMode, activeSitesMode, setActiveSitesMode, ligandMode, 
-    setLigandMode, dockingSearchCenter, setDockingSearchCenter, dockingSearchRange, setDockingSearchRange} = props;
+    dockingProteinMode, setDockingProteinMode, activeSitesMode, setActiveSitesMode, ligandMode,
+    setLigandMode, dockingSearchCenter, setDockingSearchCenter, dockingSearchRange, setDockingSearchRange,
+  showLigandComponents} = props;
   const [formDockingCenter, setFormDockingCenter] = useState(dockingSearchCenter);
   const [formDockingRange, setFormDockingRange] = useState(dockingSearchRange);
     const [formQueryProteinMode, setFormQueryProteinMode] = useState(queryProteinMode);
@@ -22,7 +23,7 @@ function SettingsContainer(props){
   const [formActiveSitesMode, setFormActiveSitesMode] = useState(activeSitesMode);
   const [formLigandMode, setFormLigandMode] = useState(ligandMode);
 
-  var modalCard = 
+  var modalCard =
     <Grid
       container
       alignItems = "center"
@@ -32,18 +33,18 @@ function SettingsContainer(props){
       onClick = {() => setShowSettings(false)}
     >
       <Grid
-        //prevents a click event on the settings to cause the settings menu to close 
+        //prevents a click event on the settings to cause the settings menu to close
         //(clicks elsewhere on the grid close the modal)
         onClick = {(e)=> e.stopPropagation()}
       >
         <Card children = {
           <div className = {classes.settingsContainer}>
-            <DockingSearchBounds
+            { showLigandComponents ? <DockingSearchBounds
               dockingSearchCenter = {formDockingCenter}
               setDockingSearchCenter = {setFormDockingCenter}
               dockingSearchRange =  {formDockingRange}
               setDockingSearchRange = {setFormDockingRange}
-            />
+            /> : null}
             <DisplayMode
               displayMode = {formQueryProteinMode}
               setDisplayMode = {setFormQueryProteinMode}
@@ -56,24 +57,24 @@ function SettingsContainer(props){
               title = "Alignment Motif Protein Display Mode"
               cartoonMode = 'false'
             />
-            <DisplayMode
+            { showLigandComponents ? <DisplayMode
               displayMode = {formDockingProteinMode}
               setDisplayMode = {setFormDockingProteinMode}
               title = "Docking Protein Display Mode"
               cartoonMode = 'true'
-            />
-            <DisplayMode
+            /> : null}
+            { showLigandComponents ? <DisplayMode
               displayMode = {formActiveSitesMode}
               setDisplayMode = {setFormActiveSitesMode}
               title = "Docking Active Sites Display Mode"
               cartoonMode = 'false'
-            />
-            <DisplayMode
+            /> : null}
+            { showLigandComponents ? <DisplayMode
               displayMode = {formLigandMode}
               setDisplayMode = {setFormLigandMode}
               title = "Docking Ligand Display Mode"
               cartoonMode = 'false'
-            />
+            /> : null}
             <div className={classes.settingsBoxFooter}>
               <Button name='apply-settings' className={classes.rounded} onClick={(e) => {
                 setQueryProteinMode(formQueryProteinMode);
@@ -91,8 +92,8 @@ function SettingsContainer(props){
     </Grid>;
 
 
-  return(<Modal 
-    open = {true} 
+  return(<Modal
+    open = {true}
     children = {modalCard}
     //When the backdrop of the modal is clicked, close the modal
     />);
