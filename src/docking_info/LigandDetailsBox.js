@@ -15,8 +15,8 @@ import {exportDockingInfoURL} from "../util/request"
 import styles from "./styles.js"
 
 function LigandDetailsBox(props){
-  const {dockingConfigurations, selectedDockingConfiguration, selectConfigurationHandler, ligandName, checkedLigands, classes} = props;
-
+  const {dockingConfigurations, selectedDockingConfiguration, selectConfigurationHandler, ligandName, jobId, classes} = props;
+  var checkBoxes = [false];
   /*
   Formats a docking-configuration index value for viewing
 
@@ -35,7 +35,8 @@ function LigandDetailsBox(props){
   }
   //create a row for the docking ligands table
   function createDockingConfigRow(docking_configuration, is_selected ){
-    let formattedIndex = formatIndex(docking_configuration[0])
+    let formattedIndex = formatIndex(docking_configuration[0]);
+    checkBoxes.push(false); //could set checkbox value to this
     if(is_selected){
       return(
         <TableRow 
@@ -43,7 +44,7 @@ function LigandDetailsBox(props){
           onClick = {(e) => selectConfigurationHandler(null)}
           key = {formattedIndex}
         >
-          <TableCell children = {<input type="checkbox" id={formatIndex} onChange={(e,this) => selectForDownload(e)}/>}/>
+          <TableCell children = {<input type="checkbox" name={formattedIndex} onChange={(e) => handleChange(e)}/>}/>
           <TableCell children = {formattedIndex} key = {formattedIndex + '0'}/>
           <TableCell children = {docking_configuration[1]} key = {formattedIndex + '1'}/>
           <TableCell children = {docking_configuration[2]} key = {formattedIndex + '2'}/>
@@ -56,7 +57,7 @@ function LigandDetailsBox(props){
           onClick = {(e) => selectConfigurationHandler(docking_configuration)}
           key = {formattedIndex}
         >
-          <TableCell children = {<input type="checkbox" id={formatIndex} onChange={(e,this) => selectForDownload(e)}/>}/>
+          <TableCell children = {<input type="checkbox" name={formattedIndex} onChange={(e) => handleChange(e)}/>}/>
           <TableCell children = {formatIndex(docking_configuration[0])}/>
           <TableCell children = {docking_configuration[1]}/>
           <TableCell children = {docking_configuration[2]}/>
@@ -66,9 +67,21 @@ function LigandDetailsBox(props){
       
   }
 
-  function selectForDownload(e, checkbox){
-    console.log("HELLO!!!!");
-    console.log(checkbox);
+  function handleChange(e) {
+    if(index == "all"){
+      if(e.target.value){
+        checkBoxes[0] = true;
+      }else{
+        checkBoxes[0] = false;
+      }
+    }else{
+      var index = Number(e.target.name);
+      if(e.target.value){
+        checkBoxes[index] = true;
+      }else{
+        checkBoxes[index] = false;
+      }
+    }
   }
     
   function downloadDockingInfo() {
@@ -82,9 +95,9 @@ function LigandDetailsBox(props){
             rmsdUpper: configuration[3]
         });
      });
-     axios.post(exportDockingInfoURL, {ligands: dockingData}).then( (response) => {
+     axios.post(exportDockingInfoURL, {ligands: dockingData, babelJobId : jobId, selectedConfigs : checkBoxes},{responseType : 'blob'}).then( (response) => {
         var data = response.data;
-        FileDownload( data, 'ligands.csv' );
+        FileDownload( data, 'moltimate.zip' );
      });
   }
   
@@ -93,7 +106,7 @@ function LigandDetailsBox(props){
     <Table>
       <TableHead className={classes.ligandTableHead}>
         <TableRow>
-          <TableCell children = {<input type="checkbox" id="top"onChange={(e) => selectForDownload(e,this)}/>}/>
+          <TableCell children = {<input type="checkbox" name="all" onChange={(e) => handleChange(e)}/>}/>
           <TableCell children = "ID"/>
           <TableCell children = "Binding Affinity"/>
           <TableCell children = "min RMSD"/>

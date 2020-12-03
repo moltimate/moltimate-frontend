@@ -8,7 +8,7 @@ import styles from "./styles.js"
 import LigandDetailsBox from "./LigandDetailsBox.js"
 
 function DockingInfoContainer(props){
-  const {classes, dockingConfigurations, selectedDockingConfiguration, selectConfigurationHandler, ligandName} = props;
+  const {classes, dockingConfigurations, selectedDockingConfiguration, selectConfigurationHandler, ligandName, jobId} = props;
 
   return <Card 
       className = {classes.dockingInfoContainer}
@@ -18,6 +18,7 @@ function DockingInfoContainer(props){
         selectedDockingConfiguration = {selectedDockingConfiguration}
         selectConfigurationHandler = {selectConfigurationHandler}
         ligandName = {ligandName}
+        jobId = {jobId}
       />}
     />
 }
