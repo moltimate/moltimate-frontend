@@ -40,7 +40,7 @@ export default function FilterButton(props) {
             horizontal: 'center',
           }}
         >
-          <FilterInputs inputs={popoverContent} handleChange={() => console.log('CHANGING')}/>
+          <FilterInputs inputs={popoverContent} handleChange={() => {}}/>
         </Popover>
     </>
   );

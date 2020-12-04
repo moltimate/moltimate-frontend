@@ -1,0 +1,30 @@
+os: linux
+language: node_js
+notifications:
+  email: false
+node_js:
+  - 10
+before_install:
+- openssl aes-256-cbc -K $encrypted_69f9725ef056_key -iv $encrypted_69f9725ef056_iv
+  -in secrets/client-secret.json.enc -out client-secret.json -d
+install:
+- npm install
+before_deploy:
+- npm run build
+- mkdir archive
+- mv dist.tar.gz archive
+deploy:
+  provider: gcs
+  edge: true
+  acl: public-read
+  access_key_id:
+    secure: HP5M2upb4aoDJXmtmXCR33yuxIlx3fwiPfMwOINDSl+YRibIiMgCq5ItoOQMqqP/2Yq5nO6bQITG95eGj56IsDYgPR9g/yziXO5XhduWosz/7DN//A9hKlTjGFlzH6I1pJ9Ke+VE+TSZfVuOwHgiSe0S7bB06a/nvqOZFn4isgHO2WT6hI7T+AAGKUUKpyX2wR5y9duF4DLRFi4HStu4V/EPKhg2Gq3zo/BwnZmzLh0sKNFZMu1aLGchDneLIuOecbTtvH+ew4XMXbTsMEPiAP0fV3xX80ZSjA0eIT50hL1Q3WpvsedPCt8cMQTCcYRjSZJ0wrGuZkh/YoitgVDIg38LMIg9pDRR2AGUZGW5qej8B4MxBLhEO5zSGpyIZzmzrx4brIjEf8w0e4HOhp6f9riayN+/ibzBhCXTcpvsbNUvtBq3OufQI1syI0LNfQy+YKvQ/BRC4CAvfV7C2pmb+tpgBB/9t7JtrB2kNWTJtl1e2Z86miumjCmKc/LVVZR2YADGHskLSqsTwo35IOmJwsG/dc+GochAMBiBDmFMyBXrGI+iJn38rDKRCKKpMB8ALFLuisImzDqjsDdA9UXCJIReWgTfgndfPR+WwxU1R2LhtYhjJZo85ByamFnLQBs20chaiharaBrM+GVoIqzNMU1wUeGas2dhEp0zGIjcKOY=
+  secret_access_key:
+    secure: rymv3nBZ3elL5CFCPojY5NfALruH4MguCodA4Ck/3YRUE5J+aX7QahAm4QJv1wbBKjfby7OxxJ37C+T07/9aBGJPWgTcTApahdRr9+qBVC9XiGQjigATFhN5A+YdJLOtuKmYLKHaSirgrXXLhmz6SzVKUJn8Gu/jgB8/Mc3hMo93o9+amJzGqcTqlY5O9GCfD0JdMFCaVe+WqbHG/i89rDV7Qsy5QnFssLsCG8yIdkB+5eZbLEX3ux/n0vCkH+3/p+gx9rRIEWEURboEgZ6wLCCh8Ua8qXkYOAZPQXHRu6ujmjqQg2V9PowUwUIMnqCT43Bm4YtajD3M6TBBLmYuELS8tKZxlfVGlkXYQR6n+esj72+9STlS7MLZxJ/NuBhwCLs9USRj4OZicO6j/qNcfHe2dmm3NhSzD3I0pfh32VQEA7q+GN+YVKsx14O9wgCcmwAxQEZ6SU6+aLmChkkBczIrujh8U0Tt6/bBlBktb9SuOWMk+bevFXzgmm8f+LnJSA6QVoylncDJq9+n/2p/mDqTBJFG8DkAWeeyZstI1vBN88vc7L150V8b/q22Y4z5mpmOrIoAgH8Ia/EXG4ZjX99L9DsS/H+RzURxmt7JBneRxCbGHzjrJZYNsyK01X7frshatuuitPU5u+2a6pNG3cXu4iMJKgwBYdHllRu5Ym0=
+  bucket: artifacts.moltimate.appspot.com
+  upload_dir: frontend/$TRAVIS_BRANCH
+  local_dir: ./archive
+  on: 
+    branch:
+    - dev 
+    - master

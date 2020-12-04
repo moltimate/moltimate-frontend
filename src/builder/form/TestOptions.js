@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -10,9 +11,13 @@ import TextField from '@material-ui/core/TextField';
 
 import ChipWithIcon from '../../search/form/ChipWithIcon';
 import UploadFile from  '../../search/form/UploadFile';
+import ParsedToolTip from '../../common/ParsedToolTip';
+
+import styles from '../styles.js';
+import { withStyles } from '@material-ui/core/styles';
 
 function TestOptions(props) {
-  const {classes, handleChange, values} = props;
+  const {classes, handleChange, values, helpText} = props;
 
 // TODO change Radio button color
   return (
@@ -24,10 +29,26 @@ function TestOptions(props) {
         value={values.type ? values.type : 'self'}
         onChange={(e) => handleChange(e, 0)}
       >
-        <FormControlLabel value='self' control={<Radio />} label='Self' />
-        <FormControlLabel value='homolog' control={<Radio />} label='Homolog' />
-        <FormControlLabel value='random' control={<Radio />} label='Random' />
-        <FormControlLabel value='list' control={<Radio />} label='List'/>
+        <FormControlLabel value='self' control={<Radio />} label={
+          <div className={classes.flexBox}>
+          <p>Self</p>
+          <ParsedToolTip tooltipClassName="testRadioTooltip" text={helpText.selfTest}/>
+          </div>}/>
+        <FormControlLabel value='homolog' control={<Radio />} label={
+            <div className={classes.flexBox}>
+            <p>homolog</p>
+            <ParsedToolTip tooltipClassName="testRadioTooltip" text={helpText.homologTest}/>
+            </div>}/>
+        <FormControlLabel value='random' control={<Radio />}  label={
+            <div className={classes.flexBox}>
+            <p>Random</p>
+            <ParsedToolTip tooltipClassName="testRadioTooltip" text={helpText.randomTest}/>
+            </div>}/>
+        <FormControlLabel value='list' control={<Radio />}  label={
+            <div className={classes.flexBox}>
+            <p>List</p>
+            <ParsedToolTip tooltipClassName="testRadioTooltip" text={helpText.listTest}/>
+            </div>}/>
       </RadioGroup>
       {values.type === 'list' ?
         <ChipWithIcon
@@ -46,17 +67,10 @@ function TestOptions(props) {
           onChange={(e) => handleChange(e, 0)}
         /> : null
       }
-      <UploadFile
-        handleChange={handleChange}
-        label='Custom Structures'
-        inputName='customStructures'
-        buttonText='Upload'
-        files={values.customStructures}
-      />
     </FormControl>
   );
 }
 
 // TODO test proptypes
 
-export default TestOptions;
+export default withStyles(styles)(TestOptions);

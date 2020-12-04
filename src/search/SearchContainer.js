@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
-import useForm from '../util/request';
+import useForm, { searchQueryURL } from '../util/request';
+import { withStyles } from '@material-ui/core/styles';
 
 import BuildIcon from '@material-ui/icons/Build';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -18,23 +19,27 @@ import SearchIcon from '@material-ui/icons/Search';
 import ResultsBox from '../common/ResultsBox';
 import MenuCard from '../common/MenuCard';
 import ErrorBar from '../common/ErrorBar';
+import Modal from '../common/Modal'
 import ResultDetails from '../common/ResultDetails';
 import QueryFormContainer from './form/QueryFormContainer';
+import helpText from './SearchText.js'
 
-import classNames from 'classnames';
+
 import styles from './styles.js';
-import { withStyles } from '@material-ui/core/styles';
+
 
 function SearchContainer(props) {
-  const { classes, selectedResult, handleSelectedResult } = props;
+  const { classes, selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress, helpText } = props;
+  const { searchBoxModalText } = helpText
   const { values, result, handleChange, handleClearValues, handleSubmit,
-    handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm();
+    handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
 
   const [expandBuild, setExpandBuild] = useState(false);
   const [expandResult, setExpandResult] = useState(false);
   const [open, setOpen] = useState(true);
   const [ selected, setSelected ] = useState(null);
   const [ res, setRes ] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     handleSetMode('search');
@@ -49,6 +54,10 @@ function SearchContainer(props) {
     setSelected(pdbId);
     setRes(extra);
 
+    clearEClass();
+    setEClass(pdbId.ecNumber, extra.pdbId);
+    setAlignmentInProgress(true);
+
     handleSelectedResult(e, parentId, childId, active, aligned)
   }
 
@@ -59,6 +68,7 @@ function SearchContainer(props) {
         break;
       case 1:
         handleChipInput(e, extra);
+        setSearchedProteins(e);
         break;
       case 2:
         handleResidues(e);
@@ -69,7 +79,7 @@ function SearchContainer(props) {
       case 4:
         setExpandBuild(false);
         setExpandResult(true);
-        handleSubmit(e);
+        handleSubmit(e, clearEClass, setEClass);
         break;
       case 5:
         handleClearValues(e)
@@ -95,28 +105,35 @@ function SearchContainer(props) {
         label='Search'
         expand={expandBuild}
         handleClick={setExpandBuild}
+        modalText={searchBoxModalText}
         cardChild={
           <QueryFormContainer
             values={values}
+            helpText={helpText}
             handleChange={switchHandler}
           />
         }
         childIcon={<SearchIcon />}
       />
-      {result.mode === 'search' ?
+      {
+        result.mode === 'search' ?
           <MenuCard
             label='Search Results'
+            modalText={helpText.searchResultsModalText}
             expand={expandResult}
             handleClick={setExpandResult}
             cardChild={
               <ResultsBox
                 handleSelectedResult={filterHandleSelectedResult}
+                setEClass = {setEClass}
+                helpText={helpText}
                 temp={ result.data ? result.data.entries : []}
               />
             }
             childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
         /> : null
       }
+      { setAlignmentInProgress(result.pending) }
       {
         selected && result.data ?
           <ResultDetails
