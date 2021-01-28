@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import useForm, { searchQueryURL } from '../util/request';
+import { withStyles } from '@material-ui/core/styles';
 
 import BuildIcon from '@material-ui/icons/Build';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -18,15 +19,18 @@ import SearchIcon from '@material-ui/icons/Search';
 import ResultsBox from '../common/ResultsBox';
 import MenuCard from '../common/MenuCard';
 import ErrorBar from '../common/ErrorBar';
+import Modal from '../common/Modal'
 import ResultDetails from '../common/ResultDetails';
 import QueryFormContainer from './form/QueryFormContainer';
+import helpText from './SearchText.js'
 
-import classNames from 'classnames';
+
 import styles from './styles.js';
-import { withStyles } from '@material-ui/core/styles';
+
 
 function SearchContainer(props) {
-  const { classes, selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress } = props;
+  const { classes, selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress, helpText } = props;
+  const { searchBoxModalText } = helpText
   const { values, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
 
@@ -35,6 +39,7 @@ function SearchContainer(props) {
   const [open, setOpen] = useState(true);
   const [ selected, setSelected ] = useState(null);
   const [ res, setRes ] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     handleSetMode('search');
@@ -100,23 +105,28 @@ function SearchContainer(props) {
         label='Search'
         expand={expandBuild}
         handleClick={setExpandBuild}
+        modalText={searchBoxModalText}
         cardChild={
           <QueryFormContainer
             values={values}
+            helpText={helpText}
             handleChange={switchHandler}
           />
         }
         childIcon={<SearchIcon />}
       />
-      {result.mode === 'search' ?
+      {
+        result.mode === 'search' ?
           <MenuCard
             label='Search Results'
+            modalText={helpText.searchResultsModalText}
             expand={expandResult}
             handleClick={setExpandResult}
             cardChild={
               <ResultsBox
                 handleSelectedResult={filterHandleSelectedResult}
                 setEClass = {setEClass}
+                helpText={helpText}
                 temp={ result.data ? result.data.entries : []}
               />
             }

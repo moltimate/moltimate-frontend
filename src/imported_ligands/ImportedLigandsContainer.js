@@ -8,20 +8,23 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 function ImportedLigandsContainer(props){
-  const {importedLigands, setImportedLigands, selectedLigands, dockedLigands, viewingLigand, 
-    clickLigandHandler, dockHandler, ligandUploadHandler, dockingInProgress, dockingError, setDockingError} = props;
+  const {importedLigands, setImportedLigands, selectedLigands, dockedLigands, viewingLigand,
+    clickLigandHandler, dockHandler, ligandUploadHandler, dockingInProgress,
+    dockingError, setDockingError, helpText} = props;
   const [expandImportedLigands, setExpandImportedLigands] = useState(false);
 
   return(
     <MenuCard
       label='Imported Ligands'
       expand={expandImportedLigands}
+      modalText={helpText.importedLigandsModalText}
       handleClick={setExpandImportedLigands}
       cardChild={
-        <FilteredLigandResults 
+        <FilteredLigandResults
           temp={importedLigands}
-          handleLigandUpload={(e, errorSetter) => 
-            ligandUploadHandler(e,errorSetter,importedLigands,setImportedLigands)} 
+          helpText={helpText}
+          handleLigandUpload={(e, errorSetter) =>
+            ligandUploadHandler(e,errorSetter,importedLigands,setImportedLigands)}
           selectedLigands={selectedLigands}
           dockedLigands = {dockedLigands}
           clickLigandHandler={clickLigandHandler}
@@ -42,8 +45,8 @@ function ImportedLigandsContainer(props){
 ImportedLigandsContainer.propTypes = {
   /** true if any ligands are undergoing docking */
   dockingInProgress: PropTypes.bool,
-  /** 
-   * Is called whenever a a ligand is to be uploaded. accepts an event and an error message (string) 
+  /**
+   * Is called whenever a a ligand is to be uploaded. accepts an event and an error message (string)
    * mutator function
    */
   ligandUploadHandler: PropTypes.func,

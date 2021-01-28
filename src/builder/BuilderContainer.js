@@ -27,7 +27,7 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function BuilderContainer(props) {
-  const { classes, handleSelectedResult } = props;
+  const { classes, handleSelectedResult, helpText } = props;
   const { values, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
 
@@ -92,8 +92,9 @@ function BuilderContainer(props) {
       <MenuCard
         label='Maker'
         expand={expandBuild}
+        modalText={helpText.makerModalText}
         handleClick={setExpandBuild}
-        cardChild={<BuilderForm values={values} handleChange={switchHandler} />}
+        cardChild={<BuilderForm values={values} handleChange={switchHandler} helpText={helpText} />}
         childIcon={<BuildIcon />}
       />
       {

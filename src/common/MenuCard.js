@@ -8,23 +8,27 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Modal from './Modal'
 
-import classNames from 'classnames';
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
+
 function MenuCard(props) {
-  const { classes, expand, label, cardChild, childIcon, handleClick } = props;
+  const { classes, expand, label, cardChild, childIcon, handleClick, modalText} = props;
 
   return (
-    <Card className={classes.search} >
-      <ListItem button onClick={() => handleClick(!expand)}>
-        <ListItemIcon>
-          {childIcon}
-        </ListItemIcon>
-        <ListItemText inset primary={label} />
-        {expand ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
+    <Card className={classes.search}>
+      <div className={classes.flexBox}>
+        <ListItem button onClick={() => handleClick(!expand)}>
+          <ListItemIcon>
+            {childIcon}
+          </ListItemIcon>
+        <ListItemText inset primary={label}/>
+          {expand ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        {modalText ? <Modal text={modalText}  /> : <></>}
+      </div>
       <Collapse in={expand} className={classes.scrolling}>
         {cardChild}
       </Collapse>
