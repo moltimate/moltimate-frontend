@@ -63,7 +63,6 @@ function MoltimateContainer(props) {
     }
     searchEClass[className] = protein;
     setSearchEClass(searchEClass);
-    console.log(searchEClass);
   }
 
   function clearEClass() {
@@ -146,6 +145,7 @@ function MoltimateContainer(props) {
       <div className={classes.molstarContainer}>
           <MolStar
             basicWrapper={basicWrapper}
+            alignedPdbId={selectedResult}
           />
       </div>
       {

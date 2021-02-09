@@ -7,7 +7,7 @@ import ResultItem from './ResultItem';
 
 
 export default function ResultsBox(props) {
-  const { failedResult, successResult, handleSelectedResult, setEClass, temp } = props;
+  const { failedResult, successResult, handleSelectedResult, setEClass, temp, basicWrapper } = props;
   if( setEClass && temp && temp.length > 0 ) setEClass(temp[0].ecNumber, temp[0].pdbId, true);
   return (
     <div>
@@ -15,6 +15,7 @@ export default function ResultsBox(props) {
         {
           failedResult ?
             <ResultItem
+              basicWrapper = {basicWrapper}
               handleSelectedResult={handleSelectedResult}
               results={failedResult}
               isSuccess={0}
@@ -23,6 +24,7 @@ export default function ResultsBox(props) {
         {
           successResult ?
             <ResultItem
+              basicWrapper = {basicWrapper}
               handleSelectedResult={handleSelectedResult}
               results={successResult}
               isSuccess={1}
@@ -33,6 +35,7 @@ export default function ResultsBox(props) {
             temp.map((m, k) => {
               return (
                 <ResultItem
+                  basicWrapper = {basicWrapper}
                   key={k}
                   parent={{pdbId: m.pdbId, ecNumber: m.ecNumber}}
                   handleSelectedResult={handleSelectedResult}

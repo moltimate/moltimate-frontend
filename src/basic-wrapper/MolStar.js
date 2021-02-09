@@ -3,7 +3,7 @@ import BasicWrapper from './ts/BasicWrapper';
 import styles from '../styles.js';
 
 function MolStar(props) {
-    const { searchQuery, basicWrapper } = props;
+    const { searchQuery, basicWrapper, alignedPdbId } = props;
     const [pdbId, setPdbId] = useState(searchQuery || '1grm');
     const [url, setUrl] = useState('https://files.rcsb.org/download/' + pdbId + '.cif');
     const [format, setFormat] = useState('mmcif');

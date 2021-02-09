@@ -119,6 +119,7 @@ function SearchContainer(props) {
                 handleSelectedResult={filterHandleSelectedResult}
                 setEClass = {setEClass}
                 temp={ result.data ? result.data.entries : []}
+                basicWrapper = {basicWrapper}
               />
             }
             childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }
