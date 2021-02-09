@@ -8,14 +8,20 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 export default function ResultItem(props) {
-  const { results, isSuccess, handleSelectedResult, parent } = props;
+  const { results, isSuccess, handleSelectedResult, parent, basicWrapper } = props;
     return (
       <>
+      
+    {/* basicWrapper.load({ url: 'https://files.rcsb.org/download/' + parentId + '.cif', initSearch: false}) */}
+    {/* handleSelectedResult(e, r, parent) */}
         { results.map((r, k) => {
           return (
             <ListItem
               button
-              onClick={(e) => handleSelectedResult(e, r, parent)}
+              onClick={(e) => {
+                handleSelectedResult(e, r, parent)
+                basicWrapper.load({ pdbId: r.pdbId, resultSelected: true })
+              }}
               key={k}
             >
               { isSuccess === 1 ? <ListItemIcon><CheckCirclOutlineIcon style={{color: '#84C556'}} /></ListItemIcon> : null}

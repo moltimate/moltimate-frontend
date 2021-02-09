@@ -61,8 +61,12 @@ function QueryFormContainer(props) {
         {/* handleChange(e, 4) */}
         {/* {console.log(values.pdbIds)} */}
         {/* {console.log(values)} */}
+        {/* basicWrapper.load({ url: 'https://files.rcsb.org/download/' + values.pdbIds[0] + '.cif' }) */}
         {/* {console.log('https://files.rcsb.org/download/' + values.pdbIds? values.pdbIds : '' + '.cif')} */}
-        <Button name='search' className={classes.rounded} onClick={(e) => basicWrapper.load({ url: 'https://files.rcsb.org/download/' + values.pdbIds[0] + '.cif' })}>Search</Button>
+        <Button name='search' className={classes.rounded} onClick={(e) => {
+          handleChange(e, 4)
+          basicWrapper.load({ pdbId: values.pdbIds[0]})
+        }}>Search</Button>
       </div>
     </div>
   );
