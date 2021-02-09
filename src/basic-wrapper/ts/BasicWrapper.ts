@@ -8,7 +8,7 @@ import { EmptyLoci } from 'molstar/lib/mol-model/loci';
 import { StructureSelection } from 'molstar/lib/mol-model/structure';
 import { align } from 'molstar/lib/mol-model/sequence/alignment/alignment';
 import { createPlugin, DefaultPluginSpec } from 'molstar/lib/mol-plugin';
-import { AnimateModelIndex } from 'molstar/lib/mol-plugin-state/animation/built-in';
+// import { AnimateModelIndex } from 'molstar/lib/mol-plugin-state/animation/built-in';
 import { BuiltInTrajectoryFormat } from 'molstar/lib/mol-plugin-state/formats/trajectory';
 import { PluginCommands } from 'molstar/lib/mol-plugin/commands';
 import { PluginContext } from 'molstar/lib/mol-plugin/context';
@@ -21,10 +21,11 @@ import { PDBeStructureQualityReport } from 'molstar/lib/extensions/pdbe';
 import { Asset } from 'molstar/lib/mol-util/assets';
 require('molstar/lib/mol-plugin-ui/skin/light.scss');
 
-type LoadParams = { url: string, format?: BuiltInTrajectoryFormat, isBinary?: boolean, assemblyId?: string }
+type LoadParams = { pdbId: string, format?: BuiltInTrajectoryFormat, isBinary?: boolean, assemblyId?: string, resultSelected: boolean }
 
 export default class BasicWrapper {
     plugin: PluginContext;
+    selectedProteins: Array<string> = [];
 
     init(target: string | HTMLElement) {
         this.plugin = createPlugin(typeof target === 'string' ? document.getElementById(target)! : target, {
@@ -48,35 +49,34 @@ export default class BasicWrapper {
         this.plugin.customModelProperties.register(StripedResidues.propertyProvider, true);
     }
 
-    async load({ url, format = 'mmcif', isBinary = false, assemblyId = '' }: LoadParams) {
-        await this.plugin.clear();
-
-        const data = await this.plugin.builders.data.download({ url: Asset.Url(url), isBinary }, { state: { isGhost: true } });
-        const trajectory = await this.plugin.builders.structure.parseTrajectory(data, format);
-        await this.plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default', {
-            structure: assemblyId ? {
-                name: 'assembly',
-                params: { id: assemblyId }
-            } : {
-                name: 'model',
-                params: { }
-            },
-            showUnitcell: false,
-            representationPreset: 'auto'
+    async renderProtein(format: BuiltInTrajectoryFormat, isBinary: boolean, assemblyId: string) {
+        this.selectedProteins.forEach(async (pdbId) => {
+            let url = 'https://files.rcsb.org/download/' + pdbId + '.cif';
+            await this.plugin.clear();
+            const data = await this.plugin.builders.data.download({ url: Asset.Url(url), isBinary }, { state: { isGhost: true } });
+            const trajectory = await this.plugin.builders.structure.parseTrajectory(data, format);
+            await this.plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default', {
+                structure: assemblyId ? {
+                    name: 'assembly',
+                    params: { id: assemblyId }
+                } : {
+                    name: 'model',
+                    params: { }
+                },
+                showUnitcell: false,
+                representationPreset: 'auto'
+            });
         });
+    }
 
-        // const { aliA, aliB, score } = align(
-        //     'MNGTEGPNFYVPFSNKTGVVRSPFEAPQYYLAEPWQFSMLAAYMFLLIMLGFPINFLTLYVTVQHKKLRTPLNYILLNLAVADLFMVFGGFTTTLYTSLHGYFVFGPTGCNLEGFFATLGGEIALWSLVVLAIERYVVVCKPMSNFRFGENHAIMGVAFTWVMALACAAPPLVGWSRYIPEGMQCSCGIDYYTPHEETNNESFVIYMFVVHFIIPLIVIFFCYGQLVFTVKEAAAQQQESATTQKAEKEVTRMVIIMVIAFLICWLPYAGVAFYIFTHQGSDFGPIFMTIPAFFAKTSAVYNPVIYIMMNKQFRNCMVTTLCCGKNPLGDDEASTTVSKTETSQVAPA',
-        //     'DYKDDDDAENLYFQGNIFEMLRIDEGLRLKIYKDTEGYYTIGIGHLLTKSPSLNAAKSELDKAIGRNTNGVITKDEAEKLFNQDVDAAVRGILRNAKLKPVYDSLDAVRRAALINMVFQMGETGVAGFTNSLRMLQQKRWDEAAVNLAKSRWYNQTPNRAKRVITTFRTGTWDAYAADEVWVVGMGIVMSLIVLAIVFGNVLVITAIAKFERLQTVTNYFITSLACADLVMGLAVVPFGAAHILTKTWTFGNFWCEFWTSIDVLCVTASIETLCVIAVDRYFAITSPFKYQSLLTKNKARVIILMVWIVSGLTSFLPIQMHWYRATHQEAINCYAEETCCDFFTNQAYAIASSIVSFYVPLVIMVFVYSRVFQEAKRQLQKIDKSEGRFHVQNLSQVEQDGRTGHGLRRSSKFCLKEHKALKTLGIIMGTFTLCWLPFFIVNIVHVIQDNLIRKEVYILLNWIGYVNSGFNPLIYCRSPDFRIAFQELLCLRRSSLKAYGNGYSSNGNTGEQSG',
-        //     {
-        //         gapPenalty: -11,
-        //         gapExtensionPenalty: -1,
-        //         substMatrix: 'blosum62'
-        //     }
-        // );
-        // console.log('aliA: ', aliA);
-        // console.log('aliB: ', aliB);
-        // console.log('score: ', score);
+    async load({ pdbId, format = 'mmcif', isBinary = false, assemblyId = '', resultSelected = false }: LoadParams) {
+        if (resultSelected && this.selectedProteins.length === 2) {
+            this.selectedProteins.pop();
+        } else if (!resultSelected) {
+            this.selectedProteins = [];
+        }
+        this.selectedProteins.push(pdbId);
+        this.renderProtein(format, isBinary, assemblyId);
     }
 
     setBackground(color: number) {
@@ -94,16 +94,16 @@ export default class BasicWrapper {
         if (!this.plugin.canvas3d.props.trackball.spin) PluginCommands.Camera.Reset(this.plugin, {});
     }
 
-    animate = {
-        modelIndex: {
-            maxFPS: 8,
-            onceForward: () => { this.plugin.managers.animation.play(AnimateModelIndex, { maxFPS: Math.max(0.5, this.animate.modelIndex.maxFPS | 0), mode: { name: 'once', params: { direction: 'forward' } } }); },
-            onceBackward: () => { this.plugin.managers.animation.play(AnimateModelIndex, { maxFPS: Math.max(0.5, this.animate.modelIndex.maxFPS | 0), mode: { name: 'once', params: { direction: 'backward' } } }); },
-            palindrome: () => { this.plugin.managers.animation.play(AnimateModelIndex, { maxFPS: Math.max(0.5, this.animate.modelIndex.maxFPS | 0), mode: { name: 'palindrome', params: {} } }); },
-            loop: () => { this.plugin.managers.animation.play(AnimateModelIndex, { maxFPS: Math.max(0.5, this.animate.modelIndex.maxFPS | 0), mode: { name: 'loop', params: {} } }); },
-            stop: () => this.plugin.managers.animation.stop()
-        }
-    }
+    // animate = {
+    //     modelIndex: {
+    //         maxFPS: 8,
+    //         onceForward: () => { this.plugin.managers.animation.play(AnimateModelIndex, { maxFPS: Math.max(0.5, this.animate.modelIndex.maxFPS | 0), mode: { name: 'once', params: { direction: 'forward' } } }); },
+    //         onceBackward: () => { this.plugin.managers.animation.play(AnimateModelIndex, { maxFPS: Math.max(0.5, this.animate.modelIndex.maxFPS | 0), mode: { name: 'once', params: { direction: 'backward' } } }); },
+    //         palindrome: () => { this.plugin.managers.animation.play(AnimateModelIndex, { maxFPS: Math.max(0.5, this.animate.modelIndex.maxFPS | 0), mode: { name: 'palindrome', params: {} } }); },
+    //         loop: () => { this.plugin.managers.animation.play(AnimateModelIndex, { maxFPS: Math.max(0.5, this.animate.modelIndex.maxFPS | 0), mode: { name: 'loop', params: {} } }); },
+    //         stop: () => this.plugin.managers.animation.stop()
+    //     }
+    // }
 
     coloring = {
         applyStripes: async () => {
