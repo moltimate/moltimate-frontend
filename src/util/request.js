@@ -6,7 +6,7 @@ import testSearchResponse from './testSearchResponse';
 
 // TODO make this a config file
 const testQueryURL = '/test/motif';
-const searchQueryURL = '/align/activesite';
+const searchQueryURL = 'http://localhost:8080/align/activesite';
 const dockRequestURL = '/dock/dockligand';
 const dockingMoleculeFileRetrievalURL = '/dock/retrievefile';
 const exportDockingInfoURL = '/dock/exportLigands';
@@ -51,13 +51,13 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
       }
     }
 
-    setResult({
-      data: null,
-      pending: true,
-      error: null,
-      complete: false,
-      mode: currentMode,
-    });
+    // setResult({
+    //   data: null,
+    //   pending: true,
+    //   error: null,
+    //   complete: false,
+    //   mode: currentMode,
+    // });
 
     axios.post(queryURL, form_data)
       .then(result =>{
