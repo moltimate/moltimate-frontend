@@ -19,8 +19,8 @@ export default function ResultItem(props) {
             <ListItem
               button
               onClick={(e) => {
-                handleSelectedResult(e, r, parent)
                 basicWrapper.load({ pdbId: r.pdbId, resultSelected: true })
+                handleSelectedResult(e, r, parent)
               }}
               key={k}
             >

@@ -64,8 +64,8 @@ function QueryFormContainer(props) {
         {/* basicWrapper.load({ url: 'https://files.rcsb.org/download/' + values.pdbIds[0] + '.cif' }) */}
         {/* {console.log('https://files.rcsb.org/download/' + values.pdbIds? values.pdbIds : '' + '.cif')} */}
         <Button name='search' className={classes.rounded} onClick={(e) => {
+          basicWrapper.load({ pdbId: values.pdbIds[0] })
           handleChange(e, 4)
-          basicWrapper.load({ pdbId: values.pdbIds[0]})
         }}>Search</Button>
       </div>
     </div>

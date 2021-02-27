@@ -67,16 +67,26 @@ export default class BasicWrapper {
                 representationPreset: 'auto'
             });
         });
+        console.log("final protein list " + this.selectedProteins);
     }
 
     async load({ pdbId, format = 'mmcif', isBinary = false, assemblyId = '', resultSelected = false }: LoadParams) {
+
+        console.log(0, this.selectedProteins);
+        console.log("reset", resultSelected)
+        // this.selectedProteins.push(pdbId);
         if (resultSelected && this.selectedProteins.length === 2) {
+            console.log(1);
             this.selectedProteins.pop();
         } else if (!resultSelected) {
+            console.log(2);
             this.selectedProteins = [];
         }
+        
+        console.log(3, this.selectedProteins);
         this.selectedProteins.push(pdbId);
-        this.renderProtein(format, isBinary, assemblyId);
+        console.log(4, this.selectedProteins);
+        await this.renderProtein(format, isBinary, assemblyId);
     }
 
     setBackground(color: number) {
