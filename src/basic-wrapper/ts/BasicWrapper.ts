@@ -52,7 +52,7 @@ export default class BasicWrapper {
     async renderProtein(format: BuiltInTrajectoryFormat, isBinary: boolean, assemblyId: string) {
         await this.plugin.clear();
         this.selectedProteins.forEach(async (pdbId) => {
-            let url = 'https://files.rcsb.org/download/' + pdbId + '.pdb';
+            let url = 'https://files.rcsb.org/download/' + pdbId + '.cif';
             const data = await this.plugin.builders.data.download({ url: Asset.Url(url), isBinary }, { state: { isGhost: true } });
             const trajectory = await this.plugin.builders.structure.parseTrajectory(data, format);
             await this.plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default', {
@@ -69,7 +69,7 @@ export default class BasicWrapper {
         });
     }
 
-    async load({ pdbIds, format = 'pdb', isBinary = false, assemblyId = '', resultSelected = false }: LoadParams) {
+    async load({ pdbIds, format = 'mmcif', isBinary = false, assemblyId = '', resultSelected = false }: LoadParams) {
         // if (resultSelected && this.selectedProteins.length === 2) {
         //     this.selectedProteins.pop();
         // } else if (!resultSelected) {
