@@ -21,7 +21,7 @@ import { PDBeStructureQualityReport } from 'molstar/lib/extensions/pdbe';
 import { Asset } from 'molstar/lib/mol-util/assets';
 require('molstar/lib/mol-plugin-ui/skin/light.scss');
 
-type LoadParams = { pdbId: string, format?: BuiltInTrajectoryFormat, isBinary?: boolean, assemblyId?: string, resultSelected: boolean }
+type LoadParams = { pdbIds: string[], format?: BuiltInTrajectoryFormat, isBinary?: boolean, assemblyId?: string, resultSelected: boolean }
 
 export default class BasicWrapper {
     plugin: PluginContext;
@@ -50,9 +50,9 @@ export default class BasicWrapper {
     }
 
     async renderProtein(format: BuiltInTrajectoryFormat, isBinary: boolean, assemblyId: string) {
+        await this.plugin.clear();
         this.selectedProteins.forEach(async (pdbId) => {
-            let url = 'https://files.rcsb.org/download/' + pdbId + '.cif';
-            await this.plugin.clear();
+            let url = 'https://files.rcsb.org/download/' + pdbId + '.pdb';
             const data = await this.plugin.builders.data.download({ url: Asset.Url(url), isBinary }, { state: { isGhost: true } });
             const trajectory = await this.plugin.builders.structure.parseTrajectory(data, format);
             await this.plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default', {
@@ -67,25 +67,16 @@ export default class BasicWrapper {
                 representationPreset: 'auto'
             });
         });
-        console.log("final protein list " + this.selectedProteins);
     }
 
-    async load({ pdbId, format = 'mmcif', isBinary = false, assemblyId = '', resultSelected = false }: LoadParams) {
-
-        console.log(0, this.selectedProteins);
-        console.log("reset", resultSelected)
-        // this.selectedProteins.push(pdbId);
-        if (resultSelected && this.selectedProteins.length === 2) {
-            console.log(1);
-            this.selectedProteins.pop();
-        } else if (!resultSelected) {
-            console.log(2);
-            this.selectedProteins = [];
-        }
-        
-        console.log(3, this.selectedProteins);
-        this.selectedProteins.push(pdbId);
-        console.log(4, this.selectedProteins);
+    async load({ pdbIds, format = 'pdb', isBinary = false, assemblyId = '', resultSelected = false }: LoadParams) {
+        // if (resultSelected && this.selectedProteins.length === 2) {
+        //     this.selectedProteins.pop();
+        // } else if (!resultSelected) {
+        //     this.selectedProteins = [];
+        // }
+        this.selectedProteins = [];
+        this.selectedProteins.push(...pdbIds);
         await this.renderProtein(format, isBinary, assemblyId);
     }
 
