@@ -5,12 +5,12 @@ import testMakerResponse from './testMakerResponse';
 import testSearchResponse from './testSearchResponse';
 
 // TODO make this a config file
-const testQueryURL = '/test/motif';
-const searchQueryURL = '/align/activesite';
-const dockRequestURL = '/dock/dockligand';
-const dockingMoleculeFileRetrievalURL = '/dock/retrievefile';
-const exportDockingInfoURL = '/dock/exportLigands';
-const ligandLibraryURL = '/ligands';
+const testQueryURL = 'http://localhost:5000/test/motif';
+const searchQueryURL = 'http://localhost:5000/align/activesite';
+const dockRequestURL = 'http://localhost:5000/dock/dockligand';
+const dockingMoleculeFileRetrievalURL = 'http://localhost:5000/dock/retrievefile';
+const exportDockingInfoURL = 'http://localhost:5000/dock/exportLigands';
+const ligandLibraryURL = 'http://localhost:5000/ligands';
 
 const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
   const [values, setValues] = useState(defaultValues);
@@ -51,13 +51,13 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
       }
     }
 
-    setResult({
-      data: null,
-      pending: true,
-      error: null,
-      complete: false,
-      mode: currentMode,
-    });
+    // setResult({
+    //   data: null,
+    //   pending: true,
+    //   error: null,
+    //   complete: false,
+    //   mode: currentMode,
+    // });
 
     axios.post(queryURL, form_data)
       .then(result =>{

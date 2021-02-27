@@ -68,7 +68,7 @@ function SearchContainer(props) {
         break;
       case 1:
         handleChipInput(e, extra);
-        setSearchedProteins(e);
+        // setSearchedProteins(e);
         break;
       case 2:
         handleResidues(e);

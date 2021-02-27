@@ -14,7 +14,7 @@ import DockingContainer from "./docking/DockingContainer";
 import helpText from './helpText.js'
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
-
+import MolStar from "./basic-wrapper/MolStar";
 
 function MoltimateContainer(props) {
 
@@ -141,8 +141,19 @@ function MoltimateContainer(props) {
             setViewingLigand = {setViewingLigand}
         /> : null }
       </div>
-
-      {
+      <div className={classes.molstarContainer}>
+        {
+            nglData ? <MolStar
+              parentId={nglData.childId}
+              childId={nglData.parentId}
+              active={nglData.active}
+              aligned={nglData.aligned}
+              queryProteinMode={queryProteinMode} 
+              motifProteinMode={motifProteinMode}
+          /> : null
+        }
+      </div>
+      {/* {
         nglData ? <ProteinContainer
           parentId={nglData.childId}
           childId={nglData.parentId}
@@ -151,7 +162,7 @@ function MoltimateContainer(props) {
           queryProteinMode={queryProteinMode}
           motifProteinMode={motifProteinMode}
         /> : null
-      }
+      } */}
       {
         (dockingDisplayActiveSites && dockingDisplayConfiguration) ? dockingDisplay(): null
       }

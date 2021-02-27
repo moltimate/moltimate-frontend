@@ -15,7 +15,9 @@ export default function ResultItem(props) {
           return (
             <ListItem
               button
-              onClick={(e) => handleSelectedResult(e, r, parent)}
+              onClick={(e) => {
+                handleSelectedResult(e, r, parent)
+              }}
               key={k}
             >
               { isSuccess === 1 ? <ListItemIcon><CheckCirclOutlineIcon style={{color: '#84C556'}} /></ListItemIcon> : null}
