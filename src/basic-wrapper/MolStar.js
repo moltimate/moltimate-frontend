@@ -3,28 +3,20 @@ import BasicWrapper from './ts/BasicWrapper';
 import styles from '../styles.js';
 
 function MolStar(props) {
-    const { searchQuery, basicWrapper, alignedPdbId } = props;
-    const [pdbId, setPdbId] = useState(searchQuery || '1grm');
-    const [url, setUrl] = useState('https://files.rcsb.org/download/' + pdbId + '.cif');
-    const [format, setFormat] = useState('mmcif');
-    
+    const { parentId, childId, aligned, active, queryProteinMode, motifProteinMode } = props;
+
+    const [basicWrapper] = useState(new BasicWrapper());
+
     useEffect(() => {
-        basicWrapper.init(document.getElementById('molstar-viewer'))
+        basicWrapper.init(document.getElementById('molstar-viewer'));
+    }, []);
+
+    useEffect(() => {
+        basicWrapper.load({ pdbIds: [parentId, childId] });
     });
 
     return (
-        <div>
-            {/* <div>
-                <h3>Source</h3>
-                <input type='text' id='pdb-id' placeholder='pdb id' />
-                <select id='format'>
-                    <option value='mmcif' defaultValue>mmCIF</option>
-                    <option value='pdb'>PDB</option>
-                </select>
-                <button onClick={() => basicWrapper.load({ url: url, format: format })}>Load Asym Unit</button>
-            </div> */}
-            <div id="molstar-viewer"></div>
-        </div>
+        <div id="molstar-viewer"></div>
     )
 
     // function $(id) { return document.getElementById(id); }
