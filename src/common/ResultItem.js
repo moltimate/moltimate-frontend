@@ -8,18 +8,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 export default function ResultItem(props) {
-  const { results, isSuccess, handleSelectedResult, parent, basicWrapper } = props;
+  const { results, isSuccess, handleSelectedResult, parent } = props;
     return (
       <>
-      
-    {/* basicWrapper.load({ url: 'https://files.rcsb.org/download/' + parentId + '.cif', initSearch: false}) */}
-    {/* handleSelectedResult(e, r, parent) */}
         { results.map((r, k) => {
           return (
             <ListItem
               button
               onClick={(e) => {
-                basicWrapper.load({ pdbId: r.pdbId, resultSelected: true })
                 handleSelectedResult(e, r, parent)
               }}
               key={k}

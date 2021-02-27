@@ -26,7 +26,7 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function SearchContainer(props) {
-  const { classes, selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress, basicWrapper } = props;
+  const { classes, selectedResult, handleSelectedResult, setSearchedProteins, setEClass, clearEClass, setAlignmentInProgress } = props;
   const { values, result, handleChange, handleClearValues, handleSubmit,
     handleChipInput, handleResidues, handleFileUpload, handleFileDelete, handleSetMode } = useForm(searchQueryURL);
 
@@ -104,7 +104,6 @@ function SearchContainer(props) {
           <QueryFormContainer
             values={values}
             handleChange={switchHandler}
-            basicWrapper={basicWrapper}
           />
         }
         childIcon={<SearchIcon />}
@@ -119,7 +118,6 @@ function SearchContainer(props) {
                 handleSelectedResult={filterHandleSelectedResult}
                 setEClass = {setEClass}
                 temp={ result.data ? result.data.entries : []}
-                basicWrapper = {basicWrapper}
               />
             }
             childIcon={result.pending ? <CircularProgress variant="indeterminate" size={24} thickness={4}/> : <RestoreIcon /> }

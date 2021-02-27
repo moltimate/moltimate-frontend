@@ -25,7 +25,7 @@ import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
 
 function QueryFormContainer(props) {
-  const { classes, handleChange, handleSubmit, values, basicWrapper } = props;
+  const { classes, handleChange, handleSubmit, values } = props;
   const [expand, setExpand] = useState(false);
 
   return (
@@ -58,13 +58,7 @@ function QueryFormContainer(props) {
       />
       <div className={classes.floatButton}>
         <Button className={classes.cancelButton} onClick={(e) => handleChange(e, 5)}>Clear</Button>
-        {/* handleChange(e, 4) */}
-        {/* {console.log(values.pdbIds)} */}
-        {/* {console.log(values)} */}
-        {/* basicWrapper.load({ url: 'https://files.rcsb.org/download/' + values.pdbIds[0] + '.cif' }) */}
-        {/* {console.log('https://files.rcsb.org/download/' + values.pdbIds? values.pdbIds : '' + '.cif')} */}
         <Button name='search' className={classes.rounded} onClick={(e) => {
-          basicWrapper.load({ pdbId: values.pdbIds[0] })
           handleChange(e, 4)
         }}>Search</Button>
       </div>
