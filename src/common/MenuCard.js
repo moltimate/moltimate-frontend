@@ -25,7 +25,6 @@ function MenuCard(props) {
             {childIcon}
           </ListItemIcon>
         <ListItemText inset primary={label}/>
-        <ListItemText primary={label}/>
           {expand ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         {modalText ? <Modal text={modalText}  /> : <></>}
