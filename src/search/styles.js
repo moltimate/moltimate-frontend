@@ -20,9 +20,6 @@ export default {
     fontWeight: '600',
     color: 'white',
   },
-  breadcrumb: {
-    width: '300px',
-  },
   white: {
     color: 'white',
   },
