@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import AppBar from '@material-ui/core/AppBar';
-import Breadcrumbs from '@material-ui/lab/Breadcrumbs';
 import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -44,15 +43,3 @@ TopBar.propTypes = {
 };
 
 export default withStyles(styles)(TopBar);
-/*
-<Breadcrumbs
-  separator={<NavigateNextIcon fontSize="small" style={{color: 'white'}}/>}
-  className={classes.breadcrumb}
->
-  {crumbs.map((item,i) =>
-    <Typography key={i} className={classes.footerText}>
-      {item}
-    </Typography>
-  )}
-</Breadcrumbs>
-*/
