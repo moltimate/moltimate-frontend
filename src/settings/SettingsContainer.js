@@ -39,12 +39,12 @@ function SettingsContainer(props){
       >
         <Card children = {
           <div className = {classes.settingsContainer}>
-            { showLigandComponents ? <DockingSearchBounds
+            <DockingSearchBounds
               dockingSearchCenter = {formDockingCenter}
               setDockingSearchCenter = {setFormDockingCenter}
               dockingSearchRange =  {formDockingRange}
               setDockingSearchRange = {setFormDockingRange}
-            /> : null}
+            />
             <DisplayMode
               displayMode = {formQueryProteinMode}
               setDisplayMode = {setFormQueryProteinMode}
@@ -57,24 +57,24 @@ function SettingsContainer(props){
               title = "Alignment Motif Protein Display Mode"
               cartoonMode = 'false'
             />
-            { showLigandComponents ? <DisplayMode
+            <DisplayMode
               displayMode = {formDockingProteinMode}
               setDisplayMode = {setFormDockingProteinMode}
               title = "Docking Protein Display Mode"
               cartoonMode = 'true'
-            /> : null}
-            { showLigandComponents ? <DisplayMode
+            />
+            <DisplayMode
               displayMode = {formActiveSitesMode}
               setDisplayMode = {setFormActiveSitesMode}
               title = "Docking Active Sites Display Mode"
               cartoonMode = 'false'
-            /> : null}
-            { showLigandComponents ? <DisplayMode
+            />
+            <DisplayMode
               displayMode = {formLigandMode}
               setDisplayMode = {setFormLigandMode}
               title = "Docking Ligand Display Mode"
               cartoonMode = 'false'
-            /> : null}
+            />
             <div className={classes.settingsBoxFooter}>
               <Button name='apply-settings' className={classes.rounded} onClick={(e) => {
                 setQueryProteinMode(formQueryProteinMode);

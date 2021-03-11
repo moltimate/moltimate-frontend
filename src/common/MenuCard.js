@@ -24,6 +24,7 @@ function MenuCard(props) {
           <ListItemIcon>
             {childIcon}
           </ListItemIcon>
+        <ListItemText inset primary={label}/>
         <ListItemText primary={label}/>
           {expand ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
