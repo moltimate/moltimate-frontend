@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BasicWrapper from './ts/BasicWrapper';
-import styles from '../styles.js';
+import './MolStar.css';
 
 function MolStar(props) {
     const { parentId, childId, aligned, active, queryProteinMode, motifProteinMode } = props;

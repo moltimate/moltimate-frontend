@@ -215,11 +215,18 @@ export default {
   // MOLSTAR START
   molstarContainer: {
     position: 'absolute',
-    left: '450px',
-    top: '100px',
-    width: '700px',
-    height: '700px'
+    zIndex: -1,
+    marginTop: '64px',
+    // paddingBottom: '-64px',
+    width: '100%',
+    height: '90vh'
   },
+
+  centerItem: {
+    width: '200px',
+    margin: '50%',
+    marginTop: '200px'
+  }
   // molstarControls: {
   //   position: 'absolute',
   //   left: '400px',

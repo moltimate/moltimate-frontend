@@ -1,0 +1,17 @@
+.msp-viewport-controls-buttons {
+    margin-top: 500px;
+}
+
+.msp-viewport-controls-panel {
+    margin-top: 500px;
+}
+
+.msp-layout-top {
+    top: 0;
+    margin-top: 1000px;
+    max-width: 1000px;
+}
+
+.msp-viewport-controls-buttons > :nth-child(3) > :nth-child(3) {
+    display:  none;
+}
