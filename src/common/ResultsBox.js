@@ -16,7 +16,11 @@ export default function ResultsBox(props) {
 
   if( setEClass && temp && temp.length > 0 ) setEClass(temp[0].ecNumber, temp[0].pdbId, true);
   if(temp && temp.length > 0) {
-    temp[0].alignments.sort((a,b) => a[filter] > b[filter] ? 1 :-1);
+    
+    temp.map(result => {
+      result.alignments.sort((a,b) => a[filter] > b[filter] ? 1 : -1);
+    });
+    
   }
   return (
     <div>
