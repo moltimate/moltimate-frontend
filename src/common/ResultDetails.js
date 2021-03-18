@@ -103,8 +103,8 @@ function ResultDetails(props) {
                 }
                 secondary={aligned.map((r, k) => {
                   return (
-                    <Typography key={k} variant='body2' component={'p'} className={classes.title} color="textSecondary" >
-                      {r.identifier.toUpperCase()}
+                    <Typography key={k} variant='body2' component={'span'} className={classes.title} color="textSecondary" >
+                      {r.identifier.toUpperCase()}<br/>
                     </Typography>
                   )})}
                 />
@@ -125,8 +125,8 @@ function ResultDetails(props) {
                 }
                 secondary={active.map((r, k) => {
                   return (
-                    <Typography variant='body2' component={'p'} key={k} className={classes.title} color="textSecondary" >
-                      {r.identifier.toUpperCase()}
+                    <Typography variant='body2' component={'span'} key={k} className={classes.title} color="textSecondary" >
+                      {r.identifier.toUpperCase()}<br/>
                     </Typography>
                   )})}
                 />
