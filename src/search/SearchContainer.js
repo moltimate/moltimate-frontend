@@ -23,7 +23,6 @@ import Modal from '../common/Modal'
 import ResultDetails from '../common/ResultDetails';
 import QueryFormContainer from './form/QueryFormContainer';
 
-
 import styles from './styles.js';
 
 
