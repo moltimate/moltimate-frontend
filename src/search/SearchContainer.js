@@ -22,8 +22,6 @@ import ErrorBar from '../common/ErrorBar';
 import Modal from '../common/Modal'
 import ResultDetails from '../common/ResultDetails';
 import QueryFormContainer from './form/QueryFormContainer';
-import helpText from './SearchText.js'
-
 
 import styles from './styles.js';
 
