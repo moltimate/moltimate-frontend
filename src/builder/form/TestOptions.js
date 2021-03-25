@@ -10,7 +10,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import TextField from '@material-ui/core/TextField';
 
 import ChipWithIcon from '../../search/form/ChipWithIcon';
-import UploadFile from  '../../search/form/UploadFile';
 import ParsedToolTip from '../../common/ParsedToolTip';
 
 import styles from '../styles.js';
