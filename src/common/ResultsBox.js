@@ -16,7 +16,10 @@ export default function ResultsBox(props) {
 
   if( setEClass && temp && temp.length > 0 ) setEClass(temp[0].ecNumber, temp[0].pdbId, true);
   if(temp && temp.length > 0) {
-    temp[0].alignments.sort((a,b) => a[filter] > b[filter] ? 1 :-1);
+    temp.map(result => {
+      result.alignments.sort((a,b) => a[filter] > b[filter] ? 1 : -1);
+    });
+    
   }
   return (
     <div>
@@ -49,12 +52,15 @@ export default function ResultsBox(props) {
           temp ?
             temp.map((m, k) => {
               return (
+                <div>
+                <h4 class="MuiTypography-root-127 MuiTypography-body1-136 MuiListItemText-primary-241" style={{fontWeight: "bold", textDecoration: "underline", margin: 0, padding: 0, marginLeft: "1em"}} >{m.pdbId} Results</h4>
                 <ResultItem
                   key={k}
                   parent={{pdbId: m.pdbId, ecNumber: m.ecNumber}}
                   handleSelectedResult={handleSelectedResult}
                   results={m.alignments}
                 />
+                </div>
               )
             }) : null
         }
