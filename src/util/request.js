@@ -44,10 +44,12 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
       //ligand and molecule attributes are files, and need special treatment
       } else if(String(key) === 'ligand' || String(key).startsWith('molecule')){
         //here we can expect the value to be a File object
-        form_data.append(key, values[key], values[key].name)
+        form_data.append(key, values[key], values[key].name);
 
+      } else if(String(key) === 'proteinFiles') {
+          form_data.append(key, values[key][0]);
       } else {
-        form_data.append(key, values[key]);
+          form_data.append(key, values[key]);
       }
     }
 
