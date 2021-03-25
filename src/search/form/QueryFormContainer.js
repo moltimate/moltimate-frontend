@@ -68,9 +68,9 @@ function QueryFormContainer(props) {
         <UploadFile
           handleChange={handleChange}
           label=''
-          inputName='customMotifStructure'
+          inputName='proteinFiles'
           buttonText='Custom'
-          files={values.customMotifStructure}
+          files={values.customMotifs}
           />
         <ParsedToolTip tooltipClassName="buttonTooltip" text={helpText.customBottonText}/>
       </div>
