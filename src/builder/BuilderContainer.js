@@ -25,6 +25,7 @@ import ResultDetails from '../common/ResultDetails';
 import classNames from 'classnames';
 import styles from './styles.js';
 import { withStyles } from '@material-ui/core/styles';
+import swal from 'sweetalert'
 
 function BuilderContainer(props) {
   const { classes, handleSelectedResult, helpText } = props;
@@ -45,12 +46,11 @@ function BuilderContainer(props) {
     const active = result.data.activeSiteResidues;
     const childId = pdbId.pdbId;
     const aligned = pdbId.alignedResidues;
-    console.log(aligned)
     if(aligned !== undefined){
       setSelected(pdbId);
       if ( result.data ) handleSelectedResult(e, parentId, childId, active, aligned);
     }else{
-      alert("No Alignment Found")
+      swal("No Alignment Found", "", "error")
     }
   }
 

@@ -47,6 +47,7 @@
     "react-dom": "^16.8.5",
     "react-router-dom": "^5.0.0",
     "react-text-mask": "^5.4.3",
+    "sweetalert": "^2.1.2",
     "webpack-dev-server": "^3.3.1"
   }
 }
