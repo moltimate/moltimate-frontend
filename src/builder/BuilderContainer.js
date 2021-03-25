@@ -41,13 +41,17 @@ function BuilderContainer(props) {
   });
 
   function filterHandleSelectedResult(e, pdbId) {
-    setSelected(pdbId);
     const parentId = result.data.pdbId;
     const active = result.data.activeSiteResidues;
     const childId = pdbId.pdbId;
     const aligned = pdbId.alignedResidues;
-
-    if ( result.data ) handleSelectedResult(e, parentId, childId, active, aligned);
+    console.log(aligned)
+    if(aligned !== undefined){
+      setSelected(pdbId);
+      if ( result.data ) handleSelectedResult(e, parentId, childId, active, aligned);
+    }else{
+      alert("No Alignment Found")
+    }
   }
 
   function switchHandler(e, type, extra) {
