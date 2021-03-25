@@ -19,7 +19,6 @@ export default function ResultsBox(props) {
     temp.map(result => {
       result.alignments.sort((a,b) => a[filter] > b[filter] ? 1 : -1);
     });
-    
   }
   return (
     <div>
