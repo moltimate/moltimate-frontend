@@ -54,37 +54,39 @@ export const StaticSuperpositionTestData: SuperpositionTestInput = [
     }
 ];
 
-export function dynamicSuperpositionTest(plugin: PluginContext, src: string[], comp_id: string) {
+export async function dynamicSuperpositionTest(plugin: PluginContext, src: string[], aligned: string[]) {
     return plugin.dataTransaction(async () => {
+        
         for (const s of src) {
-            await loadStructure(plugin, `https://www.ebi.ac.uk/pdbe/static/entry/${s}_updated.cif`, 'mmcif');
+            await loadStructure(plugin, `https://files.rcsb.org/download/${s}.cif`, 'mmcif');
         }
 
-        const pivot = MS.struct.filter.first([
-            MS.struct.generator.atomGroups({
-                'residue-test': MS.core.rel.eq([MS.struct.atomProperty.macromolecular.label_comp_id(), comp_id]),
-                'group-by': MS.struct.atomProperty.macromolecular.residueKey()
-            })
-        ]);
+        for (const residue of aligned) {
+            const pivot = MS.struct.filter.first([
+                MS.struct.generator.atomGroups({
+                    'residue-test': MS.core.rel.eq([MS.struct.atomProperty.macromolecular.label_comp_id(), residue]),
+                    'group-by': MS.struct.atomProperty.macromolecular.residueKey()
+                })
+            ]);
 
-        const rest = MS.struct.modifier.exceptBy({
-            0: MS.struct.modifier.includeSurroundings({
-                0: pivot,
-                radius: 5
-            }),
-            by: pivot
-        });
+            const rest = MS.struct.modifier.exceptBy({
+                0: MS.struct.modifier.includeSurroundings({
+                    0: pivot,
+                    radius: 5
+                }),
+                by: pivot
+            });
 
-        const query = compile<StructureSelection>(pivot);
-        const xs = plugin.managers.structure.hierarchy.current.structures;
-        const selections = xs.map(s => StructureSelection.toLociWithCurrentUnits(query(new QueryContext(s.cell.obj!.data))));
+            const query = compile<StructureSelection>(pivot);
+            const xs = plugin.managers.structure.hierarchy.current.structures;
+            const selections = xs.map(s => StructureSelection.toLociWithCurrentUnits(query(new QueryContext(s.cell.obj!.data))));
 
-        const transforms = superpose(selections);
-
-        await siteVisual(plugin, xs[0].cell, pivot, rest);
-        for (let i = 1; i < selections.length; i++) {
-            await transform(plugin, xs[i].cell, transforms[i - 1].bTransform);
-            await siteVisual(plugin, xs[i].cell, pivot, rest);
+            const transforms = superpose(selections);
+            await siteVisual(plugin, xs[0].cell, pivot, rest); // loads first protein active site
+            for (let i = 1; i < selections.length; i++) {
+                await transform(plugin, xs[i].cell, transforms[i - 1].bTransform);
+                await siteVisual(plugin, xs[i].cell, pivot, rest); // loads second protein active site
+            }
         }
     });
 }
@@ -98,11 +100,11 @@ async function siteVisual(plugin: PluginContext, s: StateObjectRef<PSO.Molecule.
 }
 
 async function loadStructure(plugin: PluginContext, url: string, format: BuiltInTrajectoryFormat, assemblyId?: string) {
-    const data = await plugin.builders.data.download({ url: Asset.Url(url) });
+    const data = await plugin.builders.data.download({ url: Asset.Url(url), isBinary: false }, { state: { isGhost: true } });
     const trajectory = await plugin.builders.structure.parseTrajectory(data, format);
     const model = await plugin.builders.structure.createModel(trajectory);
     const structure = await plugin.builders.structure.createStructure(model, assemblyId ? { name: 'assembly', params: { id: assemblyId } } : void 0);
-
+    await plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default');
     return { data, trajectory, model, structure };
 }
 

@@ -22,6 +22,7 @@ import { Asset } from 'molstar/lib/mol-util/assets';
 require('molstar/lib/mol-plugin-ui/skin/light.scss');
 
 type LoadParams = { pdbIds: string[], format?: BuiltInTrajectoryFormat, isBinary?: boolean, assemblyId?: string, resultSelected: boolean }
+type Residue = { residueName: string, residueChainName: string, residueId: string, residueAltLoc: string, identifier: string }
 
 export default class BasicWrapper {
     plugin: PluginContext;
@@ -55,6 +56,8 @@ export default class BasicWrapper {
             let url = 'https://files.rcsb.org/download/' + pdbId + '.cif';
             const data = await this.plugin.builders.data.download({ url: Asset.Url(url), isBinary }, { state: { isGhost: true } });
             const trajectory = await this.plugin.builders.structure.parseTrajectory(data, format);
+            const model = await this.plugin.builders.structure.createModel(trajectory);
+            const structure = await this.plugin.builders.structure.createStructure(model, assemblyId ? { name: 'assembly', params: { id: assemblyId } } : void 0);
             await this.plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default', {
                 structure: assemblyId ? {
                     name: 'assembly',
@@ -64,20 +67,29 @@ export default class BasicWrapper {
                     params: { }
                 },
                 showUnitcell: false,
-                representationPreset: 'auto'
+                representationPreset: 'auto',
+                representationPresetParams: {
+                    ignoreHydrogens: true
+                }
             });
         });
     }
 
     async load({ pdbIds, format = 'mmcif', isBinary = false, assemblyId = '', resultSelected = false }: LoadParams) {
-        // if (resultSelected && this.selectedProteins.length === 2) {
-        //     this.selectedProteins.pop();
-        // } else if (!resultSelected) {
-        //     this.selectedProteins = [];
-        // }
         this.selectedProteins = [];
         this.selectedProteins.push(...pdbIds);
         await this.renderProtein(format, isBinary, assemblyId);
+    }
+
+    async dynamicSuperposition(pdbIds: string[], aligned: Residue[]) {
+        let residues: string[] = []
+        for (const residue of aligned) {
+            residues.push(residue.residueName);
+        }
+
+
+        await this.plugin.clear()
+        return dynamicSuperpositionTest(this.plugin, pdbIds, residues);
     }
 
     setBackground(color: number) {
@@ -138,37 +150,6 @@ export default class BasicWrapper {
         },
         clearHighlight: () => {
             this.plugin.managers.interactivity.lociHighlights.highlightOnly({ loci: EmptyLoci });
-        }
-    }
-
-    tests = {
-        staticSuperposition: async () => {
-            await this.plugin.clear();
-            return buildStaticSuperposition(this.plugin, StaticSuperpositionTestData);
-        },
-        dynamicSuperposition: async () => {
-            await this.plugin.clear();
-            return dynamicSuperpositionTest(this.plugin, ['1tqn', '2hhb', '4hhb'], 'HEM');
-        },
-        toggleValidationTooltip: () => {
-            return this.plugin.state.updateBehavior(PDBeStructureQualityReport, params => { params.showTooltip = !params.showTooltip; });
-        },
-        showToasts: () => {
-            PluginCommands.Toast.Show(this.plugin, {
-                title: 'Toast 1',
-                message: 'This is an example text, timeout 3s',
-                key: 'toast-1',
-                timeoutMs: 3000
-            });
-            // PluginCommands.Toast.Show(this.plugin, {
-            //     title: 'Toast 2',
-            //     message: CustomToastMessage,
-            //     key: 'toast-2'
-            // });
-        },
-        hideToasts: () => {
-            PluginCommands.Toast.Hide(this.plugin, { key: 'toast-1' });
-            PluginCommands.Toast.Hide(this.plugin, { key: 'toast-2' });
         }
     }
 }

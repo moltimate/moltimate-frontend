@@ -12,7 +12,10 @@ function MolStar(props) {
     }, []);
 
     useEffect(() => {
-        basicWrapper.load({ pdbIds: [parentId, childId] });
+        // basicWrapper.load({ pdbIds: [parentId, childId] });
+        // BasicMolStarWrapper.tests.dynamicSuperposition()
+        // console.log(aligned);
+        basicWrapper.dynamicSuperposition([parentId, childId], aligned);
     });
 
     return (
