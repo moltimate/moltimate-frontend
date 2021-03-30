@@ -14,9 +14,8 @@ function MolStar(props) {
     useEffect(() => {
         // basicWrapper.load({ pdbIds: [parentId, childId] });
         // BasicMolStarWrapper.tests.dynamicSuperposition()
-        // console.log(aligned);
         basicWrapper.dynamicSuperposition([parentId, childId], aligned);
-    });
+    }, [childId]);
 
     return (
         <div id="molstar-viewer"></div>

@@ -19,3 +19,5 @@ package-lock.json
 # IntelliJ Files
 .idea
 /dist
+
+.vscode/

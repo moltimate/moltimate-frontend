@@ -16,7 +16,7 @@ import { Script } from 'molstar/lib/mol-script/script';
 import { Color } from 'molstar/lib/mol-util/color';
 import { StripedResidues } from './coloring';
 // import { CustomToastMessage } from './controls';
-import { buildStaticSuperposition, dynamicSuperpositionTest, StaticSuperpositionTestData } from './superposition';
+import { dynamicSuperpositionTest } from './superposition';
 import { PDBeStructureQualityReport } from 'molstar/lib/extensions/pdbe';
 import { Asset } from 'molstar/lib/mol-util/assets';
 require('molstar/lib/mol-plugin-ui/skin/light.scss');
@@ -35,9 +35,6 @@ export default class BasicWrapper {
                 initial: {
                     isExpanded: false,
                     showControls: false
-                },
-                controls: {
-                    // left: 'none'
                 }
             },
             components: {
@@ -86,7 +83,6 @@ export default class BasicWrapper {
         for (const residue of aligned) {
             residues.push(residue.residueName);
         }
-
 
         await this.plugin.clear()
         return dynamicSuperpositionTest(this.plugin, pdbIds, residues);

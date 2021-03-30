@@ -105,8 +105,6 @@ async function loadStructure(plugin: PluginContext, url: string, format: BuiltIn
     const model = await plugin.builders.structure.createModel(trajectory);
     const structure = await plugin.builders.structure.createStructure(model, assemblyId ? { name: 'assembly', params: { id: assemblyId } } : void 0);
 
-    await plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default');
-    
     return { data, trajectory, model, structure };
 }
 
