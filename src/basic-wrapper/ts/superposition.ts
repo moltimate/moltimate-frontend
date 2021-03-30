@@ -17,42 +17,42 @@ import { BuiltInTrajectoryFormat } from 'molstar/lib/mol-plugin-state/formats/tr
 import { StateTransforms } from 'molstar/lib/mol-plugin-state/transforms';
 import { Asset } from 'molstar/lib/mol-util/assets';
 
-export type SuperpositionTestInput = {
-    pdbId: string,
-    auth_asym_id: string,
-    matrix: Mat4
-}[];
+// export type SuperpositionTestInput = {
+//     pdbId: string,
+//     auth_asym_id: string,
+//     matrix: Mat4
+// }[];
 
-export function buildStaticSuperposition(plugin: PluginContext, src: SuperpositionTestInput) {
-    return plugin.dataTransaction(async () => {
-        for (const s of src) {
-            const { structure } = await loadStructure(plugin, `https://www.ebi.ac.uk/pdbe/static/entry/${s.pdbId}_updated.cif`, 'mmcif');
-            await transform(plugin, structure, s.matrix);
-            const chain = await plugin.builders.structure.tryCreateComponentFromExpression(structure, chainSelection(s.auth_asym_id), `Chain ${s.auth_asym_id}`);
-            if (chain) await plugin.builders.structure.representation.addRepresentation(chain, { type: 'cartoon' });
-        }
-    });
-}
+// export function buildStaticSuperposition(plugin: PluginContext, src: SuperpositionTestInput) {
+//     return plugin.dataTransaction(async () => {
+//         for (const s of src) {
+//             const { structure } = await loadStructure(plugin, `https://www.ebi.ac.uk/pdbe/static/entry/${s.pdbId}_updated.cif`, 'mmcif');
+//             await transform(plugin, structure, s.matrix);
+//             const chain = await plugin.builders.structure.tryCreateComponentFromExpression(structure, chainSelection(s.auth_asym_id), `Chain ${s.auth_asym_id}`);
+//             if (chain) await plugin.builders.structure.representation.addRepresentation(chain, { type: 'cartoon' });
+//         }
+//     });
+// }
 
-export const StaticSuperpositionTestData: SuperpositionTestInput = [
-    {
-        pdbId: '1aj5', auth_asym_id: 'A', matrix: Mat4.identity()
-    },
-    {
-        pdbId: '1df0', auth_asym_id: 'B', matrix: Mat4.ofRows([
-            [0.406, 0.879, 0.248, -200.633],
-            [0.693, -0.473, 0.544, 73.403],
-            [0.596, -0.049, -0.802, -14.209],
-            [0, 0, 0, 1]])
-    },
-    {
-        pdbId: '1dvi', auth_asym_id: 'A', matrix: Mat4.ofRows([
-            [-0.053, -0.077, 0.996, -45.633],
-            [-0.312, 0.949, 0.057, -12.255],
-            [-0.949, -0.307, -0.074, 53.562],
-            [0, 0, 0, 1]])
-    }
-];
+// export const StaticSuperpositionTestData: SuperpositionTestInput = [
+//     {
+//         pdbId: '1aj5', auth_asym_id: 'A', matrix: Mat4.identity()
+//     },
+//     {
+//         pdbId: '1df0', auth_asym_id: 'B', matrix: Mat4.ofRows([
+//             [0.406, 0.879, 0.248, -200.633],
+//             [0.693, -0.473, 0.544, 73.403],
+//             [0.596, -0.049, -0.802, -14.209],
+//             [0, 0, 0, 1]])
+//     },
+//     {
+//         pdbId: '1dvi', auth_asym_id: 'A', matrix: Mat4.ofRows([
+//             [-0.053, -0.077, 0.996, -45.633],
+//             [-0.312, 0.949, 0.057, -12.255],
+//             [-0.949, -0.307, -0.074, 53.562],
+//             [0, 0, 0, 1]])
+//     }
+// ];
 
 export async function dynamicSuperpositionTest(plugin: PluginContext, src: string[], aligned: string[]) {
     return plugin.dataTransaction(async () => {
@@ -104,15 +104,17 @@ async function loadStructure(plugin: PluginContext, url: string, format: BuiltIn
     const trajectory = await plugin.builders.structure.parseTrajectory(data, format);
     const model = await plugin.builders.structure.createModel(trajectory);
     const structure = await plugin.builders.structure.createStructure(model, assemblyId ? { name: 'assembly', params: { id: assemblyId } } : void 0);
+
     await plugin.builders.structure.hierarchy.applyPreset(trajectory, 'default');
+    
     return { data, trajectory, model, structure };
 }
 
-function chainSelection(auth_asym_id: string) {
-    return MS.struct.generator.atomGroups({
-        'chain-test': MS.core.rel.eq([MS.struct.atomProperty.macromolecular.auth_asym_id(), auth_asym_id])
-    });
-}
+// function chainSelection(auth_asym_id: string) {
+//     return MS.struct.generator.atomGroups({
+//         'chain-test': MS.core.rel.eq([MS.struct.atomProperty.macromolecular.auth_asym_id(), auth_asym_id])
+//     });
+// }
 
 function transform(plugin: PluginContext, s: StateObjectRef<PSO.Molecule.Structure>, matrix: Mat4) {
     const b = plugin.state.data.build().to(s)
