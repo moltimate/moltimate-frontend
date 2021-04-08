@@ -70,11 +70,7 @@ function QueryFormContainer(props) {
           label=''
           inputName='proteinFiles'
           buttonText='Custom'
-<<<<<<< HEAD
           files={values.proteinFiles}
-=======
-          files={values.customMotifs}
->>>>>>> master
           />
         <ParsedToolTip tooltipClassName="buttonTooltip" text={helpText.customBottonText}/>
       </div>
