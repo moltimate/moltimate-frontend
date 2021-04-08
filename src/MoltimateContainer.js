@@ -19,7 +19,7 @@ import { withStyles } from '@material-ui/core/styles';
 function MoltimateContainer(props) {
 
   const { classes } = props;
-  const showLigandComponents = true;
+  const showLigandComponents = false;
   const { searchText, makerText, ligandText } = helpText;
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
