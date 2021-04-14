@@ -103,8 +103,8 @@ export default {
     fontFamily: 'Nunito, sans-serif'
   },
   midDocking: {
-    color: '#f2f2f2',
-    opacity: 0.5,
+    color: 'rgba(0, 0, 0, 0.54)',
+   
   },
   narrowInput: {
     width: '75px',
