@@ -19,7 +19,8 @@ import { withStyles } from '@material-ui/core/styles';
 function MoltimateContainer(props) {
 
   const { classes } = props;
-  const showLigandComponents = false;
+  const showLigandComponents = true;
+  const selectedConfigDownload = [false]
   const { searchText, makerText, ligandText } = helpText;
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
@@ -71,6 +72,8 @@ function MoltimateContainer(props) {
   }
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
+    localStorage.setItem("selectedConfigsMoltimate", "");
+    localStorage.setItem("index", "");
     setSelectedResult({ parentId, childId, active, aligned });
     setNglData({ parentId, childId, active, aligned });
     //this should be the search value - it is used as the ID of the docking molecule
@@ -129,6 +132,7 @@ function MoltimateContainer(props) {
           alignmentInProgress = {alignmentInProgress}
           eClasses = {searchEClass}
           helpText = {ligandText}
+          selectedConfigDownload = {selectedConfigDownload}
           setDisplayedFile = {(x) =>{
             setDockingDisplayFile(x)}}
           setDisplayedConfiguration = {(x) =>{

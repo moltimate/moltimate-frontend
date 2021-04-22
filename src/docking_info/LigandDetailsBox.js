@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import Table from "@material-ui/core/Table"
 import TableCell from "@material-ui/core/TableCell"
 import TableRow from "@material-ui/core/TableRow"
@@ -16,10 +16,8 @@ import styles from "./styles.js"
 
 function LigandDetailsBox(props){
   const {dockingConfigurations, selectedDockingConfiguration, selectConfigurationHandler, ligandName, jobId, classes} = props;
-  var checkBoxes = [false];
   /*
   Formats a docking-configuration index value for viewing
-
   input:
     index: an integer in the range (0, 99)
   output:
@@ -36,7 +34,6 @@ function LigandDetailsBox(props){
   //create a row for the docking ligands table
   function createDockingConfigRow(docking_configuration, is_selected ){
     let formattedIndex = formatIndex(docking_configuration[0]);
-    checkBoxes.push(false); //could set checkbox value to this
     if(is_selected){
       return(
         <TableRow 
@@ -44,7 +41,7 @@ function LigandDetailsBox(props){
           onClick = {(e) => selectConfigurationHandler(null)}
           key = {formattedIndex}
         >
-          <TableCell children = {<input type="checkbox" name={formattedIndex} onChange={(e) => handleChange(e)}/>}/>
+          {buildCheckbox(formattedIndex)}
           <TableCell children = {formattedIndex} key = {formattedIndex + '0'}/>
           <TableCell children = {docking_configuration[1]} key = {formattedIndex + '1'}/>
           <TableCell children = {docking_configuration[2]} key = {formattedIndex + '2'}/>
@@ -57,7 +54,7 @@ function LigandDetailsBox(props){
           onClick = {(e) => selectConfigurationHandler(docking_configuration)}
           key = {formattedIndex}
         >
-          <TableCell children = {<input type="checkbox" name={formattedIndex} onChange={(e) => handleChange(e)}/>}/>
+          {buildCheckbox(formattedIndex)}
           <TableCell children = {formatIndex(docking_configuration[0])}/>
           <TableCell children = {docking_configuration[1]}/>
           <TableCell children = {docking_configuration[2]}/>
@@ -67,25 +64,91 @@ function LigandDetailsBox(props){
       
   }
 
-  function handleChange(e) {
-    if(index == "all"){
-      if(e.target.value){
-        checkBoxes[0] = true;
+  function buildCheckbox(formattedIndex){
+    var existingData = localStorage.getItem("selectedConfigsMoltimate");
+    let checked = false;
+    if(existingData !== "" && existingData !== null){
+      let checkboxes = convertLocalStoragetoArray();
+      let index = Number(formatIndex);
+      if(checkboxes[0] === "true"){
+        checked = true;
       }else{
-        checkBoxes[0] = false;
+        if(checkboxes[index] == true){
+          checked = true;
+        }
+      }
+    }
+    if(checked){
+      return(<TableCell children = {<input type="checkbox" name={formattedIndex} onChange={(e) => handleChange(e)} checked/>}/>);
+    }
+    return(<TableCell children = {<input type="checkbox" name={formattedIndex} onChange={(e) => handleChange(e)}/>}/>);
+  }
+
+  function handleChange(e) {
+    var existingData = localStorage.getItem("selectedConfigsMoltimate");
+    if(existingData === "" || existingData === null){
+      initLocalStorageArray();
+    }
+    var checkboxes = convertLocalStoragetoArray();
+    if(checkboxes.length !== (dockingConfigurations.length + 1)){
+      initLocalStorageArray();
+      checkboxes = convertLocalStoragetoArray();
+    }
+    if(e.target.name === "all"){
+      if(e.target.checked){
+        checkboxes = setAllCheckboxes(checkboxes, true);
+      }else{
+        checkboxes = setAllCheckboxes(checkboxes, false);
       }
     }else{
       var index = Number(e.target.name);
-      if(e.target.value){
-        checkBoxes[index] = true;
+      if(e.target.checked){
+        checkboxes[index] = true;
       }else{
-        checkBoxes[index] = false;
+        checkboxes[index] = false;
+        if(checkboxes[0] === "true" || checkboxes[0]){
+          checkboxes = setAllCheckboxes(checkboxes, false);
+        }
       }
     }
+    localStorage.setItem("selectedConfigsMoltimate", checkboxes);
+    if(e.target.name === "all"){
+      let tempIndex = localStorage.getItem("index");
+      if(tempIndex === null || tempIndex === "" || tempIndex === "0"){
+        selectConfigurationHandler([2]);
+        localStorage.setItem("index", "1");
+      }else{
+        selectConfigurationHandler([1])
+        localStorage.setItem("index", "0");
+      }
+    }
+    console.log(checkboxes);
+  }
+
+  function setAllCheckboxes(checkboxes, checked){
+    for(var x = 0; x < checkboxes.length; x++){
+      checkboxes[x] = checked;
+    }
+    return checkboxes;
+  }
+
+  function initLocalStorageArray(){
+    var checks = [false]
+    dockingConfigurations.map(dockingConfigurations =>{
+      checks.push(false);
+    });
+    localStorage.setItem("selectedConfigsMoltimate", checks);
+  } 
+
+  function convertLocalStoragetoArray(){
+    var data = localStorage.getItem("selectedConfigsMoltimate");
+    var dataArray = data.split(",");
+    return dataArray;
   }
     
   function downloadDockingInfo() {
      var dockingData = [];
+     var selectedConfigurations = convertLocalStoragetoArray();
      dockingConfigurations.forEach((configuration) => {
         dockingData.push({
             name: ligandName,
@@ -95,7 +158,7 @@ function LigandDetailsBox(props){
             rmsdUpper: configuration[3]
         });
      });
-     axios.post(exportDockingInfoURL, {ligands: dockingData, babelJobId : jobId, selectedConfigs : checkBoxes},{responseType : 'blob'}).then( (response) => {
+     axios.post(exportDockingInfoURL, {ligands: dockingData, babelJobId : jobId, selectedConfigs : selectedConfigurations},{responseType : 'blob'}).then( (response) => {
         var data = response.data;
         FileDownload( data, 'moltimate.zip' );
      });
@@ -106,13 +169,13 @@ function LigandDetailsBox(props){
     <Table>
       <TableHead className={classes.ligandTableHead}>
         <TableRow>
-          <TableCell children = {<input type="checkbox" name="all" onChange={(e) => handleChange(e)}/>}/>
+          {buildCheckbox("all")}
           <TableCell children = "ID"/>
           <TableCell children = "Binding Affinity"/>
           <TableCell children = "min RMSD"/>
           <TableCell children = "max RMSD" style={{paddingRight: 10}}/>
           <TableCell style={{paddingRight:0, paddingLeft:0}}>
-              <IconButton aria-label="download csv" onClick={(e) => downloadDockingInfo()} title="Download as CSV">
+              <IconButton aria-label="download pdb" onClick={(e) => downloadDockingInfo()} title="Download as PBD">
                   <GetAppIcon />
               </IconButton>
           </TableCell>
