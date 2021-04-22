@@ -25,6 +25,7 @@ function UploadFile(props) {
         id="contained-button-file"
         name={inputName}
         multiple
+        value = ""
         type="file"
         onChange={(e) => handleChange(e, 3)}
       />

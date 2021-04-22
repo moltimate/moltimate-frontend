@@ -32,7 +32,7 @@ export default {
       "reduce the number of positive hits",
       pdbIdText: "Enter the PDB id of the protein you would like to query.",
       customBottonText:
-      "Supports PDB or MMCIF files.\n Upload a custom structure " +
+      "Supports PDB, SDF or MMCIF files.\n Upload a custom structure " +
       "to be included in the alignment. The PDB id will be parsed out of the " +
       "structure to be included in the response. A custom structure will be " +
       "listed with any motifs that are able to be matched to it."
