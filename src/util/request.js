@@ -61,6 +61,11 @@ const useForm = (defaultURL, defaultValues = {}, callback = ()=>{}) => {
       mode: currentMode,
     });
 
+    // POST-ing empty protein files gives an error. Don't do it.
+    if (form_data.get('proteinFiles') == 'undefined') {
+        form_data.delete('proteinFiles')
+    }
+
     axios.post(queryURL, form_data)
       .then(result =>{
         setResult({
