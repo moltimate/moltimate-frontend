@@ -131,7 +131,6 @@ function MoltimateContainer(props) {
           alignmentInProgress = {alignmentInProgress}
           eClasses = {searchEClass}
           helpText = {ligandText}
-          selectedConfigDownload = {selectedConfigDownload}
           setDisplayedFile = {(x) =>{
             setDockingDisplayFile(x)}}
           setDisplayedConfiguration = {(x) =>{
