@@ -27,6 +27,8 @@ function DockingContainer(props){
   const [dockingResults, setDockingResults] = useState(new Array());
   //Text telling if there is a docking error
   const [dockingError, setDockingError] = useState(false);
+  //The job Id for open babel
+  const [currentJobId, setCurrentJobId] = useState("");
   //Name of selected ligand
   const [selectedName, setSelectedName] = useState("");
   const [cachedEcs, setCachedEcs] = useState("[]");
@@ -257,7 +259,7 @@ function DockingContainer(props){
 
     //this is the ID value that is used to specify which file to retrieve
     let babelJobId = ligand.babelJobId;
-
+    setCurrentJobId(babelJobId);
     let fileRequestURL = `${dockingMoleculeFileRetrievalURL}?babelJobId=${babelJobId}`;
 
     axios.get(fileRequestURL).then((response)=>{
@@ -615,6 +617,7 @@ function DockingContainer(props){
         selectedDockingConfiguration = {selectedDockingConfig}
         selectConfigurationHandler = {selectConfig}
         ligandName = {selectedName}
+        jobId = {currentJobId}
       />:null
     }
   </>
