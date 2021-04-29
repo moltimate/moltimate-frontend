@@ -166,14 +166,14 @@ function LigandDetailsBox(props){
   
   return(
     <>
-    <Table>
+    <Table size="small">
       <TableHead className={classes.ligandTableHead}>
         <TableRow>
           {buildCheckbox("all")}
           <TableCell children = "ID"/>
-          <TableCell children = "Binding Affinity (kcal/mol)"/>
-          <TableCell children = "min RMSD (Angstroms)"/>
-          <TableCell children = "max RMSD (Angstroms)" style={{paddingRight: 10}}/>
+          <TableCell children = "Binding Affinity (kcal/mol)" width="15"/>
+          <TableCell children = "min RMSD (Angstroms)" width="15"/>
+          <TableCell children = "max RMSD (Angstroms)" style={{paddingRight: 10}} width="15"/>
           <TableCell style={{paddingRight:0, paddingLeft:0}}>
               <IconButton aria-label="download pdb" onClick={(e) => downloadDockingInfo()} title="Download as PBD">
                   <GetAppIcon />
