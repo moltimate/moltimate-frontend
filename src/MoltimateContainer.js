@@ -19,8 +19,7 @@ import { withStyles } from '@material-ui/core/styles';
 function MoltimateContainer(props) {
 
   const { classes } = props;
-  
-  const showLigandComponents = false;
+  const showLigandComponents = true;
   const { searchText, makerText, ligandText } = helpText;
   const [ selectedResult, setSelectedResult ] = useState(null);
   const [ nglData, setNglData ] = useState(null);
@@ -72,6 +71,8 @@ function MoltimateContainer(props) {
   }
 
   function handleSelectedResult(e, parentId, childId, active, aligned) {
+    localStorage.setItem("selectedConfigsMoltimate", "");
+    localStorage.setItem("index", "");
     setSelectedResult({ parentId, childId, active, aligned });
     setNglData({ parentId, childId, active, aligned });
     //this should be the search value - it is used as the ID of the docking molecule
