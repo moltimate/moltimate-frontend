@@ -17,46 +17,16 @@ import { BuiltInTrajectoryFormat } from 'molstar/lib/mol-plugin-state/formats/tr
 import { StateTransforms } from 'molstar/lib/mol-plugin-state/transforms';
 import { Asset } from 'molstar/lib/mol-util/assets';
 
-// export type SuperpositionTestInput = {
-//     pdbId: string,
-//     auth_asym_id: string,
-//     matrix: Mat4
-// }[];
-
-// export function buildStaticSuperposition(plugin: PluginContext, src: SuperpositionTestInput) {
-//     return plugin.dataTransaction(async () => {
-//         for (const s of src) {
-//             const { structure } = await loadStructure(plugin, `https://www.ebi.ac.uk/pdbe/static/entry/${s.pdbId}_updated.cif`, 'mmcif');
-//             await transform(plugin, structure, s.matrix);
-//             const chain = await plugin.builders.structure.tryCreateComponentFromExpression(structure, chainSelection(s.auth_asym_id), `Chain ${s.auth_asym_id}`);
-//             if (chain) await plugin.builders.structure.representation.addRepresentation(chain, { type: 'cartoon' });
-//         }
-//     });
-// }
-
-// export const StaticSuperpositionTestData: SuperpositionTestInput = [
-//     {
-//         pdbId: '1aj5', auth_asym_id: 'A', matrix: Mat4.identity()
-//     },
-//     {
-//         pdbId: '1df0', auth_asym_id: 'B', matrix: Mat4.ofRows([
-//             [0.406, 0.879, 0.248, -200.633],
-//             [0.693, -0.473, 0.544, 73.403],
-//             [0.596, -0.049, -0.802, -14.209],
-//             [0, 0, 0, 1]])
-//     },
-//     {
-//         pdbId: '1dvi', auth_asym_id: 'A', matrix: Mat4.ofRows([
-//             [-0.053, -0.077, 0.996, -45.633],
-//             [-0.312, 0.949, 0.057, -12.255],
-//             [-0.949, -0.307, -0.074, 53.562],
-//             [0, 0, 0, 1]])
-//     }
-// ];
-
+// Superposes proteins on their active sites
+//
+// Note: Currently only works with one active site at a time.
+// The alignements also do not return an RMSD value so they do not visualy align.
 export async function dynamicSuperpositionTest(plugin: PluginContext, src: string[], aligned: string[]) {
     return plugin.dataTransaction(async () => {
         
+        // This for loop is an attempt to load multiple active sites but it just results in the latest active site in the aligned array being rendered.
+        // Some where further down this function the previous alignment is being cleared but it is not apparent where that is happening.
+        // The idea is to render all alignments at once just like how NGL viewer does it.
         for (const s of src) {
             await loadStructure(plugin, `https://files.rcsb.org/download/${s}.cif`, 'mmcif');
         }
@@ -107,12 +77,6 @@ async function loadStructure(plugin: PluginContext, url: string, format: BuiltIn
 
     return { data, trajectory, model, structure };
 }
-
-// function chainSelection(auth_asym_id: string) {
-//     return MS.struct.generator.atomGroups({
-//         'chain-test': MS.core.rel.eq([MS.struct.atomProperty.macromolecular.auth_asym_id(), auth_asym_id])
-//     });
-// }
 
 function transform(plugin: PluginContext, s: StateObjectRef<PSO.Molecule.Structure>, matrix: Mat4) {
     const b = plugin.state.data.build().to(s)

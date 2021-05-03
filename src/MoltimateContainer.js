@@ -146,10 +146,7 @@ function MoltimateContainer(props) {
             nglData ? <MolStar
                 parentId={nglData.childId}
                 childId={nglData.parentId}
-                active={nglData.active}
                 aligned={nglData.aligned}
-                queryProteinMode={queryProteinMode} 
-                motifProteinMode={motifProteinMode}
             /> : null
           }
       </div>

@@ -12,6 +12,7 @@
     max-width: 1000px;
 }
 
+/* Hides the full screen button on the controls */
 .msp-viewport-controls-buttons > :nth-child(3) > :nth-child(3) {
     display:  none;
 }

@@ -47,6 +47,7 @@ export default class BasicWrapper {
         this.plugin.customModelProperties.register(StripedResidues.propertyProvider, true);
     }
 
+    // Cycles through each protein in the list and renders it
     async renderProtein(format: BuiltInTrajectoryFormat, isBinary: boolean, assemblyId: string) {
         await this.plugin.clear();
         this.selectedProteins.forEach(async (pdbId) => {
@@ -72,12 +73,14 @@ export default class BasicWrapper {
         });
     }
 
+    // Clears any existing list of proteins and then builds a new one.
     async load({ pdbIds, format = 'mmcif', isBinary = false, assemblyId = '', resultSelected = false }: LoadParams) {
         this.selectedProteins = [];
         this.selectedProteins.push(...pdbIds);
         await this.renderProtein(format, isBinary, assemblyId);
     }
 
+    // Creates a list of residues/active sites to align (superpose) a protein on.
     async dynamicSuperposition(pdbIds: string[], aligned: Residue[]) {
         let residues: string[] = []
         for (const residue of aligned) {
